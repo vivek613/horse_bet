@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { AddDataToFirebase } from "../../Hook/FirebaseDrivers";
 
 export const AdminDashboardModel = (props) => {
   const [formData, setFormData] = useState({
     horsename: "",
     horsenumber: "",
+    trainer: "",
     date: "",
     starttime: "",
     endtime: "",
@@ -14,6 +16,11 @@ export const AdminDashboardModel = (props) => {
   });
 
   console.log(formData);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    AddDataToFirebase(formData);
+    props.onHide();
+  };
   return (
     <Modal
       {...props}
@@ -27,11 +34,17 @@ export const AdminDashboardModel = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
           <Form.Group className="mb-1" controlId="formBasicEmail">
             <Form.Label>Horse Name</Form.Label>
             <Form.Control
               type="text"
+              required
               name="horsename"
               placeholder="Enter horsename"
               value={formData.horsename}
@@ -44,6 +57,7 @@ export const AdminDashboardModel = (props) => {
           <Form.Group className="mb-1" controlId="formBasicPassword">
             <Form.Label>horse Number</Form.Label>
             <Form.Control
+              required
               type="number"
               name="horsenumber"
               placeholder="Enter horsenumber"
@@ -54,10 +68,24 @@ export const AdminDashboardModel = (props) => {
             />
           </Form.Group>
           <Form.Group className="mb-1" controlId="formBasicPassword">
+            <Form.Label>Trainer</Form.Label>
+            <Form.Control
+              type="text"
+              required
+              name="trainer"
+              placeholder="Enter Trainer Name"
+              value={formData.trainer}
+              onChange={(e) =>
+                setFormData({ ...formData, trainer: e.target.value })
+              }
+            />
+          </Form.Group>
+          <Form.Group className="mb-1" controlId="formBasicPassword">
             <Form.Label>Date</Form.Label>
             <Form.Control
               type="date"
               name="date"
+              required
               placeholder="Enter date"
               value={formData.date}
               onChange={(e) =>
@@ -69,6 +97,7 @@ export const AdminDashboardModel = (props) => {
             <Form.Label>Start time</Form.Label>
             <Form.Control
               type="time"
+              required
               name="starttime"
               placeholder="Enter starttime"
               value={formData.starttime}
@@ -82,6 +111,7 @@ export const AdminDashboardModel = (props) => {
             <Form.Control
               type="time"
               name="endtime"
+              required
               placeholder="Enter endtime"
               value={formData.endtime}
               onChange={(e) =>
@@ -94,6 +124,7 @@ export const AdminDashboardModel = (props) => {
             <Form.Control
               type="text"
               name="prize"
+              required
               placeholder="Enter prize"
               value={formData.prize}
               onChange={(e) =>
@@ -107,6 +138,7 @@ export const AdminDashboardModel = (props) => {
             }}
             variant="primary"
             type="submit"
+            // onClick={handleSubmit}
           >
             Submit
           </Button>

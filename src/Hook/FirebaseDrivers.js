@@ -1,8 +1,8 @@
 import { db } from "../config/firebase";
-const collectionName = "HorseData";
+const collectionName = "data";
 
 //getting data
-export const GetFirebaseData = () => {
+export const GetFirebaseData = (setTable) => {
   const array = [];
   let item;
   db.collection(collectionName)
@@ -13,13 +13,14 @@ export const GetFirebaseData = () => {
         item.id = doc.id;
         array.push(item);
       });
-      // setUploadedData(array);
+      setTable(array);
     });
 };
 // add data
-export const AddDataToFirebase = (data) =>
+export const AddDataToFirebase = (data) => {
   db.collection(collectionName).add(data);
+};
 
 //deleting data
-export const DeleteData = ({ id }) =>
+export const DeleteData = (id) =>
   db.collection(collectionName).doc(id).delete();
