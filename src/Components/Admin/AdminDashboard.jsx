@@ -33,33 +33,19 @@ export const AdminDashboard = () => {
   const [modalShow, setModalShow] = useState(false);
   const [table, setTable] = useState([]);
   useEffect(() => {
-    // GetFirebaseData(setTable);
-    const config = {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI4NVJmbUduUDJQNkZVWWVDIiwic3ViIjoicmF6b3J8cmFjZTJ3aW4tbG9iYnl8NTUwM2M1NmItNTU0NC00MTZkLWE4ZTMtMzgwYWU0Yzc2ODBlIiwiZXhwIjoxNjcwODMwNTM5LCJpYXQiOjE2NzA4Mjk2MzksImp0aSI6ImVhOWZlYzY5LTQ2ZTgtNDI2ZC1hM2FlLTMxZjI3ZTRkNzIyZiIsInJvbGVzIjoiIn0.HPd_zM8ck9PqR2Wp1HkuONGiKAQ16bpUq1weGJ55K1I`,
-        Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8",
-        "Accept-Language": "en-US,en;q=0.9",
-        referer: "https://www.race2win.com/races/2022-12-13",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        // "sec-ch-ua": "Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108",
-        "user-agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-      },
+    GetFirebaseData(setTable);
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
     };
-    const { data } = axios
-      .get("https://www.race2win.com/api/mc/sport-fixture?active=true", config)
-      .then((response) => {
-        console.log(response.data);
-        // this.setState({ posts: response.data });
-      })
-      .catch((err) => {
-        console.log("API call error:", err.message);
-      });
+
+    fetch(
+      "https://www.race2win.com/api/mc/sport-fixture?active=true&date=2022-12-08",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   }, []);
   console.log(table);
   return (

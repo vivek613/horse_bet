@@ -22,5 +22,7 @@ export const AddDataToFirebase = (data) => {
 };
 
 //deleting data
-export const DeleteData = (id) =>
+export const DeleteData = (id) => {
   db.collection(collectionName).doc(id).delete();
+  GetFirebaseData();
+};

@@ -17,7 +17,7 @@ export const AdminDashboardModel = (props) => {
 
   console.log(formData);
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     AddDataToFirebase(formData);
     props.onHide();
   };
