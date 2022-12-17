@@ -2,7 +2,7 @@ import { db } from "../config/firebase";
 const collectionName = "data";
 
 //getting data
-export const GetFirebaseData = (setTable) => {
+export const GetFirebaseData = ({ setTable, collectionName }) => {
   const array = [];
   let item;
   db.collection(collectionName)
@@ -15,10 +15,11 @@ export const GetFirebaseData = (setTable) => {
       });
       setTable(array);
     });
+  console.log(array);
 };
 // add data
-export const AddDataToFirebase = (data) => {
-  db.collection(collectionName).add(data);
+export const AddDataToFirebase = (data, tableName) => {
+  db.collection(tableName).add(data);
 };
 
 //deleting data

@@ -1,0 +1,760 @@
+[
+    {
+        "uid": "526b9b75-bbe8-4bd7-8944-da38632da746",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 10,
+            "distance": "1207",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938260",
+            "lastWithdrawalTime": 1671035632918,
+            "noOfHorses": 8,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671051360000,
+        "cutOffDate": 1671051360000,
+        "name": "Claiming",
+        "status": "NEW",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "bb91b35a-578f-44c9-b9a5-f71c75770ea4",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 4,
+            "distance": "1207",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938254",
+            "lastWithdrawalTime": 1671034539641,
+            "noOfHorses": 10,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671041760000,
+        "cutOffDate": 1671041760000,
+        "name": "Starter Optional Claiming",
+        "status": "PUBLISHED",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "3600c03f-1385-4186-9d0d-b64820ce5345",
+        "data": {
+            "venueName": "Dundalk",
+            "raceNumber": 2,
+            "distance": "2414",
+            "feedSource": "sis",
+            "externalId": "2JDQV-2938180",
+            "noOfHorses": 13,
+            "venueCountry": "IE"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671027300000,
+        "cutOffDate": 1671027300000,
+        "name": "The Join Us On Instagram @dundalk_stadium Claiming Race",
+        "status": "COMPLETE",
+        "venue": "IEDU",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "2b1fdc9c-d9e2-4574-ac68-69b5b0339fb0",
+        "data": {
+            "venueName": "Kempton",
+            "raceNumber": 5,
+            "distance": "1408",
+            "feedSource": "sis",
+            "externalId": "2JDQK-2938053",
+            "noOfHorses": 13,
+            "venueCountry": "UK"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671039000000,
+        "cutOffDate": 1671039000000,
+        "name": "Unibet/British Stallion Studs Ebf Novice Stakes (Gbb Race)",
+        "status": "PUBLISHED",
+        "venue": "UKKP",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "3f856132-4934-40a5-8254-6d2ff2e9e727",
+        "data": {
+            "lastWithdrawalTime": 1671015216880,
+            "raceNumber": 6,
+            "label": "HCP Turf 3+ year olds rating up to 20",
+            "distance": "1400",
+            "noOfHorses": 13
+        },
+        "sport": "horse-racing",
+        "startDate": 1671013800000,
+        "cutOffDate": 1671013800000,
+        "name": "The Dr Ishwari G K Balakrishnan Memorial Trophy ",
+        "status": "COMPLETE",
+        "venue": "MYS",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "RETAIL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "77a3db2d-b0ee-4062-bd10-000081348082",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 9,
+            "distance": "1207",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938259",
+            "noOfHorses": 8,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671049860000,
+        "cutOffDate": 1671049860000,
+        "name": "Maiden Special Weight",
+        "status": "NEW",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "9ce942f6-abe9-494e-8b78-40322e594c7d",
+        "data": {
+            "venueName": "Dundalk",
+            "raceNumber": 5,
+            "distance": "1609",
+            "feedSource": "sis",
+            "externalId": "2JDQV-2938183",
+            "lastWithdrawalTime": 1671016580215,
+            "noOfHorses": 17,
+            "venueCountry": "IE"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671032700000,
+        "cutOffDate": 1671032700000,
+        "name": "The Christmas Party Nights At Dundalk Stadium Handicap (47-65)",
+        "status": "COMPLETE",
+        "venue": "IEDU",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "ae8d24c6-2865-4e8e-bc37-442933a36bf8",
+        "data": {
+            "raceNumber": 2,
+            "label": "HCP Turf 3+ year olds rating up to 20",
+            "distance": "1600",
+            "noOfHorses": 15
+        },
+        "sport": "horse-racing",
+        "startDate": 1671006600000,
+        "cutOffDate": 1671006600000,
+        "name": "The Planters Plate ",
+        "status": "COMPLETE",
+        "venue": "MYS",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "RETAIL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "67360ad0-cd34-4d7c-8380-b0613e039e91",
+        "data": {
+            "venueName": "Dundalk",
+            "raceNumber": 4,
+            "distance": "1408",
+            "feedSource": "sis",
+            "externalId": "2JDQV-2938182",
+            "noOfHorses": 14,
+            "venueCountry": "IE"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671030900000,
+        "cutOffDate": 1671030900000,
+        "name": "The Irish Stallion Farms EBF Maiden",
+        "status": "COMPLETE",
+        "venue": "IEDU",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "afa605a8-e5b6-45ba-8023-9111334afcb8",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 2,
+            "distance": "1207",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938252",
+            "lastWithdrawalTime": 1671034487289,
+            "noOfHorses": 9,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671038520000,
+        "cutOffDate": 1671038520000,
+        "name": "Maiden Claiming",
+        "status": "PUBLISHED",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "7ef80b33-1c49-4798-9e58-83f988d38edd",
+        "data": {
+            "venueName": "Kempton",
+            "raceNumber": 1,
+            "distance": "1408",
+            "feedSource": "sis",
+            "externalId": "2JDQK-2938049",
+            "lastWithdrawalTime": 1671010141143,
+            "noOfHorses": 14,
+            "venueCountry": "UK"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671031800000,
+        "cutOffDate": 1671031800000,
+        "name": "Unibet Horserace Betting Operator Of The Year Handicap",
+        "status": "COMPLETE",
+        "venue": "UKKP",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "98e2cd3e-9fb4-49ec-9f5a-dd2e3c3f227b",
+        "data": {
+            "venueName": "Dundalk",
+            "raceNumber": 1,
+            "distance": "1609",
+            "feedSource": "sis",
+            "externalId": "2JDQV-2938179",
+            "lastWithdrawalTime": 1670954853326,
+            "noOfHorses": 10,
+            "venueCountry": "IE"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671025200000,
+        "cutOffDate": 1671025200000,
+        "name": "The Irish Stallion Farms EBF (C & G) Maiden",
+        "status": "COMPLETE",
+        "venue": "IEDU",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "9d4d6041-79e5-4d21-a941-65ce9a8a7313",
+        "data": {
+            "raceNumber": 8,
+            "label": "HCP Turf 3+ year olds rating 15-35",
+            "distance": "1400",
+            "noOfHorses": 11
+        },
+        "sport": "horse-racing",
+        "startDate": 1671017400000,
+        "cutOffDate": 1671017400000,
+        "name": "The Kodachadri Plate ",
+        "status": "COMPLETE",
+        "venue": "MYS",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "RETAIL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "d73d6bc1-de34-4d3f-bb00-7d8df27868dc",
+        "data": {
+            "venueName": "Kempton",
+            "raceNumber": 3,
+            "distance": "1609",
+            "feedSource": "sis",
+            "externalId": "2JDQK-2938051",
+            "noOfHorses": 14,
+            "venueCountry": "UK"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671035400000,
+        "cutOffDate": 1671035400000,
+        "name": "British Stallion Studs Ebf Novice Stakes (Gbb Race)",
+        "status": "COMPLETE",
+        "venue": "UKKP",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "137cc617-0675-4d09-8870-429cdd73eff1",
+        "data": {
+            "venueName": "Dundalk",
+            "raceNumber": 3,
+            "distance": "1207",
+            "feedSource": "sis",
+            "externalId": "2JDQV-2938181",
+            "noOfHorses": 12,
+            "venueCountry": "IE"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671029100000,
+        "cutOffDate": 1671029100000,
+        "name": "The Irishinjuredjockeys.com Nursery Handicap",
+        "status": "COMPLETE",
+        "venue": "IEDU",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "c6bf4f32-1216-4ae6-8ca4-be9b880801aa",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 1,
+            "distance": "1207",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938231",
+            "noOfHorses": 8,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671036900000,
+        "cutOffDate": 1671036900000,
+        "name": "Maiden Claiming",
+        "status": "COMPLETE",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "74565ccc-5c13-4fd3-b003-821debed18f1",
+        "data": {
+            "lastWithdrawalTime": 1671012426189,
+            "raceNumber": 5,
+            "label": "HCP Turf 3+ year olds rating up to 20",
+            "distance": "1200",
+            "noOfHorses": 15
+        },
+        "sport": "horse-racing",
+        "startDate": 1671012000000,
+        "cutOffDate": 1671012000000,
+        "name": "The Vidhatri Motors Cup ",
+        "status": "COMPLETE",
+        "venue": "MYS",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "RETAIL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "b048cc4b-34a1-42fd-9b5c-cc3907c6113c",
+        "data": {
+            "raceNumber": 1,
+            "label": "TRM Turf 3 year olds M",
+            "distance": "1100",
+            "noOfHorses": 12
+        },
+        "sport": "horse-racing",
+        "startDate": 1671004800000,
+        "cutOffDate": 1671004800000,
+        "name": "The Nilgiris Plate ",
+        "status": "COMPLETE",
+        "venue": "MYS",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "RETAIL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "8c3196e6-59e7-4fab-9d70-f38e5096a0ce",
+        "data": {
+            "venueName": "Kempton",
+            "raceNumber": 4,
+            "distance": "1609",
+            "feedSource": "sis",
+            "externalId": "2JDQK-2938052",
+            "noOfHorses": 10,
+            "venueCountry": "UK"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671037200000,
+        "cutOffDate": 1671037200000,
+        "name": "Unibet Extra Place Offers Every Day Nursery Handicap",
+        "status": "PUBLISHED",
+        "venue": "UKKP",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "dacedd15-a66c-4516-92b5-20ec05d90ca7",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 7,
+            "distance": "1308",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938257",
+            "noOfHorses": 7,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671046620000,
+        "cutOffDate": 1671046620000,
+        "name": "Maiden Claiming",
+        "status": "PUBLISHED",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "6a6517ea-a90b-4689-870f-ba359626e27d",
+        "data": {
+            "venueName": "Dundalk",
+            "raceNumber": 6,
+            "distance": "1609",
+            "feedSource": "sis",
+            "externalId": "2JDQV-2938184",
+            "lastWithdrawalTime": 1671015960536,
+            "noOfHorses": 17,
+            "venueCountry": "IE"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671034500000,
+        "cutOffDate": 1671034500000,
+        "name": "The Christmas Party Nights At Dundalk Stadium Handicap (47-65)",
+        "status": "COMPLETE",
+        "venue": "IEDU",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "fdf3b44f-84dc-4a3c-ae0d-19f4d0918ef7",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 6,
+            "distance": "1673",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938256",
+            "lastWithdrawalTime": 1671034594238,
+            "noOfHorses": 7,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671045000000,
+        "cutOffDate": 1671045000000,
+        "name": "Maiden Claiming",
+        "status": "PUBLISHED",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "74088f77-9346-4f0d-8840-b4577ac74e57",
+        "data": {
+            "venueName": "Dundalk",
+            "raceNumber": 7,
+            "distance": "2149",
+            "feedSource": "sis",
+            "externalId": "2JDQV-2938185",
+            "noOfHorses": 11,
+            "venueCountry": "IE"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671036300000,
+        "cutOffDate": 1671036300000,
+        "name": "The Dundalk Stadium Gift Vouchers Available Online Maiden",
+        "status": "COMPLETE",
+        "venue": "IEDU",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "b256fd81-939a-4639-8d8c-cfd11944eba3",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 8,
+            "distance": "1106",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938258",
+            "noOfHorses": 8,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671048240000,
+        "cutOffDate": 1671048240000,
+        "name": "Claiming",
+        "status": "PUBLISHED",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "e86ce12f-7903-46bf-b390-62691f10014b",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 3,
+            "distance": "1673",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938253",
+            "lastWithdrawalTime": 1671034514912,
+            "noOfHorses": 7,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671040140000,
+        "cutOffDate": 1671040140000,
+        "name": "Starter Optional Claiming",
+        "status": "PUBLISHED",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "1f40f1ca-875f-43e8-84a4-a908c3e6d9a2",
+        "data": {
+            "lastWithdrawalTime": 1671008991476,
+            "raceNumber": 3,
+            "label": "HCP Turf 3+ year olds rating up to 20",
+            "distance": "1200",
+            "noOfHorses": 15
+        },
+        "sport": "horse-racing",
+        "startDate": 1671008400000,
+        "cutOffDate": 1671008400000,
+        "name": "The Charmudi Ghat Plate ",
+        "status": "COMPLETE",
+        "venue": "MYS",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "RETAIL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "059f10d7-ca9d-4483-abe0-bd19e83a5879",
+        "data": {
+            "lastWithdrawalTime": 1671011520760,
+            "raceNumber": 4,
+            "label": "TRM Turf 3 year olds M",
+            "distance": "1400",
+            "noOfHorses": 15
+        },
+        "sport": "horse-racing",
+        "startDate": 1671010200000,
+        "cutOffDate": 1671010200000,
+        "name": "The Brig.C D Mohan Memorial Plate Div-2 ",
+        "status": "COMPLETE",
+        "venue": "MYS",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "RETAIL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "8edb46a0-d12c-4ea3-975f-442aa3be5c97",
+        "data": {
+            "venueName": "Kempton",
+            "raceNumber": 2,
+            "distance": "1609",
+            "feedSource": "sis",
+            "externalId": "2JDQK-2938050",
+            "noOfHorses": 11,
+            "venueCountry": "UK"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671033600000,
+        "cutOffDate": 1671033600000,
+        "name": "Racing Tv Restricted Maiden Fillies' Stakes  (For Horses In Band D) (Gbb Race)",
+        "status": "COMPLETE",
+        "venue": "UKKP",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "5f0a5a47-4797-455d-b97b-1b9f6dfe2b08",
+        "data": {
+            "venueName": "Kempton",
+            "raceNumber": 6,
+            "distance": "1408",
+            "feedSource": "sis",
+            "externalId": "2JDQK-2938054",
+            "lastWithdrawalTime": 1671019980478,
+            "noOfHorses": 14,
+            "venueCountry": "UK"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671040800000,
+        "cutOffDate": 1671040800000,
+        "name": "Unibet 3 Uniboosts A Day Handicap",
+        "status": "PUBLISHED",
+        "venue": "UKKP",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "cdfcb368-505a-4067-b9c8-879fdf16c7df",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 11,
+            "distance": "1673",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938261",
+            "lastWithdrawalTime": 1671035668266,
+            "noOfHorses": 11,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671053100000,
+        "cutOffDate": 1671053100000,
+        "name": "Claiming",
+        "status": "NEW",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "a592e595-7203-4e7f-ac57-f34687172524",
+        "data": {
+            "venueName": "Kempton",
+            "raceNumber": 7,
+            "distance": "1207",
+            "feedSource": "sis",
+            "externalId": "2JDQK-2938055",
+            "lastWithdrawalTime": 1671020040244,
+            "noOfHorses": 7,
+            "venueCountry": "UK"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671042600000,
+        "cutOffDate": 1671042600000,
+        "name": "Try Our New Price Boosts At Unibet Fillies' Handicap",
+        "status": "PUBLISHED",
+        "venue": "UKKP",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "220f7b1b-ebdf-4178-b133-8f3d3995fb4e",
+        "data": {
+            "venueName": "Philadelphia",
+            "raceNumber": 5,
+            "distance": "1207",
+            "feedSource": "sis",
+            "externalId": "2JDQ0-2938255",
+            "lastWithdrawalTime": 1671034578883,
+            "noOfHorses": 12,
+            "venueCountry": "US"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671043380000,
+        "cutOffDate": 1671043380000,
+        "name": "Claiming",
+        "status": "PUBLISHED",
+        "venue": "USPH",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "db2e8d3f-7b10-424f-9a4e-29a4212f54a4",
+        "data": {
+            "venueName": "Dundalk",
+            "raceNumber": 8,
+            "distance": "2149",
+            "feedSource": "sis",
+            "externalId": "2JDQV-2938186",
+            "lastWithdrawalTime": 1671015991231,
+            "noOfHorses": 17,
+            "venueCountry": "IE"
+        },
+        "sport": "horse-racing",
+        "startDate": 1671038100000,
+        "cutOffDate": 1671038100000,
+        "name": "The DundalkStadium.com Handicap (47-70)",
+        "status": "PUBLISHED",
+        "venue": "IEDU",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "DIGITAL",
+            "DIGITAL"
+        ]
+    },
+    {
+        "uid": "b220e142-9e94-4945-86d1-22d375864fd3",
+        "data": {
+            "lastWithdrawalTime": 1671016213595,
+            "raceNumber": 7,
+            "label": "TRM Turf 3 year olds M",
+            "distance": "1400",
+            "noOfHorses": 15
+        },
+        "sport": "horse-racing",
+        "startDate": 1671015600000,
+        "cutOffDate": 1671015600000,
+        "name": "The Brig.C D Mohan Memorial Plate Div-1 ",
+        "status": "COMPLETE",
+        "venue": "MYS",
+        "publishStatus": "ACTIVE",
+        "allowedChannels": [
+            "RETAIL",
+            "DIGITAL"
+        ]
+    }
+]
