@@ -37,15 +37,25 @@ export const AdminDashboard = () => {
     var requestOptions = {
       method: "GET",
       redirect: "follow",
+      mode: "no-cors",
     };
 
-    fetch(
+    const abc = fetch(
       "https://www.race2win.com/api/mc/sport-fixture?active=true&date=2022-12-08",
       requestOptions
     )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (text) {
+        console.log("Request successful", text);
+      })
+      .catch(function (error) {
+        console.log("Request failed", error);
+      });
+    // .then((response) => console.log(response))
+    // .then((result) => console.log(result))
+    // .catch((error) => console.log("error", error));
   }, []);
   console.log(table);
   return (

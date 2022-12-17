@@ -1,0 +1,48 @@
+.user-race-data-main {
+  width: 100vw;
+}
+.user-time-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 10px;
+  padding: 20px;
+  overflow-x: scroll;
+}
+.user-race-title {
+  font-size: 20px;
+  color: black;
+  margin: 15px 0px 0px 15px;
+}
+.user-horce-card {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  height: 500px;
+  overflow-y: auto;
+  gap: 5px;
+}
+.user-simple-card-body {
+  width: 400px;
+}
+.user-card-main {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  transition: 5s all ease;
+}
+.user-simple-card {
+  display: inline-block;
+  margin: 15px 0px 15px 15px;
+  scroll-behavior: smooth;
+}
+.user-simple-card-time {
+  margin: 0px;
+}
+.user-simple-card-hour {
+  margin: 0px;
+}
+#basic-navbar-nav {
+  margin-top: 145px;
+}
