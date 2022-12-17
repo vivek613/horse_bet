@@ -1,67 +1,106 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavbarCommon } from "../Navbar";
 import Table from "react-bootstrap/Table";
 import "./AdminDashboard.css";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import Button from "react-bootstrap/Button";
 import { AdminDashboardModel } from "./AdminDashboardModel";
-import { DeleteData, GetFirebaseData } from "../../Hook/FirebaseDrivers";
+import {
+  AddDataToFirebase,
+  DeleteData,
+  GetFirebaseData,
+} from "../../Hook/FirebaseDrivers";
 import axios from "axios";
+import { db } from "../../config/firebase";
 
-const data = [
-  {
-    id: 1,
-    horseName: "jockey",
-    horseNumber: "2",
-    date: "12-12-2022",
-    startTime: "23:13",
-    endTime: "23:50",
-    prize: "$20",
-  },
-  {
-    id: 2,
-    horseName: "rockey",
-    horseNumber: "2",
-    date: "13-12-2022",
-    startTime: "21:13",
-    endTime: "21:50",
-    prize: "$30",
-  },
-];
+import { getCookie } from "../../Hook/Cookies";
+import { useNavigate } from "react-router";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+import { Context } from "../../App";
 
 export const AdminDashboard = () => {
+  const { horseData, setHorseData, admin, setAdmin } = useContext(Context);
+  const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   const [table, setTable] = useState([]);
-  useEffect(() => {
-    GetFirebaseData(setTable);
-    var requestOptions = {
-      method: "GET",
-      redirect: "follow",
-      mode: "no-cors",
-    };
 
-    const abc = fetch(
-      "https://www.race2win.com/api/mc/sport-fixture?active=true&date=2022-12-08",
-      requestOptions
-    )
-      .then(function (response) {
-        return response.text();
-      })
-      .then(function (text) {
-        console.log("Request successful", text);
-      })
-      .catch(function (error) {
-        console.log("Request failed", error);
+  // var docRef = firebase
+  //   .firestore()
+  //   .collection("users")
+  //   .doc(firebase.auth().currentUser.uid);
+  // var o = {};
+  // docRef.get().then(function (thisDoc) {
+  //   if (thisDoc.exists) {
+  //     //user is already there, write only last login
+  //     o.lastLoginDate = Date.now();
+  //     docRef.update(o);
+  //   } else {
+  //     //new user
+  //     o.displayName = firebase.auth().currentUser.displayName;
+  //     o.accountCreatedDate = Date.now();
+  //     o.lastLoginDate = Date.now();
+  //     // Send it
+  //     docRef.set(o);
+  //   }
+  // });
+  useEffect(() => {
+    const collectionName = "users";
+
+    const array = [];
+    let item;
+    db.collection(collectionName)
+      .get()
+      .then((res_array) => {
+        res_array.forEach((doc) => {
+          item = doc.data();
+          item.id = doc.id;
+          array.push(item);
+          item.admin === true && setAdmin(item.id);
+        });
+
+        setTable(array);
       });
-    // .then((response) => console.log(response))
-    // .then((result) => console.log(result))
-    // .catch((error) => console.log("error", error));
+    // doc;
   }, []);
-  console.log(table);
+  useEffect(() => {
+    const aarr = table.filter((data) => {
+      if (data.admin === true) {
+        setAdmin(data);
+      }
+    });
+  }, [table]);
+
+  const handleRefreshAPi = async (e) => {
+    e.preventDefault();
+    axios.get("http://localhost:5000/api/allDataForCountry").then((res) => {
+      setHorseData(res?.data?.data);
+
+      // addDoc(collection(db, "horsedata").doc("NXXo7iy7JLCkcaIO47O3"), {
+      //   todo: res?.data?.data,
+      // });
+      // e.preventDefault();
+      const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
+      try {
+        updateDoc(taskDocRef, {
+          todo: res?.data?.data,
+        });
+      } catch (err) {
+        alert(err);
+      }
+    });
+  };
   return (
     <>
       <NavbarCommon />
-
+      <Button onClick={handleRefreshAPi}>refresh</Button>
+      <h2>user details</h2>
       <div className="table-container">
         <Button
           style={{
@@ -80,45 +119,40 @@ export const AdminDashboard = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>id</th>
-              <th>Horse name</th>
-              <th>Horse number</th>
-              <th>Trainer</th>
-              <th>Date</th>
-              <th>start time </th>
-              <th>end time </th>
-              <th>Prize</th>
-              <th colSpan={2}>action</th>
+              <th> user id</th>
+              <th>email</th>
+              {/* <th>Horse number</th> */}
+              <th>amount</th>
+              <th>admin</th>
             </tr>
           </thead>
           <tbody>
             {table?.map((e, index) => {
               return (
                 <tr index={index}>
-                  <td>{e.id}</td>
-                  <td>{e.horsename}</td>
-                  <td>{e.horsenumber}</td>
-                  <td>{e.trainer}</td>
-                  <td>{e.date}</td>
-                  <td>{e.starttime}</td>
-                  <td>{e.endtime}</td>
-                  <td>{e.prize}</td>
+                  <td>{e.uid}</td>
+                  <td>{e.email}</td>
+                  <td>{e.amount}</td>
+                  <td>{e.admin}</td>
+
                   <td>
                     <AiFillEdit
                       style={{
                         margin: "5px 20px",
                       }}
                     />
-                    <AiFillDelete
-                      style={{
-                        margin: "5px",
-                      }}
-                      onClick={(event) => {
-                        console.log(e.id);
-                        event.preventDefault();
-                        DeleteData(e.id);
-                      }}
-                    />
+                    {e.admin === "false" && (
+                      <AiFillDelete
+                        style={{
+                          margin: "5px",
+                        }}
+                        onClick={(event) => {
+                          console.log(e.id);
+                          event.preventDefault();
+                          DeleteData(e.id);
+                        }}
+                      />
+                    )}
                   </td>
                 </tr>
               );
