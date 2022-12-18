@@ -20,23 +20,44 @@ export const NavbarCommon = () => {
   const [user, loading, error] = useAuthState(auth);
 
   const navigate = useNavigate();
-  console.log(auth);
+
+  const openNav = () => {
+    document.getElementById("mySidenav").style.width = "200px";
+    document.getElementById("mySidenav").style.background = "white";
+  };
+
+  const closeNav = () => {
+    document.getElementById("mySidenav").style.width = "0";
+  };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="md">
-      <Container>
-        <Navbar.Brand href="#home">Horse Race</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <NavDropdown title="Wallet" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">
-              Separated link
-            </NavDropdown.Item>
-          </NavDropdown>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <>
+      <div id="mySidenav" className={styles["sidenav"]}>
+        <a
+          href="javascript:void(0)"
+          className={styles["closebtn"]}
+          onClick={() => {
+            closeNav();
+          }}
+        >
+          &times;
+        </a>
+        <p className={styles["user-email"]}>{user?.email}</p>
+        <div className={styles["user-wallet"]}>
+          <p className={styles["user-balance-show"]}>Total balance : </p>
+          <p className={styles["user-balance-show"]}>100₹</p>
+        </div>
+      </div>
+      <div className={styles["navbar-div"]}>
+        <span
+          style={{ "font-size": "25px", cursor: "pointer", color: "black" }}
+          onClick={() => {
+            openNav();
+          }}
+        >
+          &#9776;
+        </span>
+      </div>
+    </>
   );
 };
