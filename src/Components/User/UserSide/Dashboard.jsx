@@ -166,7 +166,7 @@ export const Dashboard = () => {
               <>
                 <Card>
                   <Card.Body className={styles["horce-card-body"]}>
-                    <div>
+                    <div className={styles["jersey-div"]}>
                       <img
                         src={e.data.jerseyUrl}
                         style={{
@@ -176,11 +176,31 @@ export const Dashboard = () => {
                       ></img>
                     </div>
 
-                    <div>
-                      <Card.Title className={styles["horce-card-prs-name"]}>
+                    <div className={styles["details-div"]}>
+                      <div className={styles["horce-card-prs-name"]}>
                         {e.participant.name}
-                      </Card.Title>
-                      <Card.Text>{e.hour}</Card.Text>
+                      </div>
+                      <div
+                        style={{
+                          fontSize: " 0.75em",
+                        }}
+                      >
+                        Wt={e.data.weight} draw:#{e.data.cageNumber}
+                      </div>
+                      <div class="text-red-9" style={{ fontSize: "0.75em" }}>
+                        <span className={styles["jockey-icons"]}>J</span>
+                        <span className={styles["jockey-details"]}>
+                          {e.data.jockey}
+                        </span>
+                        <span class={styles["trainer-icons"]}>T</span>
+                        <span className={styles["trainer-details"]}>
+                          {e.data.trainer}
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <button>a</button>
+                      <button>b</button>
                     </div>
                   </Card.Body>
                 </Card>
