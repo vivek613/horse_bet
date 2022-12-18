@@ -2,27 +2,27 @@ import React, { useContext, useEffect, useState } from "react";
 import { NavbarCommon } from "../Navbar";
 import Table from "react-bootstrap/Table";
 import "./AdminDashboard.css";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiOutlineUser } from "react-icons/ai";
 import Button from "react-bootstrap/Button";
 import { AdminDashboardModel } from "./AdminDashboardModel";
-import {
-  AddDataToFirebase,
-  DeleteData,
-  GetFirebaseData,
-} from "../../Hook/FirebaseDrivers";
+import { DeleteData } from "../../Hook/FirebaseDrivers";
 import axios from "axios";
 import { db } from "../../config/firebase";
 
 import { useNavigate } from "react-router";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  doc,
-} from "firebase/firestore";
+import { updateDoc, doc } from "firebase/firestore";
 import { Context } from "../../App";
+import SideNav, {
+  Toggle,
+  Nav,
+  NavItem,
+  NavIcon,
+  NavText,
+} from "@trendmicro/react-sidenav";
+
+// Be sure to include styles at some point, probably during your bootstraping
+import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+import { FaUserAlt } from "react-icons/fa";
 
 export const AdminDashboard = () => {
   const { horseData, setHorseData, admin, setAdmin } = useContext(Context);
@@ -30,25 +30,6 @@ export const AdminDashboard = () => {
   const [modalShow, setModalShow] = useState(false);
   const [table, setTable] = useState([]);
 
-  // var docRef = firebase
-  //   .firestore()
-  //   .collection("users")
-  //   .doc(firebase.auth().currentUser.uid);
-  // var o = {};
-  // docRef.get().then(function (thisDoc) {
-  //   if (thisDoc.exists) {
-  //     //user is already there, write only last login
-  //     o.lastLoginDate = Date.now();
-  //     docRef.update(o);
-  //   } else {
-  //     //new user
-  //     o.displayName = firebase.auth().currentUser.displayName;
-  //     o.accountCreatedDate = Date.now();
-  //     o.lastLoginDate = Date.now();
-  //     // Send it
-  //     docRef.set(o);
-  //   }
-  // });
   useEffect(() => {
     const collectionName = "users";
 
@@ -69,22 +50,19 @@ export const AdminDashboard = () => {
     // doc;
   }, []);
   useEffect(() => {
-    const aarr = table.filter((data) => {
+    table.filter((data) => {
       if (data.admin === true) {
         setAdmin(data);
       }
     });
   }, [table]);
+  console.log(table);
 
   const handleRefreshAPi = async (e) => {
     e.preventDefault();
     axios.get("http://localhost:5000/api/allDataForCountry").then((res) => {
       setHorseData(res?.data?.data);
 
-      // addDoc(collection(db, "horsedata").doc("NXXo7iy7JLCkcaIO47O3"), {
-      //   todo: res?.data?.data,
-      // });
-      // e.preventDefault();
       const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
       try {
         updateDoc(taskDocRef, {
@@ -98,8 +76,84 @@ export const AdminDashboard = () => {
 
   return (
     <>
-      <NavbarCommon />
-      <Button onClick={handleRefreshAPi}>refresh</Button>
+      <SideNav
+        onSelect={(selected) => {
+          // Add your code here
+        }}
+      >
+        <SideNav.Toggle />
+        <SideNav.Nav defaultSelected="home">
+          <NavItem eventKey="home">
+            <NavIcon>
+              <FaUserAlt />
+            </NavIcon>
+            <NavText>Home</NavText>
+          </NavItem>
+          <NavItem eventKey="charts">
+            <NavIcon>
+              <i
+                className="fa fa-fw fa-line-chart"
+                style={{ fontSize: "1.75em" }}
+              />
+            </NavIcon>
+            <NavText>Charts</NavText>
+          </NavItem>
+        </SideNav.Nav>
+      </SideNav>
+      {/* <NavbarCommon />
+       */}
+      {/* <div
+        style={{
+          display: "flex",
+        }}
+      >
+        <div class="header"></div>
+        <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu" />
+        <label for="openSidebarMenu" class="sidebarIconToggle">
+          <div class="spinner diagonal part-1"></div>
+          <div class="spinner horizontal"></div>
+          <div class="spinner diagonal part-2"></div>
+        </label>
+        <div id="sidebarMenu">
+          <ul class="sidebarMenuInner">
+            <li>
+              Jelena Jovanovic <span>Web Developer</span>
+            </li>
+            <li>
+              <a href="https://vanila.io" target="_blank">
+                Company
+              </a>
+            </li>
+            <li>
+              <a href="https://instagram.com/plavookac" target="_blank">
+                Instagram
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com/plavookac" target="_blank">
+                Twitter
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.youtube.com/channel/UCDfZM0IK6RBgud8HYGFXAJg"
+                target="_blank"
+              >
+                YouTube
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/plavookac/" target="_blank">
+                Linkedin
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>fsdgfgdgdf</div>
+        fdsfdd
+      </div> */}
+
+      {/* <Button onClick={handleRefreshAPi}>refresh</Button>
       <h2>user details</h2>
       <div className="table-container">
         <Button
@@ -119,47 +173,27 @@ export const AdminDashboard = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th> user id</th>
+              <th>user id</th>
               <th>email</th>
-              {/* <th>Horse number</th> */}
               <th>amount</th>
               <th>admin</th>
             </tr>
           </thead>
           <tbody>
             {table?.map((e, index) => {
+              console.log(e);
               return (
                 <tr index={index}>
                   <td>{e.uid}</td>
                   <td>{e.email}</td>
                   <td>{e.amount}</td>
-                  <td>{e.admin}</td>
-
-                  <td>
-                    <AiFillEdit
-                      style={{
-                        margin: "5px 20px",
-                      }}
-                    />
-                    {e.admin === "false" && (
-                      <AiFillDelete
-                        style={{
-                          margin: "5px",
-                        }}
-                        onClick={(event) => {
-                          console.log(e.id);
-                          event.preventDefault();
-                          DeleteData(e.id);
-                        }}
-                      />
-                    )}
-                  </td>
+                  <td>{`${e.admin} `}</td>
                 </tr>
               );
             })}
           </tbody>
         </Table>
-      </div>
+      </div> */}
     </>
   );
 };

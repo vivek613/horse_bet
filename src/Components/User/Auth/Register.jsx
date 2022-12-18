@@ -15,8 +15,8 @@ import { toast, Toaster } from "react-hot-toast";
 
 export const Register = () => {
   const navigate = useNavigate();
-  const {} = useContext(Context);
-  const [user, loading, error] = useAuthState(auth);
+  // const {} = useContext(Context);
+  // const [user, loading, error] = useAuthState(auth);
 
   // console.log(user, loading, error);
 
@@ -126,7 +126,14 @@ export const Register = () => {
             </button>
           </form>
           <div class="text-center small">
-            Do you have an account? <a href="/login">Login</a>
+            Do you have an account?{" "}
+            <a
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login
+            </a>
           </div>
         </div>
         <Toaster position="top-right" reverseOrder={false} />

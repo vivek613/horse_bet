@@ -8,11 +8,20 @@ import { FaLock } from "react-icons/fa";
 import { getCookie, setCookie } from "../../../Hook/Cookies";
 import { Context } from "../../../App";
 import { toast, Toaster } from "react-hot-toast";
-import { db } from "../../../config/firebase";
+
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../../../config/firebase";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { toastData, setToastData, admin, setAdmin } = useContext(Context);
+  // const { toastData, setToastData, admin, setAdmin } = useContext(Context);
 
   // console.log(user, loading, error);
   const [loginData, setLoginData] = useState({
@@ -20,15 +29,30 @@ export const Login = () => {
     password: "",
   });
 
+  useEffect(() => {}, []);
+  const navigateData = () => {
+    onAuthStateChanged(auth, async (currentUser) => {
+      const citiesRef = collection(db, "users");
+
+      // Create a query against the collection.
+      const q = query(citiesRef, where("uid", "==", currentUser?.uid));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        doc.data().admin === true
+          ? navigate("/user/admin")
+          : navigate("/dashboard");
+      });
+    });
+  };
+
   const logInWithEmailAndPassword = async (email, password) => {
     const authentication = getAuth();
 
-    console.log(admin);
     try {
       await signInWithEmailAndPassword(authentication, email, password)
         .then((response) => {
           toast.success(`login Succesfully ${response._tokenResponse.email}`);
-          console.log(response);
+
           setCookie("access_token", response._tokenResponse.idToken, 1000);
           setCookie("email", response._tokenResponse.email, 1000);
           setCookie(
@@ -37,24 +61,25 @@ export const Login = () => {
             1000
           );
           setCookie("Uid", response._tokenResponse.localId, 1000);
-
-          if (
-            response._tokenResponse.localId === "eecYvXE0OXOczXQAodjzfjZ89ry2"
-          ) {
-            setInterval(() => {
-              navigate("/user/admin");
-            }, 2000);
-          } else {
-            setTimeout(() => {
-              navigate("/dashboard");
-            }, 2000);
-          }
+          navigateData();
+          // if (
+          //   response._tokenResponse.localId === "eecYvXE0OXOczXQAodjzfjZ89ry2"
+          // ) {
+          //   setInterval(() => {
+          //     navigate("/user/admin");
+          //   }, 2000);
+          // } else {
+          //   setTimeout(() => {
+          //     navigate("/dashboard");
+          //   }, 2000);
+          // }
         })
         .catch((error) => {
+          console.log(error);
           toast.error(` Wrong !${error?.message}`);
         });
     } catch (err) {
-      console.error(err);
+      console.log(err);
 
       toast.error(` Wrong !${err?.message}`);
     }
@@ -113,7 +138,18 @@ export const Login = () => {
             </button>
           </form>
           <div class="text-center small">
-            Don't have an account? <a href="/register">register</a>
+            Don't have an account?{" "}
+            <a
+              style={{
+                curser: "pointer",
+                color: "black",
+              }}
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              register
+            </a>
           </div>
         </div>
       </div>
