@@ -62,40 +62,42 @@
   display: flex;
   padding: 6px;
 }
-.horce-card-prs-name{
+.horce-card-prs-name {
   color: black;
   font-weight: bolder;
-  font-size: .875rem;
-    line-height: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
-.details-div{
+.details-div {
   /* margin-left: 12px; */
 }
-.jockey-icons{
-  background: #c62828!important;
+.jockey-icons {
+  background: #c62828 !important;
   padding-left: 4px;
   padding-right: 4px;
   --tw-text-opacity: 1;
-  color: rgba(255,255,255,var(--tw-text-opacity));
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
   margin: 2px;
 }
-.trainer-icons{
-
-  background: #2e7d32!important;
+.trainer-icons {
+  background: #2e7d32 !important;
   padding-left: 4px;
   padding-right: 4px;
   --tw-text-opacity: 1;
-  color: rgba(255,255,255,var(--tw-text-opacity));
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
   margin: 2px;
 }
-.jockey-details{
-  color: #424242!important;
+.jockey-details {
+  color: #424242 !important;
   font-weight: 700;
 }
-.trainer-details{
-  color: #424242!important;
+.trainer-details {
+  color: #424242 !important;
   font-weight: 700;
 }
-.jersey-div{
+.jersey-div {
   margin-right: 12px;
+}
+.selected-race-data {
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 5%), 0 6px 20px 0 rgb(0 0 0 / 8%);
 }

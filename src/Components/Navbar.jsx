@@ -23,6 +23,8 @@ export const NavbarCommon = () => {
   const openNav = () => {
     document.getElementById("mySidenav").style.width = "200px";
     document.getElementById("mySidenav").style.background = "white";
+    document.getElementById("mySidenav").style.boxShadow =
+      "box-shadow: 0 4px 8px 0 rgb(0 0 0 / 5%), 0 6px 20px 0 rgb(0 0 0 / 8%);";
   };
 
   const closeNav = () => {

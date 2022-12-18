@@ -150,7 +150,7 @@ export const Dashboard = () => {
                 </Card.Body>
               </Card>
             </div>
-            <Card>
+            <Card className={styles["selected-race-data"]}>
               <Card.Body>
                 <Card.Text>{horces?.data.label}</Card.Text>
                 <Card.Text>Venue: {horces?.venue}</Card.Text>
