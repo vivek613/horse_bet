@@ -20,6 +20,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            {/* <Route path="/dashboard/:id" element={<Dashboard />} /> */}
+
             <Route path="/user/admin" element={<AdminDashboard />} />
           </Routes>
         </Context.Provider>

@@ -6,6 +6,7 @@ import { db } from "../../../config/firebase";
 import { useNavigate } from "react-router";
 import { getCookie } from "../../../Hook/Cookies";
 import { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 export const Dashboard = () => {
   const horceTime = [
@@ -42,6 +43,7 @@ export const Dashboard = () => {
   const [indiaRace, setIndiaRace] = useState([]);
   const [stateHorce, setStateHorce] = useState([]);
   const [horces, setHorces] = useState();
+  const [participants, setParticipants] = useState();
 
   function removeDuplicates(arr) {
     return arr.filter((item, index) => arr.indexOf(item) === index);
@@ -85,8 +87,28 @@ export const Dashboard = () => {
 
   const handleGetRace = (e) => {
     setHorces(e);
+    console.log(e);
+    navigate(`/dashboard?id=${e.uid}`);
+
+    axios
+      .get(`http://localhost:5000/api/getTimesOfRacing?id=${e.uid}`)
+      .then((res) => {
+        console.log(res);
+        setParticipants(res?.data?.data);
+        // setHorseData(res?.data?.data);
+
+        // const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
+        // try {
+        //   updateDoc(taskDocRef, {
+        //     todo: res?.data?.data,
+        //   });
+        // } catch (err) {
+        //   alert(err);
+        // }
+      });
   };
 
+  // console.log(indiaRace?.todo[0]);
   return (
     <>
       <NavbarCommon />
@@ -139,13 +161,27 @@ export const Dashboard = () => {
         </Card>
         <p className={styles["user-race-title"]}>Horces</p>
         <div className={styles["user-horce-card"]}>
-          {horceTime.map((e) => {
+          {participants?.participants.map((e) => {
             return (
               <>
                 <Card>
                   <Card.Body className={styles["horce-card-body"]}>
-                    <Card.Title>{e.time}</Card.Title>
-                    <Card.Text>{e.hour}</Card.Text>
+                    <div>
+                      <img
+                        src={e.data.jerseyUrl}
+                        style={{
+                          height: "50px",
+                          width: "50px",
+                        }}
+                      ></img>
+                    </div>
+
+                    <div>
+                      <Card.Title className={styles["horce-card-prs-name"]}>
+                        {e.participant.name}
+                      </Card.Title>
+                      <Card.Text>{e.hour}</Card.Text>
+                    </div>
                   </Card.Body>
                 </Card>
               </>
