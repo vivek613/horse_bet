@@ -13,7 +13,6 @@ import {
 import axios from "axios";
 import { db } from "../../config/firebase";
 
-import { getCookie } from "../../Hook/Cookies";
 import { useNavigate } from "react-router";
 import {
   getFirestore,

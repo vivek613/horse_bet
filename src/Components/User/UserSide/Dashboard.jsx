@@ -40,9 +40,23 @@ export const Dashboard = () => {
   ];
   const navigate = useNavigate();
   const [indiaRace, setIndiaRace] = useState([]);
+  const [stateHorce, setStateHorce] = useState([]);
   const [horces, setHorces] = useState();
 
+  function removeDuplicates(arr) {
+    return arr.filter((item, index) => arr.indexOf(item) === index);
+  }
   useEffect(() => {
+    // indiaRace?.todo?.forEach((data) => {
+    //   item = data.venue;
+    //   array.push(item);
+    // });
+  }, [indiaRace]);
+
+  console.log(stateHorce);
+  useEffect(() => {
+    const array = [];
+    let item;
     db.collection("horsedata")
       .get()
       .then((querySnapshot) => {
@@ -50,7 +64,13 @@ export const Dashboard = () => {
         // it in array to display
         querySnapshot.forEach((element) => {
           var data = element.data();
+
           setIndiaRace(data);
+          data?.todo?.forEach((items) => {
+            item = items.venue;
+            array.push(item);
+            setStateHorce(removeDuplicates(array));
+          });
         });
       });
     // doc;
@@ -65,10 +85,7 @@ export const Dashboard = () => {
 
   const handleGetRace = (e) => {
     setHorces(e);
-    console.log("e", e);
   };
-
-  console.log("indiaRace", indiaRace);
 
   return (
     <>

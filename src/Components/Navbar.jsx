@@ -7,7 +7,6 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 // import { signOut } from "firebase/auth";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router";
-import { deleteAllCookies } from "../Hook/Cookies";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Context } from "../App";
 import { toast } from "react-hot-toast";
