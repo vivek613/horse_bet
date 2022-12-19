@@ -48,10 +48,12 @@ export const NavbarCommon = () => {
           <p className={styles["user-balance-show"]}>Total balance : </p>
           <p className={styles["user-balance-show"]}>100₹</p>
         </div>
+        <p className={styles["user-email"]}>Participant History</p>
+        <p className={styles["user-logout"]}>Log out</p>
       </div>
       <div className={styles["navbar-div"]}>
         <span
-          style={{ "font-size": "25px", cursor: "pointer", color: "black" }}
+          style={{ fontSize: "25px", cursor: "pointer", color: "black" }}
           onClick={() => {
             openNav();
           }}

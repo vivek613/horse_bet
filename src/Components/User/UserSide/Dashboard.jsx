@@ -6,6 +6,8 @@ import { auth, db } from "../../../config/firebase";
 import { useNavigate } from "react-router";
 import { getCookie } from "../../../Hook/Cookies";
 import { Toaster } from "react-hot-toast";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
@@ -18,8 +20,8 @@ export const Dashboard = () => {
   const [horces, setHorces] = useState();
   const [participants, setParticipants] = useState();
   const auth = getAuth();
-
   const [user, loading, error] = useAuthState(auth);
+  const [selectedState, setSelectedState] = useState(stateHorce?.[0]);
 
   function removeDuplicates(arr) {
     return arr.filter((item, index) => arr.indexOf(item) === index);
@@ -64,6 +66,7 @@ export const Dashboard = () => {
     const docRef = db.collection("TimeData").doc(e.uid);
     docRef.get().then((docSnap) => {
       setParticipants(docSnap.data());
+      setHorces(e);
     });
   };
 
@@ -73,27 +76,47 @@ export const Dashboard = () => {
       <Toaster position="top-center" reverseOrder={false} />
       <div className={styles["user-race-data-main"]}>
         <p className={styles["user-race-title"]}>Today's Race</p>
+        <div className={styles["state-array"]}>
+          <button
+            className={styles["state-button-user"]}
+            onClick={() => {
+              setSelectedState(stateHorce?.[0]);
+            }}
+          >
+            {stateHorce?.[0]}
+          </button>
+          <button
+            className={styles["state-button-user"]}
+            onClick={() => {
+              setSelectedState(stateHorce?.[1]);
+            }}
+          >
+            {stateHorce?.[1]}
+          </button>
+        </div>
         <div className={styles["user-card-main"]}>
           {indiaRace &&
             indiaRace.todo?.map((e) => {
               return (
                 <>
-                  <Card
-                    className={styles["user-simple-card"]}
-                    onClick={() => {
-                      handleGetRace(e);
-                    }}
-                  >
-                    <Card.Body className={styles["user-card-body"]}>
-                      <Card.Title>{`Race: ${e.data.raceNumber}`}</Card.Title>
-                      <Card.Text className={styles["user-simple-card-time"]}>
-                        {e.data.raceNumber}
-                      </Card.Text>
-                      <Card.Text className={styles["user-simple-card-hour"]}>
-                        {e.hour}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+                  {selectedState === e.venue && (
+                    <Card
+                      className={styles["user-simple-card"]}
+                      onClick={() => {
+                        handleGetRace(e);
+                      }}
+                    >
+                      <Card.Body className={styles["user-card-body"]}>
+                        <Card.Title>{`Race: ${e.data.raceNumber}`}</Card.Title>
+                        <Card.Text className={styles["user-simple-card-time"]}>
+                          {selectedState}
+                        </Card.Text>
+                        <Card.Text className={styles["user-simple-card-hour"]}>
+                          {e.hour}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  )}
                 </>
               );
             })}
@@ -117,48 +140,65 @@ export const Dashboard = () => {
             </Card>
           </Card.Body>
         </Card>
-        <p className={styles["user-race-title"]}>Horces</p>
+        <p className={styles["user-race-title"]}>Participant Horces :</p>
         <div className={styles["user-horce-card"]}>
           {participants?.participants.map((e) => {
+            {
+              console.log("11111", e);
+            }
             return (
               <>
                 <Card>
                   <Card.Body className={styles["horce-card-body"]}>
-                    <div className={styles["jersey-div"]}>
-                      <img
-                        src={e.data.jerseyUrl}
-                        style={{
-                          height: "50px",
-                          width: "50px",
-                        }}
-                      ></img>
-                    </div>
-
-                    <div className={styles["details-div"]}>
-                      <div className={styles["horce-card-prs-name"]}>
-                        {e.participant.name}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: " 0.75em",
-                        }}
-                      >
-                        Wt={e.data.weight} draw:#{e.data.cageNumber}
-                      </div>
-                      <div class="text-red-9" style={{ fontSize: "0.75em" }}>
-                        <span className={styles["jockey-icons"]}>J</span>
-                        <span className={styles["jockey-details"]}>
-                          {e.data.jockey}
-                        </span>
-                        <span class={styles["trainer-icons"]}>T</span>
-                        <span className={styles["trainer-details"]}>
-                          {e.data.trainer}
-                        </span>
-                      </div>
-                    </div>
                     <div>
-                      <button>a</button>
-                      <button>b</button>
+                      <div className={styles["jersey-div"]}>
+                        <img
+                          src={e.data.jerseyUrl}
+                          style={{
+                            height: "50px",
+                            width: "50px",
+                          }}
+                        ></img>
+                      </div>
+                      <div className={styles["details-div"]}>
+                        <div className={styles["horce-card-prs-name"]}>
+                          {e.participant.name}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "15px",
+                          }}
+                        >
+                          Wt = {e.data.weight} , draw : #{e.data.cageNumber}
+                        </div>
+                        <div
+                          class="text-red-9"
+                          style={{
+                            fontSize: "14px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <span className={styles["jockey-icons"]}>J</span>
+                          <span className={styles["jockey-details"]}>
+                            {e.data.jockey}
+                          </span>
+                          <span class={styles["trainer-icons"]}>T</span>
+                          <span className={styles["trainer-details"]}>
+                            {e.data.trainer}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        width: "100px",
+                        position: "absolute",
+                        right: "0",
+                      }}
+                    >
+                      <button className={styles["odds-button"]}>1.5</button>
+                      <button className={styles["bet-button"]}>2.3</button>
                     </div>
                   </Card.Body>
                 </Card>
