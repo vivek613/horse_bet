@@ -2,6 +2,8 @@ import React, { useState, createContext } from "react";
 
 export const useContext = () => {
   const [hosreData, setHorseData] = useState([]);
+  const [indiaRace, setIndiaRace] = useState([]);
+
   const [admin, setAdmin] = useState({});
   console.log(hosreData);
   return {
@@ -9,5 +11,7 @@ export const useContext = () => {
     setHorseData,
     admin,
     setAdmin,
+    indiaRace,
+    setIndiaRace,
   };
 };

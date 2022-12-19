@@ -12,20 +12,13 @@ import { db } from "../../config/firebase";
 import { useNavigate } from "react-router";
 import { updateDoc, doc } from "firebase/firestore";
 import { Context } from "../../App";
-import SideNav, {
-  Toggle,
-  Nav,
-  NavItem,
-  NavIcon,
-  NavText,
-} from "@trendmicro/react-sidenav";
+import { Sidebar } from "./Sidebar";
 
 // Be sure to include styles at some point, probably during your bootstraping
-import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import { FaUserAlt } from "react-icons/fa";
 
 export const AdminDashboard = () => {
-  const { horseData, setHorseData, admin, setAdmin } = useContext(Context);
+  const { horseData, setHorseData, admin, setAdmin, indiaRace } =
+    useContext(Context);
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   const [table, setTable] = useState([]);
@@ -73,127 +66,98 @@ export const AdminDashboard = () => {
       }
     });
   };
+  const handleRaceTimeData = (e) => {
+    const docRef = db.collection("TimeData").doc(e.uid);
+    docRef.get().then((docSnap) => {
+      console.log(docSnap.data());
+    });
+
+    indiaRace.todo?.map((data) => {
+      setTimeout(() => {
+        axios
+          .get(`http://localhost:5000/api/getTimesOfRacing?id=${data.uid}`)
+          .then((res) => {
+            console.log(res);
+
+            db.collection("TimeData").doc(data.uid).set(res?.data?.data);
+            // setHorseData(res?.data?.data);
+
+            // const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
+            // try {
+            //   updateDoc(taskDocRef, {
+            //     todo: res?.data?.data,
+            //   });
+            // } catch (err) {
+            //   alert(err);
+            // }
+          });
+      }, 1000);
+    });
+  };
 
   return (
     <>
-      <SideNav
-        onSelect={(selected) => {
-          // Add your code here
-        }}
-      >
-        <SideNav.Toggle />
-        <SideNav.Nav defaultSelected="home">
-          <NavItem eventKey="home">
-            <NavIcon>
-              <FaUserAlt />
-            </NavIcon>
-            <NavText>Home</NavText>
-          </NavItem>
-          <NavItem eventKey="charts">
-            <NavIcon>
-              <i
-                className="fa fa-fw fa-line-chart"
-                style={{ fontSize: "1.75em" }}
-              />
-            </NavIcon>
-            <NavText>Charts</NavText>
-          </NavItem>
-        </SideNav.Nav>
-      </SideNav>
-      {/* <NavbarCommon />
-       */}
-      {/* <div
-        style={{
-          display: "flex",
-        }}
-      >
-        <div class="header"></div>
-        <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu" />
-        <label for="openSidebarMenu" class="sidebarIconToggle">
-          <div class="spinner diagonal part-1"></div>
-          <div class="spinner horizontal"></div>
-          <div class="spinner diagonal part-2"></div>
-        </label>
-        <div id="sidebarMenu">
-          <ul class="sidebarMenuInner">
-            <li>
-              Jelena Jovanovic <span>Web Developer</span>
-            </li>
-            <li>
-              <a href="https://vanila.io" target="_blank">
-                Company
-              </a>
-            </li>
-            <li>
-              <a href="https://instagram.com/plavookac" target="_blank">
-                Instagram
-              </a>
-            </li>
-            <li>
-              <a href="https://twitter.com/plavookac" target="_blank">
-                Twitter
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.youtube.com/channel/UCDfZM0IK6RBgud8HYGFXAJg"
-                target="_blank"
-              >
-                YouTube
-              </a>
-            </li>
-            <li>
-              <a href="https://www.linkedin.com/in/plavookac/" target="_blank">
-                Linkedin
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div>fsdgfgdgdf</div>
-        fdsfdd
-      </div> */}
+      <div>
+        <Sidebar />
 
-      {/* <Button onClick={handleRefreshAPi}>refresh</Button>
-      <h2>user details</h2>
-      <div className="table-container">
-        <Button
-          style={{
-            margin: "0px 7px",
-          }}
-          variant="primary"
-          onClick={() => setModalShow(true)}
-        >
-          Add data
-        </Button>
+        <div className="user-data-tabel">
+          <p
+            style={{
+              marging: "0px",
+            }}
+          >
+            indiaRace data refresh button
+          </p>
+          <Button onClick={handleRefreshAPi}>refresh</Button>
+          <p
+            style={{
+              marging: "0px",
+            }}
+          >
+            racetime Data refresh button
+          </p>
+          <Button onClick={handleRaceTimeData}> race time refresh</Button>
+          <div className="table-container">
+            <Button
+              style={{
+                margin: "0px 7px",
+              }}
+              variant="primary"
+              onClick={() => setModalShow(true)}
+            >
+              Add data
+            </Button>
 
-        <AdminDashboardModel
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-        />
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>user id</th>
-              <th>email</th>
-              <th>amount</th>
-              <th>admin</th>
-            </tr>
-          </thead>
-          <tbody>
-            {table?.map((e, index) => {
-              console.log(e);
-              return (
-                <tr index={index}>
-                  <td>{e.uid}</td>
-                  <td>{e.email}</td>
-                  <td>{e.amount}</td>
-                  <td>{`${e.admin} `}</td>
+            <AdminDashboardModel
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+            />
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>user id</th>
+                  <th>email</th>
+                  <th>amount</th>
+                  <th>admin</th>
                 </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-      </div> */}
+              </thead>
+              <tbody>
+                {table?.map((e, index) => {
+                  console.log(e);
+                  return (
+                    <tr index={index}>
+                      <td>{e.uid}</td>
+                      <td>{e.email}</td>
+                      <td>{e.amount}</td>
+                      <td>{`${e.admin} `}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </div>{" "}
+        </div>
+      </div>
     </>
   );
 };

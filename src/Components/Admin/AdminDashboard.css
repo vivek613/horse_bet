@@ -16,3 +16,17 @@
 .table tr {
   font-size: 14px;
 }
+.user-data-tabel{
+  position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 64px;
+    overflow: hidden;
+    -webkit-transition: all .15s;
+    transition: all .15s;
+    padding: 0 20px;
+    background: inherit;
+    -webkit-transition: background-color .35s cubic-bezier(.4,0,.2,1);
+    transition: background-color .35s cubic-bezier(.4,0,.2,1);
+}

@@ -2,48 +2,26 @@ import React, { useContext, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { NavbarCommon } from "../../Navbar";
 import styles from "./Dashboard.module.css";
-import { db } from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import { useNavigate } from "react-router";
 import { getCookie } from "../../../Hook/Cookies";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "@firebase/auth";
+import { Context } from "../../../App";
 
 export const Dashboard = () => {
-  const horceTime = [
-    {
-      time: "Time",
-      hour: "9:30 to 10:30",
-    },
-    {
-      time: "Time",
-      hour: "9:30 to 10:30",
-    },
-    {
-      time: "Time",
-      hour: "9:30 to 10:30",
-    },
-    {
-      time: "Time",
-      hour: "9:30 to 10:30",
-    },
-    {
-      time: "Time",
-      hour: "9:30 to 10:30",
-    },
-    {
-      time: "Time",
-      hour: "9:30 to 10:30",
-    },
-    {
-      time: "Time",
-      hour: "9:30 to 10:30",
-    },
-  ];
+  const { indiaRace, setIndiaRace } = useContext(Context);
   const navigate = useNavigate();
-  const [indiaRace, setIndiaRace] = useState([]);
   const [stateHorce, setStateHorce] = useState([]);
   const [horces, setHorces] = useState();
   const [participants, setParticipants] = useState();
+  const auth = getAuth();
+
+  const [user, loading, error] = useAuthState(auth);
+
+  console.log(user);
 
   function removeDuplicates(arr) {
     return arr.filter((item, index) => arr.indexOf(item) === index);
@@ -86,26 +64,11 @@ export const Dashboard = () => {
   }, []);
 
   const handleGetRace = (e) => {
-    setHorces(e);
-    console.log(e);
-    navigate(`/dashboard?id=${e.uid}`);
-
-    axios
-      .get(`http://localhost:5000/api/getTimesOfRacing?id=${e.uid}`)
-      .then((res) => {
-        console.log(res);
-        setParticipants(res?.data?.data);
-        // setHorseData(res?.data?.data);
-
-        // const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
-        // try {
-        //   updateDoc(taskDocRef, {
-        //     todo: res?.data?.data,
-        //   });
-        // } catch (err) {
-        //   alert(err);
-        // }
-      });
+    const docRef = db.collection("TimeData").doc(e.uid);
+    docRef.get().then((docSnap) => {
+      console.log(docSnap.data());
+      setParticipants(docSnap.data());
+    });
   };
 
   // console.log(indiaRace?.todo[0]);
