@@ -21,9 +21,7 @@ import {
 
 export const Login = () => {
   const navigate = useNavigate();
-  // const { toastData, setToastData, admin, setAdmin } = useContext(Context);
 
-  // console.log(user, loading, error);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",

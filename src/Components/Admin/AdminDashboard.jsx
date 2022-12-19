@@ -49,7 +49,6 @@ export const AdminDashboard = () => {
       }
     });
   }, [table]);
-  console.log(table);
 
   const handleRefreshAPi = async (e) => {
     e.preventDefault();
@@ -67,31 +66,22 @@ export const AdminDashboard = () => {
     });
   };
   const handleRaceTimeData = (e) => {
-    const docRef = db.collection("TimeData").doc(e.uid);
-    docRef.get().then((docSnap) => {
-      console.log(docSnap.data());
-    });
-
     indiaRace.todo?.map((data) => {
-      setTimeout(() => {
-        axios
-          .get(`http://localhost:5000/api/getTimesOfRacing?id=${data.uid}`)
-          .then((res) => {
-            console.log(res);
+      axios
+        .get(`http://localhost:5000/api/getTimesOfRacing?id=${data.uid}`)
+        .then((res) => {
+          db.collection("TimeData").doc(data.uid).set(res?.data?.data);
+          // setHorseData(res?.data?.data);
 
-            db.collection("TimeData").doc(data.uid).set(res?.data?.data);
-            // setHorseData(res?.data?.data);
-
-            // const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
-            // try {
-            //   updateDoc(taskDocRef, {
-            //     todo: res?.data?.data,
-            //   });
-            // } catch (err) {
-            //   alert(err);
-            // }
-          });
-      }, 1000);
+          // const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
+          // try {
+          //   updateDoc(taskDocRef, {
+          //     todo: res?.data?.data,
+          //   });
+          // } catch (err) {
+          //   alert(err);
+          // }
+        });
     });
   };
 
@@ -143,7 +133,6 @@ export const AdminDashboard = () => {
               </thead>
               <tbody>
                 {table?.map((e, index) => {
-                  console.log(e);
                   return (
                     <tr index={index}>
                       <td>{e.uid}</td>
