@@ -21,8 +21,6 @@ export const Dashboard = () => {
 
   const [user, loading, error] = useAuthState(auth);
 
-  console.log(user);
-
   function removeDuplicates(arr) {
     return arr.filter((item, index) => arr.indexOf(item) === index);
   }
@@ -33,7 +31,6 @@ export const Dashboard = () => {
     // });
   }, [indiaRace]);
 
-  console.log(stateHorce);
   useEffect(() => {
     const array = [];
     let item;
@@ -66,12 +63,10 @@ export const Dashboard = () => {
   const handleGetRace = (e) => {
     const docRef = db.collection("TimeData").doc(e.uid);
     docRef.get().then((docSnap) => {
-      console.log(docSnap.data());
       setParticipants(docSnap.data());
     });
   };
 
-  // console.log(indiaRace?.todo[0]);
   return (
     <>
       <NavbarCommon />

@@ -5,7 +5,6 @@ export const useContext = () => {
   const [indiaRace, setIndiaRace] = useState([]);
 
   const [admin, setAdmin] = useState({});
-  console.log(hosreData);
   return {
     hosreData,
     setHorseData,

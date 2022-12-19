@@ -27,7 +27,6 @@ export const Register = () => {
 
   const registerWithEmailAndPassword = async (email, password) => {
     const authentication = getAuth();
-    console.log(password, email);
     try {
       const res = createUserWithEmailAndPassword(
         authentication,
@@ -35,7 +34,6 @@ export const Register = () => {
         password
       )
         .then((response) => {
-          console.log(response);
           const user = response.user;
 
           db.collection("users").doc(user.uid).set({
