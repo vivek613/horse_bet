@@ -8,6 +8,7 @@ import SideNav, {
 } from "@trendmicro/react-sidenav";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { FaUserAlt } from "react-icons/fa";
+import { MdAccessTimeFilled } from "react-icons/md";
 import { useNavigate } from "react-router";
 
 export const Sidebar = () => {
@@ -19,26 +20,29 @@ export const Sidebar = () => {
       }}
     >
       <SideNav.Toggle />
-      <SideNav.Nav defaultSelected="home">
+      <SideNav.Nav>
         <NavItem
           eventKey="home"
           onClick={() => {
-            navigate("/user/admin/userdata");
+            navigate("/user/admin/usertable");
           }}
         >
           <NavIcon>
             <FaUserAlt />
           </NavIcon>
-          <NavText>Home</NavText>
+          <NavText>User</NavText>
         </NavItem>
-        <NavItem eventKey="charts">
+        <NavItem
+          selected
+          eventKey="charts"
+          onClick={() => {
+            navigate("/user/admin");
+          }}
+        >
           <NavIcon>
-            <i
-              className="fa fa-fw fa-line-chart"
-              style={{ fontSize: "1.75em" }}
-            />
+            <MdAccessTimeFilled />
           </NavIcon>
-          <NavText>Charts</NavText>
+          <NavText></NavText>
         </NavItem>
       </SideNav.Nav>
     </SideNav>

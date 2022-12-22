@@ -26,6 +26,7 @@ export const Dashboard = () => {
   function removeDuplicates(arr) {
     return arr.filter((item, index) => arr.indexOf(item) === index);
   }
+  console.log(stateHorce);
   useEffect(() => {
     // indiaRace?.todo?.forEach((data) => {
     //   item = data.venue;
@@ -45,6 +46,7 @@ export const Dashboard = () => {
           var data = element.data();
 
           setIndiaRace(data);
+          console.log(data);
           data?.todo?.forEach((items) => {
             item = items.venue;
             array.push(item);
@@ -54,6 +56,7 @@ export const Dashboard = () => {
       });
     // doc;
   }, []);
+  console.log(indiaRace);
   useEffect(() => {
     if (getCookie("access_token")) {
       navigate("/dashboard");
@@ -66,9 +69,9 @@ export const Dashboard = () => {
     const docRef = db.collection("TimeData").doc(e.uid);
     docRef.get().then((docSnap) => {
       setParticipants(docSnap.data());
-      setHorces(e);
     });
   };
+  console.log(participants);
 
   return (
     <>
@@ -77,22 +80,18 @@ export const Dashboard = () => {
       <div className={styles["user-race-data-main"]}>
         <p className={styles["user-race-title"]}>Today's Race</p>
         <div className={styles["state-array"]}>
-          <button
-            className={styles["state-button-user"]}
-            onClick={() => {
-              setSelectedState(stateHorce?.[0]);
-            }}
-          >
-            {stateHorce?.[0]}
-          </button>
-          <button
-            className={styles["state-button-user"]}
-            onClick={() => {
-              setSelectedState(stateHorce?.[1]);
-            }}
-          >
-            {stateHorce?.[1]}
-          </button>
+          {stateHorce.map((items) => {
+            return (
+              <button
+                className={styles["state-button-user"]}
+                onClick={() => {
+                  setSelectedState(items);
+                }}
+              >
+                {items}
+              </button>
+            );
+          })}
         </div>
         <div className={styles["user-card-main"]}>
           {indiaRace &&
@@ -143,9 +142,6 @@ export const Dashboard = () => {
         <p className={styles["user-race-title"]}>Participant Horces :</p>
         <div className={styles["user-horce-card"]}>
           {participants?.participants.map((e) => {
-            {
-              console.log("11111", e);
-            }
             return (
               <>
                 <Card>

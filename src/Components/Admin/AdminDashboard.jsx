@@ -1,4 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Card } from "react-bootstrap";
+import styles from "../User/UserSide/Dashboard.module.css";
+
 import { NavbarCommon } from "../Navbar";
 import Table from "react-bootstrap/Table";
 import "./AdminDashboard.css";
@@ -17,38 +20,29 @@ import { Sidebar } from "./Sidebar";
 // Be sure to include styles at some point, probably during your bootstraping
 
 export const AdminDashboard = () => {
-  const { horseData, setHorseData, admin, setAdmin, indiaRace } =
-    useContext(Context);
+  const { setHorseData, indiaRace, setIndiaRace } = useContext(Context);
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
-  const [table, setTable] = useState([]);
+  const [oddData, setOddData] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    const collectionName = "users";
-
     const array = [];
     let item;
-    db.collection(collectionName)
+    db.collection("horsedata")
       .get()
-      .then((res_array) => {
-        res_array.forEach((doc) => {
-          item = doc.data();
-          item.id = doc.id;
-          array.push(item);
-          item.admin === true && setAdmin(item.id);
-        });
+      .then((querySnapshot) => {
+        // Loop through the data and store
+        // it in array to display
+        querySnapshot.forEach((element) => {
+          var data = element.data();
 
-        setTable(array);
+          setIndiaRace(data);
+        });
       });
     // doc;
   }, []);
-  useEffect(() => {
-    table.filter((data) => {
-      if (data.admin === true) {
-        setAdmin(data);
-      }
-    });
-  }, [table]);
+  console.log(indiaRace);
 
   const handleRefreshAPi = async (e) => {
     e.preventDefault();
@@ -66,11 +60,17 @@ export const AdminDashboard = () => {
     });
   };
   const handleRaceTimeData = (e) => {
+    e.preventDefault();
     indiaRace.todo?.map((data) => {
       axios
         .get(`http://localhost:5000/api/getTimesOfRacing?id=${data.uid}`)
         .then((res) => {
-          db.collection("TimeData").doc(data.uid).set(res?.data?.data);
+          console.log(res.data.data);
+          // db.collection("TimeData").doc(data.uid).set(res?.data?.data);
+          // console.log();
+          // const array = res?.data?.data.participants.map((item) => {
+          //   return item.participant.uid;
+          // });
           // setHorseData(res?.data?.data);
 
           // const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
@@ -81,8 +81,52 @@ export const AdminDashboard = () => {
           // } catch (err) {
           //   alert(err);
           // }
+          // db.collection("oddTable").doc(array.map());
         });
     });
+  };
+  const handleGetRace = (e) => {
+    axios
+      .get(`http://localhost:5000/api/getTimesOfRacing?id=${e.uid}`)
+      .then((res) => {
+        var arr1 = res.data.data.participants;
+        var arr2 = res.data.data.markets[0].selections;
+        var arr3 = res.data.data.markets[1].selections;
+
+        var array3 = arr1.map((obj, index) => ({
+          ...obj,
+          win: { ...arr2[index].odds },
+        }));
+
+        const array4 = array3.map((ob, index) => ({
+          ...ob,
+          pls: { ...arr3[index].odds },
+        }));
+        setOddData(array4);
+        // console.log(array3Alternative);
+        // console.log(arr1, arr2);
+        // const mergeByProperty = (target, source, prop) => {
+        //   const array = [];
+        //   target.forEach((sourceElement) => {
+        //     let targetElement = source.forEach((targetElement) => {
+        //       // console.log(sourceElement, targetElement);
+
+        //       return sourceElement.participants === targetElement.participants;
+        //       sourceElement["odds"] = targetElement.odds;
+        //       console.log(sourceElement);
+        //     });
+
+        //     target.push(sourceElement.odds);
+        //   });
+        // };
+        // mergeByProperty(arr1, arr2, "uid");
+        // console.log(arr1);
+      });
+    // const docRef = db.collection("TimeData").doc(e.uid);
+    // docRef.get().then((docSnap) => {
+    //   setOddData(docSnap.data());
+    //   console.log(docSnap.data());
+    // });
   };
 
   return (
@@ -107,44 +151,62 @@ export const AdminDashboard = () => {
             racetime Data refresh button
           </p>
           <Button onClick={handleRaceTimeData}> race time refresh</Button>
-          <div className="table-container">
-            <Button
-              style={{
-                margin: "0px 7px",
-              }}
-              variant="primary"
-              onClick={() => setModalShow(true)}
-            >
-              Add data
-            </Button>
 
-            <AdminDashboardModel
-              show={modalShow}
-              onHide={() => setModalShow(false)}
-            />
-            <Table striped bordered hover>
+          <div className={styles["user-card-main"]}>
+            {indiaRace &&
+              indiaRace.todo?.map((e) => {
+                return (
+                  <>
+                    <Card
+                      className={styles["user-simple-card"]}
+                      onClick={() => {
+                        handleGetRace(e);
+                      }}
+                    >
+                      <Card.Body className={styles["user-card-body"]}>
+                        <Card.Title>{`Race: ${e.data.raceNumber}`}</Card.Title>
+                        <Card.Text
+                          className={styles["user-simple-card-time"]}
+                        ></Card.Text>
+                        <Card.Text className={styles["user-simple-card-hour"]}>
+                          {e.hour}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </>
+                );
+              })}
+          </div>
+
+          <div className="table-container">
+            <Table bordered hover>
               <thead>
                 <tr>
                   <th>user id</th>
-                  <th>email</th>
-                  <th>amount</th>
-                  <th>admin</th>
+                  <th>jockey</th>
+                  <th>trainer</th>
+                  <th>Win</th>
+                  <th>place</th>
                 </tr>
               </thead>
               <tbody>
-                {table?.map((e, index) => {
-                  return (
-                    <tr index={index}>
-                      <td>{e.uid}</td>
-                      <td>{e.email}</td>
-                      <td>{e.amount}</td>
-                      <td>{`${e.admin} `}</td>
-                    </tr>
-                  );
-                })}
+                {!!oddData &&
+                  oddData?.map((e, index) => {
+                    return (
+                      <tr index={index}>
+                        <td>{e.participant.uid}</td>
+                        <td>{e.data.jockey}</td>
+                        <td>{e.data.trainer}</td>
+                        <td>{e.win.price}</td>
+                        <td>{e.pls.price}</td>
+
+                        {/* <td>{`${e.admin} `}</td> */}
+                      </tr>
+                    );
+                  })}
               </tbody>
             </Table>
-          </div>{" "}
+          </div>
         </div>
       </div>
     </>

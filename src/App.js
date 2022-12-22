@@ -7,6 +7,7 @@ import { Register } from "./Components/User/Auth/Register";
 import { useContext } from "./Context/useContext";
 
 import { createContext } from "react";
+import User from "./Components/Admin/User";
 
 export const Context = createContext(useContext);
 function App() {
@@ -23,6 +24,7 @@ function App() {
             {/* <Route path="/dashboard/:id" element={<Dashboard />} /> */}
 
             <Route path="/user/admin" element={<AdminDashboard />} />
+            <Route path="/user/admin/usertable" element={<User />} />
           </Routes>
         </Context.Provider>
       </BrowserRouter>
