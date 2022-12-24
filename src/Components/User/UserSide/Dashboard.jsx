@@ -26,7 +26,6 @@ export const Dashboard = () => {
   function removeDuplicates(arr) {
     return arr.filter((item, index) => arr.indexOf(item) === index);
   }
-  console.log(stateHorce);
   useEffect(() => {
     // indiaRace?.todo?.forEach((data) => {
     //   item = data.venue;
@@ -46,7 +45,6 @@ export const Dashboard = () => {
           var data = element.data();
 
           setIndiaRace(data);
-          console.log(data);
           data?.todo?.forEach((items) => {
             item = items.venue;
             array.push(item);
@@ -56,7 +54,6 @@ export const Dashboard = () => {
       });
     // doc;
   }, []);
-  console.log(indiaRace);
   useEffect(() => {
     if (getCookie("access_token")) {
       navigate("/dashboard");
@@ -71,7 +68,6 @@ export const Dashboard = () => {
       setParticipants(docSnap.data());
     });
   };
-  console.log(participants);
 
   return (
     <>
@@ -193,8 +189,12 @@ export const Dashboard = () => {
                         right: "0",
                       }}
                     >
-                      <button className={styles["odds-button"]}>1.5</button>
-                      <button className={styles["bet-button"]}>2.3</button>
+                      <button className={styles["odds-button"]}>
+                        {e.win.price}
+                      </button>
+                      <button className={styles["bet-button"]}>
+                        {e.pls.price}
+                      </button>
                     </div>
                   </Card.Body>
                 </Card>

@@ -16,13 +16,13 @@ import { useNavigate } from "react-router";
 import { updateDoc, doc } from "firebase/firestore";
 import { Context } from "../../App";
 import { Sidebar } from "./Sidebar";
+import { async } from "q";
 
 // Be sure to include styles at some point, probably during your bootstraping
 
 export const AdminDashboard = () => {
   const { setHorseData, indiaRace, setIndiaRace } = useContext(Context);
   const navigate = useNavigate();
-  const [modalShow, setModalShow] = useState(false);
   const [oddData, setOddData] = useState([]);
   const [data, setData] = useState([]);
 
@@ -42,7 +42,6 @@ export const AdminDashboard = () => {
       });
     // doc;
   }, []);
-  console.log(indiaRace);
 
   const handleRefreshAPi = async (e) => {
     e.preventDefault();
@@ -61,72 +60,105 @@ export const AdminDashboard = () => {
   };
   const handleRaceTimeData = (e) => {
     e.preventDefault();
-    indiaRace.todo?.map((data) => {
-      axios
-        .get(`http://localhost:5000/api/getTimesOfRacing?id=${data.uid}`)
-        .then((res) => {
-          console.log(res.data.data);
-          // db.collection("TimeData").doc(data.uid).set(res?.data?.data);
-          // console.log();
-          // const array = res?.data?.data.participants.map((item) => {
-          //   return item.participant.uid;
-          // });
-          // setHorseData(res?.data?.data);
-
-          // const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
-          // try {
-          //   updateDoc(taskDocRef, {
-          //     todo: res?.data?.data,
-          //   });
-          // } catch (err) {
-          //   alert(err);
-          // }
-          // db.collection("oddTable").doc(array.map());
-        });
-    });
-  };
-  const handleGetRace = (e) => {
     axios
-      .get(`http://localhost:5000/api/getTimesOfRacing?id=${e.uid}`)
-      .then((res) => {
-        var arr1 = res.data.data.participants;
-        var arr2 = res.data.data.markets[0].selections;
-        var arr3 = res.data.data.markets[1].selections;
+      .all(
+        indiaRace.todo.map((data) =>
+          axios.get(`http://localhost:5000/api/getTimesOfRacing?id=${data.uid}`)
+        )
+      )
+      .then((res) =>
+        indiaRace.todo.map((data) => {
+          res.map((res) => {
+            var arr1 = res.data.data.participants;
+            var arr2 = res.data.data.markets[0].selections;
+            var arr3 = res.data.data.markets[1].selections;
 
-        var array3 = arr1.map((obj, index) => ({
-          ...obj,
-          win: { ...arr2[index].odds },
-        }));
+            var array3 = arr1.map((obj, index) => ({
+              ...obj,
+              win: { ...arr2[index].odds },
+            }));
 
-        const array4 = array3.map((ob, index) => ({
-          ...ob,
-          pls: { ...arr3[index].odds },
-        }));
-        setOddData(array4);
-        // console.log(array3Alternative);
-        // console.log(arr1, arr2);
-        // const mergeByProperty = (target, source, prop) => {
-        //   const array = [];
-        //   target.forEach((sourceElement) => {
-        //     let targetElement = source.forEach((targetElement) => {
-        //       // console.log(sourceElement, targetElement);
+            const array4 = array3.map((ob, index) => ({
+              ...ob,
+              pls: { ...arr3[index].odds },
+            }));
+            setOddData(array4);
 
-        //       return sourceElement.participants === targetElement.participants;
-        //       sourceElement["odds"] = targetElement.odds;
-        //       console.log(sourceElement);
-        //     });
+            db.collection("TimeData").doc(data.uid).set(array4);
+          });
+        })
+      );
+    // indiaRace.todo?.map((data) => {
+    //   setTimeout(() => {
+    //     axios
+    //       .get(`http://localhost:5000/api/getTimesOfRacing?id=${data.uid}`)
+    //       .then((res) => {
+    //         console.log(res.data.data);
+    //         var arr1 = res.data.data.participants;
+    //         var arr2 = res.data.data.markets[0].selections;
+    //         var arr3 = res.data.data.markets[1].selections;
 
-        //     target.push(sourceElement.odds);
-        //   });
-        // };
-        // mergeByProperty(arr1, arr2, "uid");
-        // console.log(arr1);
-      });
-    // const docRef = db.collection("TimeData").doc(e.uid);
-    // docRef.get().then((docSnap) => {
-    //   setOddData(docSnap.data());
-    //   console.log(docSnap.data());
+    //         var array3 = arr1.map((obj, index) => ({
+    //           ...obj,
+    //           win: { ...arr2[index].odds },
+    //         }));
+
+    //         const array4 = array3.map((ob, index) => ({
+    //           ...ob,
+    //           pls: { ...arr3[index].odds },
+    //         }));
+    //         setOddData(array4);
+    //         db.collection("TimeData").doc(data.uid).set(array4);
+    //         // console.log();
+    //         // const array = res?.data?.data.participants.map((item) => {
+    //         //   return item.participant.uid;
+    //         // });
+    //         // setHorseData(res?.data?.data);
+
+    //         // const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
+    //         // try {
+    //         //   updateDoc(taskDocRef, {
+    //         //     todo: res?.data?.data,
+    //         //   });
+    //         // } catch (err) {
+    //         //   alert(err);
+    //         // }
+    //         // db.collection("oddTable").doc(array.map());
+    //       });
+    //   }, 1000);
     // });
+  };
+  const handleGetRace = async (e) => {
+    const docRef = db.collection("TimeData").doc(e.uid);
+
+    await docRef.get().then((docSnapshot) => {
+      if (docSnapshot.exists) {
+        setOddData(docSnapshot.data());
+      } else {
+        axios
+          .get(`http://localhost:5000/api/getTimesOfRacing?id=${e.uid}`)
+          .then((res) => {
+            var arr1 = res.data.data.participants;
+            var arr2 = res.data.data.markets[0].selections;
+            var arr3 = res.data.data.markets[1].selections;
+            var array3 = arr1.map((obj, index) => ({
+              ...obj,
+              win: { ...arr2[index].odds },
+            }));
+            const array4 = array3.map((ob, index) => ({
+              ...ob,
+              pls: { ...arr3[index].odds },
+            }));
+            setOddData(array4);
+            db.collection("TimeData")
+              .doc(res?.data?.data?.uid)
+              .set({ participants: array4 });
+          });
+      }
+    });
+    if (e.uid === db.collection("TimeData").doc(data.uid)) {
+      alert("fdxf");
+    }
   };
 
   return (
@@ -191,7 +223,7 @@ export const AdminDashboard = () => {
               </thead>
               <tbody>
                 {!!oddData &&
-                  oddData?.map((e, index) => {
+                  oddData?.participants?.map((e, index) => {
                     return (
                       <tr index={index}>
                         <td>{e.participant.uid}</td>

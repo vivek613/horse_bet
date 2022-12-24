@@ -3,6 +3,7 @@ import React, { useState, createContext } from "react";
 export const useContext = () => {
   const [hosreData, setHorseData] = useState([]);
   const [indiaRace, setIndiaRace] = useState([]);
+  const [userData, setUseData] = useState({});
 
   const [admin, setAdmin] = useState({});
   return {
@@ -12,5 +13,7 @@ export const useContext = () => {
     setAdmin,
     indiaRace,
     setIndiaRace,
+    userData,
+    setUseData,
   };
 };
