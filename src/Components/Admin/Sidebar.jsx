@@ -42,7 +42,7 @@ export const Sidebar = () => {
           <NavIcon>
             <MdAccessTimeFilled />
           </NavIcon>
-          <NavText></NavText>
+          <NavText>Time Data</NavText>
         </NavItem>
       </SideNav.Nav>
     </SideNav>

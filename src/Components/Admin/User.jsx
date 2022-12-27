@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { Context } from "../../App";
 import { db } from "../../config/firebase";
 import { Sidebar } from "./Sidebar";
@@ -12,22 +12,15 @@ const User = () => {
   const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
-    const array = [];
     let item;
-    db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        // Loop through the data and store
-        // it in array to display
-        querySnapshot.forEach((doc) => {
-          item = doc.data();
-          item.id = doc.id;
-          array.push(item);
-          item.admin === true && setAdmin(item.id);
-        });
-        setTable(array);
-      });
-    // doc;
+    const array = [];
+
+    db.collection("users").onSnapshot((snapshot) => {
+      setTable(snapshot.docs.map((doc) => doc.data()));
+      // snapshot.docs.map((doc) => {
+      //  setTable()
+      // });
+    });
   }, []);
   useEffect(() => {
     table.filter((data) => {

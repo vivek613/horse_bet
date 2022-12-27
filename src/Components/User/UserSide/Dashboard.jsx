@@ -45,6 +45,7 @@ export const Dashboard = () => {
           var data = element.data();
 
           setIndiaRace(data);
+          console.log(data);
           data?.todo?.forEach((items) => {
             item = items.venue;
             array.push(item);
@@ -63,9 +64,12 @@ export const Dashboard = () => {
   }, []);
 
   const handleGetRace = (e) => {
+    console.log(e);
+    setHorces(e);
     const docRef = db.collection("TimeData").doc(e.uid);
     docRef.get().then((docSnap) => {
       setParticipants(docSnap.data());
+      console.log(docSnap.data());
     });
   };
 

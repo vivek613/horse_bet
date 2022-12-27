@@ -17,6 +17,7 @@ export const NavbarCommon = () => {
   const { toastData, setToastData } = useContext(Context);
 
   const [user, loading, error] = useAuthState(auth);
+  console.log(user);
 
   const navigate = useNavigate();
 
