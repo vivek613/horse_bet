@@ -1,9 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { db } from "../config/firebase";
 // import { signOut } from "firebase/auth";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router";
@@ -14,12 +11,20 @@ import styles from "./Navbar.module.css";
 
 export const NavbarCommon = () => {
   const auth = getAuth();
+
   const { toastData, setToastData } = useContext(Context);
 
   const [user, loading, error] = useAuthState(auth);
-  console.log(user);
+  const [userData, setUserData] = useState({});
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    db.collection("users")
+      .doc(user?.uid)
+      .get()
+      .then((res) => {
+        setUserData(res.data());
+      });
+  }, [user]);
 
   const openNav = () => {
     document.getElementById("mySidenav").style.width = "200px";
@@ -44,12 +49,11 @@ export const NavbarCommon = () => {
         >
           &times;
         </a>
-        <p className={styles["user-email"]}>{user?.email}</p>
+        <p className={styles["user-email"]}>{userData?.email}</p>
         <div className={styles["user-wallet"]}>
           <p className={styles["user-balance-show"]}>Total balance : </p>
-          <p className={styles["user-balance-show"]}>100₹</p>
+          <p className={styles["user-balance-show"]}>{userData?.amount} ₹</p>
         </div>
-        <p className={styles["user-email"]}>Participant History</p>
         <p className={styles["user-logout"]}>Log out</p>
       </div>
       <div className={styles["navbar-div"]}>

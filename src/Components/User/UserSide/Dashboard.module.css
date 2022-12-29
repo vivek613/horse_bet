@@ -1,5 +1,6 @@
 .user-race-data-main {
   width: 100vw;
+  color: black;
 }
 .user-time-card {
   display: flex;
@@ -17,7 +18,7 @@
 .user-horce-card {
   display: flex;
   flex-direction: column;
-  height: 500px;
+  height: 900px;
   overflow-y: auto;
   gap: 7px;
   margin: 15px;
@@ -56,6 +57,14 @@
   border: none;
 }
 .user-card-body {
+  color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.06);
+}
+.user-card-body-selected {
+  outline: 1px solid #866afb;
+  background: #cdc6eb;
+  font-weight: 600;
+  color: #fdfdfd;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.06);
 }
 .horce-card-body {
@@ -69,9 +78,7 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
-.details-div {
-  /* margin-left: 12px; */
-}
+
 .jockey-icons {
   background: #c62828 !important;
   padding-left: 4px;
@@ -100,7 +107,14 @@
   margin-right: 12px;
 }
 .selected-race-data {
+  width: 100%;
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 0.05), 0 6px 20px 0 rgb(0 0 0 / 0.08);
+}
+.race-status-completed {
+  display: flex;
+  flex-direction: row-reverse;
+  color: #2e7d32;
+  font-weight: 800;
 }
 .user-city-tab {
   margin: 10px 0px;
@@ -118,11 +132,11 @@
   height: 44px;
   border-radius: 5px;
 }
-.state-button-user-select{
+.state-button-user-select {
   border: 3px solid black;
   background: #cdc6eb;
   color: #0000008a;
- 
+
   padding: 8px;
   height: 44px;
   border-radius: 5px;
@@ -132,7 +146,7 @@
   color: #0000008a;
   border: 1px solid white;
   height: 38px;
-  /* width: 40px; */
+  width: 60px;
   border-radius: 5px;
 }
 .bet-button {
@@ -140,6 +154,10 @@
   color: #0000008a;
   border: 1px solid white;
   height: 38px;
-  /* width: 40px; */
+  width: 60px;
   border-radius: 5px;
+}
+.wallet-calc {
+  display: flex;
+  justify-content: space-between;
 }

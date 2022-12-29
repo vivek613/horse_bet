@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import styles from "../User/UserSide/Dashboard.module.css";
-
 import Table from "react-bootstrap/Table";
 import "./AdminDashboard.css";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { db } from "../../config/firebase";
-
-import { useNavigate } from "react-router";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { Context } from "../../App";
 import { Sidebar } from "./Sidebar";
@@ -17,7 +14,6 @@ import { Sidebar } from "./Sidebar";
 
 export const AdminDashboard = () => {
   const { setHorseData, indiaRace, setIndiaRace } = useContext(Context);
-  const navigate = useNavigate();
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
 
@@ -25,7 +21,6 @@ export const AdminDashboard = () => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
     });
-
     // doc;
   }, [newRace]);
   console.log(indiaRace);

@@ -6,12 +6,10 @@ import { auth, db } from "../../../config/firebase";
 import { useNavigate } from "react-router";
 import { getCookie } from "../../../Hook/Cookies";
 import { Toaster } from "react-hot-toast";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
 import { Context } from "../../../App";
+import { UserBetModal } from "./UserBetModal";
 
 export const Dashboard = () => {
   const { indiaRace, setIndiaRace } = useContext(Context);
@@ -20,9 +18,10 @@ export const Dashboard = () => {
     "Madras",
     "Mumbai",
     "Delhi",
-    "calcutta",
-    "hyderabad",
+    "Calcutta",
+    "Hyderabad",
     "Mysore",
+    "Banglore",
   ]);
   const [horces, setHorces] = useState();
   const [participants, setParticipants] = useState();
@@ -30,10 +29,8 @@ export const Dashboard = () => {
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
   const [selectedState, setSelectedState] = useState(false);
-
-  function removeDuplicates(arr) {
-    return arr.filter((item, index) => arr.indexOf(item) === index);
-  }
+  const [walletModal, setWalletModal] = useState(false);
+  const [winPlc, setWinPlc] = useState(0);
 
   useLayoutEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
@@ -73,7 +70,7 @@ export const Dashboard = () => {
                   setSelectedState(items);
                   setStateWiseData(
                     indiaRace.filter((data) => {
-                      if (data.vName == items) {
+                      if (data.vName.toLowerCase() == items.toLowerCase()) {
                         return data;
                       }
                     })
@@ -109,7 +106,7 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        <p className={styles["user-race-title"]}>Race Details :</p>
+        {/* <p className={styles["user-race-title"]}>Race Details :</p>
         <Card className={styles["race-details-card"]}>
           <Card.Body className={styles["race-id-main"]}>
             <div>
@@ -127,13 +124,13 @@ export const Dashboard = () => {
               </Card.Body>
             </Card>
           </Card.Body>
-        </Card>
+        </Card> */}
         <p className={styles["user-race-title"]}>Participant Horces :</p>
         <div className={styles["user-horce-card"]}>
           {participants?.map((e) => {
             return (
               <>
-                <Card>
+                <Card style={{ width: "calc(100% - 2px)" }}>
                   <Card.Body className={styles["horce-card-body"]}>
                     <div>
                       <div className={styles["jersey-div"]}>
@@ -177,15 +174,27 @@ export const Dashboard = () => {
                     </div>
                     <div
                       style={{
-                        width: "100px",
+                        width: "125px",
                         position: "absolute",
                         right: "0",
                       }}
                     >
-                      <button className={styles["odds-button"]}>
+                      <button
+                        className={styles["odds-button"]}
+                        onClick={() => {
+                          setWinPlc(e.odds.WIN);
+                          setWalletModal(true);
+                        }}
+                      >
                         {e.odds.WIN}
                       </button>
-                      <button className={styles["bet-button"]}>
+                      <button
+                        className={styles["bet-button"]}
+                        onClick={() => {
+                          setWinPlc(e.odds.PLC);
+                          setWalletModal(true);
+                        }}
+                      >
                         {e.odds.PLC}
                       </button>
                     </div>
@@ -196,6 +205,11 @@ export const Dashboard = () => {
           })}
         </div>
       </div>
+      <UserBetModal
+        walletModal={walletModal}
+        setWalletModal={setWalletModal}
+        winPlc={winPlc}
+      />
     </>
   );
 };
