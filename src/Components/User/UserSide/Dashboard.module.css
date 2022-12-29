@@ -118,6 +118,15 @@
   height: 44px;
   border-radius: 5px;
 }
+.state-button-user-select{
+  border: 3px solid black;
+  background: #cdc6eb;
+  color: #0000008a;
+ 
+  padding: 8px;
+  height: 44px;
+  border-radius: 5px;
+}
 .odds-button {
   background: #cdc6eb;
   color: #0000008a;

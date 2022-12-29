@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { NavbarCommon } from "../../Navbar";
 import styles from "./Dashboard.module.css";
@@ -16,43 +16,30 @@ import { Context } from "../../../App";
 export const Dashboard = () => {
   const { indiaRace, setIndiaRace } = useContext(Context);
   const navigate = useNavigate();
-  const [stateHorce, setStateHorce] = useState([]);
+  const [stateHorce, setStateHorce] = useState([
+    "Madras",
+    "Mumbai",
+    "Delhi",
+    "calcutta",
+    "hyderabad",
+    "Mysore",
+  ]);
   const [horces, setHorces] = useState();
   const [participants, setParticipants] = useState();
+  const [stateWiseData, setStateWiseData] = useState([]);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
-  const [selectedState, setSelectedState] = useState(stateHorce?.[0]);
+  const [selectedState, setSelectedState] = useState(false);
 
   function removeDuplicates(arr) {
     return arr.filter((item, index) => arr.indexOf(item) === index);
   }
-  useEffect(() => {
-    // indiaRace?.todo?.forEach((data) => {
-    //   item = data.venue;
-    //   array.push(item);
-    // });
-  }, [indiaRace]);
 
-  useEffect(() => {
-    const array = [];
-    let item;
-    db.collection("horsedata")
-      .get()
-      .then((querySnapshot) => {
-        // Loop through the data and store
-        // it in array to display
-        querySnapshot.forEach((element) => {
-          var data = element.data();
+  useLayoutEffect(() => {
+    db.collection("TimeData").onSnapshot((snapshot) => {
+      setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
+    });
 
-          setIndiaRace(data);
-          console.log(data);
-          data?.todo?.forEach((items) => {
-            item = items.venue;
-            array.push(item);
-            setStateHorce(removeDuplicates(array));
-          });
-        });
-      });
     // doc;
   }, []);
   useEffect(() => {
@@ -64,13 +51,7 @@ export const Dashboard = () => {
   }, []);
 
   const handleGetRace = (e) => {
-    console.log(e);
-    setHorces(e);
-    const docRef = db.collection("TimeData").doc(e.uid);
-    docRef.get().then((docSnap) => {
-      setParticipants(docSnap.data());
-      console.log(docSnap.data());
-    });
+    setParticipants(e.runners);
   };
 
   return (
@@ -83,9 +64,20 @@ export const Dashboard = () => {
           {stateHorce.map((items) => {
             return (
               <button
-                className={styles["state-button-user"]}
+                className={
+                  selectedState === items
+                    ? styles["state-button-user-select"]
+                    : styles["state-button-user"]
+                }
                 onClick={() => {
                   setSelectedState(items);
+                  setStateWiseData(
+                    indiaRace.filter((data) => {
+                      if (data.vName == items) {
+                        return data;
+                      }
+                    })
+                  );
                 }}
               >
                 {items}
@@ -94,31 +86,28 @@ export const Dashboard = () => {
           })}
         </div>
         <div className={styles["user-card-main"]}>
-          {indiaRace &&
-            indiaRace.todo?.map((e) => {
-              return (
-                <>
-                  {selectedState === e.venue && (
-                    <Card
-                      className={styles["user-simple-card"]}
-                      onClick={() => {
-                        handleGetRace(e);
-                      }}
-                    >
-                      <Card.Body className={styles["user-card-body"]}>
-                        <Card.Title>{`Race: ${e.data.raceNumber}`}</Card.Title>
-                        <Card.Text className={styles["user-simple-card-time"]}>
-                          {selectedState}
-                        </Card.Text>
-                        <Card.Text className={styles["user-simple-card-hour"]}>
-                          {e.hour}
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  )}
-                </>
-              );
-            })}
+          {stateWiseData.map((e) => {
+            return (
+              <>
+                <Card
+                  className={styles["user-simple-card"]}
+                  onClick={() => {
+                    handleGetRace(e);
+                  }}
+                >
+                  <Card.Body className={styles["user-card-body"]}>
+                    <Card.Title>{`Race: ${e.raceNumber}`}</Card.Title>
+                    <Card.Text
+                      className={styles["user-simple-card-time"]}
+                    ></Card.Text>
+                    <Card.Text className={styles["user-simple-card-hour"]}>
+                      {e.raceTime}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </>
+            );
+          })}
         </div>
         <p className={styles["user-race-title"]}>Race Details :</p>
         <Card className={styles["race-details-card"]}>
@@ -141,7 +130,7 @@ export const Dashboard = () => {
         </Card>
         <p className={styles["user-race-title"]}>Participant Horces :</p>
         <div className={styles["user-horce-card"]}>
-          {participants?.participants.map((e) => {
+          {participants?.map((e) => {
             return (
               <>
                 <Card>
@@ -149,7 +138,7 @@ export const Dashboard = () => {
                     <div>
                       <div className={styles["jersey-div"]}>
                         <img
-                          src={e.data.jerseyUrl}
+                          src={e.jerseyUrl}
                           style={{
                             height: "50px",
                             width: "50px",
@@ -158,14 +147,14 @@ export const Dashboard = () => {
                       </div>
                       <div className={styles["details-div"]}>
                         <div className={styles["horce-card-prs-name"]}>
-                          {e.participant.name}
+                          {e.name}
                         </div>
                         <div
                           style={{
                             fontSize: "15px",
                           }}
                         >
-                          Wt = {e.data.weight} , draw : #{e.data.cageNumber}
+                          Wt = {e.weight} , draw : #{e.rating}
                         </div>
                         <div
                           class="text-red-9"
@@ -177,11 +166,11 @@ export const Dashboard = () => {
                         >
                           <span className={styles["jockey-icons"]}>J</span>
                           <span className={styles["jockey-details"]}>
-                            {e.data.jockey}
+                            {e.jockey.name}
                           </span>
                           <span class={styles["trainer-icons"]}>T</span>
                           <span className={styles["trainer-details"]}>
-                            {e.data.trainer}
+                            {e.trainer.name}
                           </span>
                         </div>
                       </div>
@@ -194,10 +183,10 @@ export const Dashboard = () => {
                       }}
                     >
                       <button className={styles["odds-button"]}>
-                        {e.win.price}
+                        {e.odds.WIN}
                       </button>
                       <button className={styles["bet-button"]}>
-                        {e.pls.price}
+                        {e.odds.PLC}
                       </button>
                     </div>
                   </Card.Body>
