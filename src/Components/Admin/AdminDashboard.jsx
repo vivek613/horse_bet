@@ -11,6 +11,7 @@ import { Context } from "../../App";
 import { Sidebar } from "./Sidebar";
 import { FiEdit } from "react-icons/fi";
 import RaceModel from "./RaceModel";
+import { useNavigate } from "react-router";
 
 // Be sure to include styles at some point, probably during your bootstraping
 
@@ -23,19 +24,26 @@ export const AdminDashboard = () => {
     setUseData,
     setIndexNum,
     setRaceIndexNum,
+    raceIndexNum,
   } = useContext(Context);
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
-  const [selectedState, setSelectedState] = useState(false);
+  const [selectedState, setSelectedState] = useState(true);
 
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
+      setOddData(
+        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum].runners
+      );
+      console.log(
+        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum].runners
+      );
     });
     // doc;
-  }, [newRace]);
+  }, []);
 
   const handleRefreshAPi = async (e) => {
     e.preventDefault();
@@ -82,7 +90,7 @@ export const AdminDashboard = () => {
 
   const handleGetRace = async (e) => {
     console.log(e);
-    setSelectedState(e.raceNumber);
+    setSelectedState(e.raceTime);
     setOddData(e.runners);
   };
 
@@ -107,7 +115,7 @@ export const AdminDashboard = () => {
                 <>
                   <Card
                     className={
-                      selectedState === e.raceNumber
+                      selectedState === e.raceTime
                         ? styles["user-simple-card-select"]
                         : styles["user-simple-card"]
                     }

@@ -12,7 +12,8 @@ import { Context } from "../../../App";
 import { UserBetModal } from "./UserBetModal";
 
 export const Dashboard = () => {
-  const { indiaRace, setIndiaRace } = useContext(Context);
+  const { indiaRace, setIndiaRace, raceIndexNum, setRaceIndexNum } =
+    useContext(Context);
   const navigate = useNavigate();
   const [stateHorce, setStateHorce] = useState([
     "Madras",
@@ -28,13 +29,28 @@ export const Dashboard = () => {
   const [stateWiseData, setStateWiseData] = useState([]);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
-  const [selectedState, setSelectedState] = useState(false);
+  const [selectedState, setSelectedState] = useState("Madras");
   const [walletModal, setWalletModal] = useState(false);
   const [winPlc, setWinPlc] = useState(0);
 
   useLayoutEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
+      setParticipants(
+        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum].runners
+      );
+      setStateWiseData(
+        snapshot.docs
+          .map((doc) => doc.data())[0]
+          .Allrace.filter((data) => {
+            if (data.vName.toLowerCase() == "Madras") {
+              return data;
+            }
+          })
+      );
+      setHorces(
+        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]
+      );
     });
 
     // doc;
@@ -85,13 +101,14 @@ export const Dashboard = () => {
           })}
         </div>
         <div className={styles["user-card-main"]}>
-          {stateWiseData.map((e) => {
+          {stateWiseData.map((e, index) => {
             return (
               <>
                 <Card
                   className={styles["user-simple-card"]}
                   onClick={() => {
                     handleGetRace(e);
+                    setRaceIndexNum(index);
                   }}
                 >
                   <Card.Body className={styles["user-card-body"]}>
@@ -108,7 +125,7 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        {/* <p className={styles["user-race-title"]}>Race Details :</p>
+        <p className={styles["user-race-title"]}>Race Details :</p>
         <Card className={styles["race-details-card"]}>
           <Card.Body className={styles["race-id-main"]}>
             <div>
@@ -126,7 +143,7 @@ export const Dashboard = () => {
               </Card.Body>
             </Card>
           </Card.Body>
-        </Card> */}
+        </Card>
         <p className={styles["user-race-title"]}>Participant Horces :</p>
         <div className={styles["user-horce-card"]}>
           {participants?.map((e) => {

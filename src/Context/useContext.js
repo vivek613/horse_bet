@@ -6,7 +6,7 @@ export const useContext = () => {
   const [userData, setUseData] = useState({});
 
   const [indexNum, setIndexNum] = useState();
-  const [raceIndexNum, setRaceIndexNum] = useState();
+  const [raceIndexNum, setRaceIndexNum] = useState(0);
 
   const [admin, setAdmin] = useState({});
   return {
