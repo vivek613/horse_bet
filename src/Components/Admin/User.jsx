@@ -4,7 +4,7 @@ import { Context } from "../../App";
 import { db } from "../../config/firebase";
 import { Sidebar } from "./Sidebar";
 import { FiEdit } from "react-icons/fi";
-import { AdminDashboardModel } from "./AdminDashboardModel";
+import { UserModel } from "./UserModel";
 
 const User = () => {
   const { setAdmin, userData, setUseData } = useContext(Context);
@@ -82,7 +82,7 @@ const User = () => {
             </tbody>
           </Table>
         </div>
-        <AdminDashboardModel
+        <UserModel
           show={modalShow}
           data={userData}
           onHide={() => setModalShow(false)}

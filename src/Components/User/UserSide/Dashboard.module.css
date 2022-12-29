@@ -38,6 +38,12 @@
   margin: 15px 0px 15px 15px;
   scroll-behavior: smooth;
 }
+.user-simple-card-select {
+  display: inline-block;
+  margin: 15px 0px 15px 15px;
+  scroll-behavior: smooth;
+  border: 3px solid dodgerblue;
+}
 .user-simple-card-time {
   margin: 0px;
 }

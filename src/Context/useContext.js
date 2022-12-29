@@ -5,6 +5,9 @@ export const useContext = () => {
   const [indiaRace, setIndiaRace] = useState([]);
   const [userData, setUseData] = useState({});
 
+  const [indexNum, setIndexNum] = useState();
+  const [raceIndexNum, setRaceIndexNum] = useState();
+
   const [admin, setAdmin] = useState({});
   return {
     hosreData,
@@ -15,5 +18,9 @@ export const useContext = () => {
     setIndiaRace,
     userData,
     setUseData,
+    indexNum,
+    setIndexNum,
+    raceIndexNum,
+    setRaceIndexNum,
   };
 };

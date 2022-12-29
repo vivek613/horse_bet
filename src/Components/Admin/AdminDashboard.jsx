@@ -9,13 +9,26 @@ import { db } from "../../config/firebase";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { Context } from "../../App";
 import { Sidebar } from "./Sidebar";
+import { FiEdit } from "react-icons/fi";
+import RaceModel from "./RaceModel";
 
 // Be sure to include styles at some point, probably during your bootstraping
 
 export const AdminDashboard = () => {
-  const { setHorseData, indiaRace, setIndiaRace } = useContext(Context);
+  const {
+    setHorseData,
+    indiaRace,
+    setIndiaRace,
+    userData,
+    setUseData,
+    setIndexNum,
+    setRaceIndexNum,
+  } = useContext(Context);
+  const navigate = useNavigate();
+  const [modalShow, setModalShow] = useState(false);
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
+  const [selectedState, setSelectedState] = useState(false);
 
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
@@ -23,7 +36,6 @@ export const AdminDashboard = () => {
     });
     // doc;
   }, [newRace]);
-  console.log(indiaRace);
 
   const handleRefreshAPi = async (e) => {
     e.preventDefault();
@@ -61,84 +73,16 @@ export const AdminDashboard = () => {
         console.log(array);
         setNewRace(array);
 
-        db.collection("TimeData").doc("RaceData").set({ Allrace: array });
+        db.collection("TimeData").doc("RaceData").update({ Allrace: array });
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const handleRaceTimeData = (e) => {
-    e.preventDefault();
-    axios
-      .all(
-        indiaRace.todo.map((data) =>
-          axios.get(`http://localhost:5000/api/getTimesOfRacing?id=${data.uid}`)
-        )
-      )
-      .then((res) =>
-        indiaRace.todo.map((data) => {
-          res.map((res) => {
-            var arr1 = res.data.data.participants;
-            var arr2 = res.data.data.markets[0].selections;
-            var arr3 = res.data.data.markets[1].selections;
 
-            var array3 = arr1.map((obj, index) => ({
-              ...obj,
-              win: { ...arr2[index].odds },
-            }));
-
-            const array4 = array3.map((ob, index) => ({
-              ...ob,
-              pls: { ...arr3[index].odds },
-            }));
-            setOddData(array4);
-
-            db.collection("TimeData").doc(data.uid).set(array4);
-          });
-        })
-      );
-    // indiaRace.todo?.map((data) => {
-    //   setTimeout(() => {
-    //     axios
-    //       .get(`http://localhost:5000/api/getTimesOfRacing?id=${data.uid}`)
-    //       .then((res) => {
-    //         console.log(res.data.data);
-    //         var arr1 = res.data.data.participants;
-    //         var arr2 = res.data.data.markets[0].selections;
-    //         var arr3 = res.data.data.markets[1].selections;
-
-    //         var array3 = arr1.map((obj, index) => ({
-    //           ...obj,
-    //           win: { ...arr2[index].odds },
-    //         }));
-
-    //         const array4 = array3.map((ob, index) => ({
-    //           ...ob,
-    //           pls: { ...arr3[index].odds },
-    //         }));
-    //         setOddData(array4);
-    //         db.collection("TimeData").doc(data.uid).set(array4);
-    //         // console.log();
-    //         // const array = res?.data?.data.participants.map((item) => {
-    //         //   return item.participant.uid;
-    //         // });
-    //         // setHorseData(res?.data?.data);
-
-    //         // const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
-    //         // try {
-    //         //   updateDoc(taskDocRef, {
-    //         //     todo: res?.data?.data,
-    //         //   });
-    //         // } catch (err) {
-    //         //   alert(err);
-    //         // }
-    //         // db.collection("oddTable").doc(array.map());
-    //       });
-    //   }, 1000);
-    // });
-  };
   const handleGetRace = async (e) => {
     console.log(e);
+    setSelectedState(e.raceNumber);
     setOddData(e.runners);
   };
 
@@ -156,23 +100,20 @@ export const AdminDashboard = () => {
             indiaRace data refresh button
           </p>
           <Button onClick={handleRefreshAPi}>refresh</Button>
-          <p
-            style={{
-              marging: "0px",
-            }}
-          >
-            racetime Data refresh button
-          </p>
-          <Button onClick={handleRaceTimeData}> race time refresh</Button>
 
           <div className={styles["user-card-main"]}>
-            {indiaRace?.map((e) => {
+            {indiaRace?.map((e, index) => {
               return (
                 <>
                   <Card
-                    className={styles["user-simple-card"]}
+                    className={
+                      selectedState === e.raceNumber
+                        ? styles["user-simple-card-select"]
+                        : styles["user-simple-card"]
+                    }
                     onClick={() => {
                       handleGetRace(e);
+                      setRaceIndexNum(index);
                     }}
                   >
                     <Card.Body className={styles["user-card-body"]}>
@@ -199,6 +140,7 @@ export const AdminDashboard = () => {
                   <th>trainer</th>
                   <th>Win</th>
                   <th>place</th>
+                  <th>Edit</th>
                 </tr>
               </thead>
               <tbody>
@@ -211,7 +153,17 @@ export const AdminDashboard = () => {
                         <td>{e.trainer.name}</td>
                         <td>{e.odds.WIN}</td>
                         <td>{e.odds.PLC}</td>
-
+                        <td>
+                          <FiEdit
+                            onClick={(event) => {
+                              event.preventDefault();
+                              console.log(index);
+                              setModalShow(true);
+                              setUseData(e);
+                              setIndexNum(index);
+                            }}
+                          />
+                        </td>
                         {/* <td>{`${e.admin} `}</td> */}
                       </tr>
                     );
@@ -221,6 +173,11 @@ export const AdminDashboard = () => {
           </div>
         </div>
       </div>
+      <RaceModel
+        show={modalShow}
+        data={oddData}
+        onHide={() => setModalShow(false)}
+      />
     </>
   );
 };

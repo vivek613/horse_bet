@@ -7,7 +7,7 @@ import { doc, updateDoc } from "@firebase/firestore";
 import { db } from "../../config/firebase";
 import { Context } from "../../App";
 
-export const AdminDashboardModel = (props) => {
+export const UserModel = (props) => {
   const { setAdmin, userData, setUseData } = useContext(Context);
 
   const [formData, setFormData] = useState(userData);

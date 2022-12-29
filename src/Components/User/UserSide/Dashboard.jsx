@@ -49,6 +49,8 @@ export const Dashboard = () => {
 
   const handleGetRace = (e) => {
     setParticipants(e.runners);
+    console.log(e);
+    setHorces(e);
   };
 
   return (
@@ -112,15 +114,15 @@ export const Dashboard = () => {
             <div>
               <Card style={{ height: "100%" }}>
                 <Card.Body>
-                  <Card.Title>{horces?.data.raceNumber}</Card.Title>
+                  <Card.Title>{horces?.raceNumber}</Card.Title>
                 </Card.Body>
               </Card>
             </div>
             <Card className={styles["selected-race-data"]}>
               <Card.Body>
-                <Card.Text>{horces?.data.label}</Card.Text>
-                <Card.Text>Venue: {horces?.venue}</Card.Text>
-                <Card.Text>Distance: {horces?.data.distance}</Card.Text>
+                <Card.Text>{horces?.name}</Card.Text>
+                <Card.Text>Venue: {horces?.vName}</Card.Text>
+                <Card.Text>Distance: {horces?.length}</Card.Text>
               </Card.Body>
             </Card>
           </Card.Body>
