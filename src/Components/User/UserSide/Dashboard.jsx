@@ -10,6 +10,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
 import { Context } from "../../../App";
 import { UserBetModal } from "./UserBetModal";
+import { ReactComponent as NoRace } from "../../../Assets/NoRace.svg";
 
 export const Dashboard = () => {
   const { indiaRace, setIndiaRace, raceIndexNum, setRaceIndexNum } =
@@ -32,6 +33,8 @@ export const Dashboard = () => {
   const [selectedState, setSelectedState] = useState("Madras");
   const [walletModal, setWalletModal] = useState(false);
   const [winPlc, setWinPlc] = useState(0);
+  const [userData, setUserData] = useState();
+  const [adminData, setAdminData] = useState();
 
   useLayoutEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
@@ -56,6 +59,22 @@ export const Dashboard = () => {
     // doc;
   }, []);
   useEffect(() => {
+    db.collection("users")
+      .doc("hMPGPOkqNQQvRxUD0NuW0oc1U6v1")
+      .get()
+      .then((res) => {
+        setAdminData(res.data());
+      });
+  }, [user]);
+  useEffect(() => {
+    db.collection("users")
+      .doc(user?.uid)
+      .get()
+      .then((res) => {
+        setUserData(res.data());
+      });
+  }, [user]);
+  useEffect(() => {
     if (getCookie("access_token")) {
       navigate("/dashboard");
     } else {
@@ -65,7 +84,6 @@ export const Dashboard = () => {
 
   const handleGetRace = (e) => {
     setParticipants(e.runners);
-    console.log(e);
     setHorces(e);
   };
 
@@ -85,6 +103,7 @@ export const Dashboard = () => {
                     : styles["state-button-user"]
                 }
                 onClick={() => {
+                  setParticipants();
                   setSelectedState(items);
                   setStateWiseData(
                     indiaRace.filter((data) => {
@@ -125,7 +144,7 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        <p className={styles["user-race-title"]}>Race Details :</p>
+        {/* <p className={styles["user-race-title"]}>Race Details :</p>
         <Card className={styles["race-details-card"]}>
           <Card.Body className={styles["race-id-main"]}>
             <div>
@@ -143,91 +162,118 @@ export const Dashboard = () => {
               </Card.Body>
             </Card>
           </Card.Body>
-        </Card>
-        <p className={styles["user-race-title"]}>Participant Horces :</p>
-        <div className={styles["user-horce-card"]}>
-          {participants?.map((e) => {
-            return (
-              <>
-                <Card style={{ width: "calc(100% - 2px)" }}>
-                  <Card.Body className={styles["horce-card-body"]}>
-                    <div>
-                      <div className={styles["jersey-div"]}>
-                        <img
-                          src={e.jerseyUrl}
-                          style={{
-                            height: "50px",
-                            width: "50px",
-                          }}
-                        ></img>
-                      </div>
-                      <div className={styles["details-div"]}>
-                        <div className={styles["horce-card-prs-name"]}>
-                          {e.name}
+        </Card> */}
+        {participants && participants ? (
+          <>
+            <p className={styles["user-race-title"]}>Participant Horces :</p>
+            <div className={styles["user-horce-card"]}>
+              {participants?.map((e) => {
+                return (
+                  <>
+                    <Card style={{ width: "calc(100% - 2px)" }}>
+                      <Card.Body className={styles["horce-card-body"]}>
+                        <div>
+                          <div className={styles["jersey-div"]}>
+                            <img
+                              src={e.jerseyUrl}
+                              style={{
+                                height: "50px",
+                                width: "50px",
+                              }}
+                            ></img>
+                          </div>
+                          <div className={styles["details-div"]}>
+                            <div className={styles["horce-card-prs-name"]}>
+                              {e.name}
+                            </div>
+                            <div
+                              style={{
+                                fontSize: "15px",
+                              }}
+                            >
+                              Wt = {e.weight} , draw : #{e.rating}
+                            </div>
+                            <div
+                              class="text-red-9"
+                              style={{
+                                fontSize: "14px",
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <span className={styles["jockey-icons"]}>J</span>
+                              <span className={styles["jockey-details"]}>
+                                {e.jockey.name}
+                              </span>
+                              <span class={styles["trainer-icons"]}>T</span>
+                              <span className={styles["trainer-details"]}>
+                                {e.trainer.name}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                         <div
                           style={{
-                            fontSize: "15px",
+                            width: "125px",
+                            position: "absolute",
+                            right: "0",
                           }}
                         >
-                          Wt = {e.weight} , draw : #{e.rating}
+                          <button
+                            className={styles["odds-button"]}
+                            onClick={() => {
+                              setWinPlc(e.odds.WIN);
+                              setWalletModal(true);
+                            }}
+                          >
+                            {e.odds.WIN}
+                          </button>
+                          <button
+                            className={styles["bet-button"]}
+                            onClick={() => {
+                              setWinPlc(e.odds.PLC);
+                              setWalletModal(true);
+                            }}
+                          >
+                            {e.odds.PLC}
+                          </button>
                         </div>
-                        <div
-                          class="text-red-9"
-                          style={{
-                            fontSize: "14px",
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <span className={styles["jockey-icons"]}>J</span>
-                          <span className={styles["jockey-details"]}>
-                            {e.jockey.name}
-                          </span>
-                          <span class={styles["trainer-icons"]}>T</span>
-                          <span className={styles["trainer-details"]}>
-                            {e.trainer.name}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        width: "125px",
-                        position: "absolute",
-                        right: "0",
-                      }}
-                    >
-                      <button
-                        className={styles["odds-button"]}
-                        onClick={() => {
-                          setWinPlc(e.odds.WIN);
-                          setWalletModal(true);
-                        }}
-                      >
-                        {e.odds.WIN}
-                      </button>
-                      <button
-                        className={styles["bet-button"]}
-                        onClick={() => {
-                          setWinPlc(e.odds.PLC);
-                          setWalletModal(true);
-                        }}
-                      >
-                        {e.odds.PLC}
-                      </button>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </>
-            );
-          })}
-        </div>
+                      </Card.Body>
+                    </Card>
+                  </>
+                );
+              })}
+            </div>
+          </>
+        ) : !selectedState ? (
+          <>
+            <div className={styles["please-select-race"]}>
+              <h1 style={{ paddingTop: "200px" }}>Please Select One</h1>
+            </div>
+          </>
+        ) : stateWiseData.length === 0 ? (
+          <>
+            <div className={styles["please-select-race"]}>
+              <NoRace
+                style={{ height: "420px", padding: "110px 50px 0px 50px" }}
+              />
+              <h1>Oops! No Race Today</h1>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={styles["please-select-race"]}>
+              <h1 style={{ paddingTop: "200px" }}>Please Select race</h1>
+            </div>
+          </>
+        )}
       </div>
       <UserBetModal
         walletModal={walletModal}
         setWalletModal={setWalletModal}
         winPlc={winPlc}
+        userData={userData}
+        adminData={adminData}
       />
     </>
   );

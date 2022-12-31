@@ -1,9 +1,39 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "./Dashboard.module.css";
+import { db } from "../../../config/firebase";
 
-export const UserBetModal = ({ walletModal, setWalletModal, winPlc }) => {
+export const UserBetModal = ({
+  walletModal,
+  setWalletModal,
+  winPlc,
+  userData,
+  adminData,
+}) => {
   const [betAmount, setBetAmount] = useState(0);
+
+  const handleSubmit = () => {
+    if (Number(betAmount) < Number(userData.amount)) {
+      db.collection("users")
+        .doc(userData.uid)
+        .update({
+          ...userData,
+          amount: Number(userData.amount) - Number(betAmount),
+        })
+        .then(function () {
+          setWalletModal(false);
+          db.collection("users")
+            .doc(adminData.uid)
+            .update({
+              ...adminData,
+              amount: Number(adminData.amount) + Number(betAmount),
+            })
+            .then(function () {});
+        });
+    } else {
+      console.log("not");
+    }
+  };
 
   return (
     <>
@@ -20,13 +50,22 @@ export const UserBetModal = ({ walletModal, setWalletModal, winPlc }) => {
             <hr style={{ color: "#866afb" }} />
             <div className={styles["wallet-calc"]}>
               <p>Odds - Win : {winPlc} </p>
-              <p>Your Bet Amount : {betAmount}</p>
+              {Number(betAmount) < Number(userData.amount) ? (
+                <p>Your Bet Amount : {betAmount}</p>
+              ) : (
+                <p style={{ color: "red" }}>
+                  Sorry, You have not enough balance
+                </p>
+              )}
             </div>
             <Form style={{ width: "100%" }}>
               <Form.Group className="mb-3">
                 <Form.Label>Amount</Form.Label>
                 <Form.Control
                   type="number"
+                  min={0}
+                  value={betAmount}
+                  name="amount"
                   placeholder="Enter Amount"
                   onChange={(e) => {
                     setBetAmount(e.target.value);
@@ -50,19 +89,36 @@ export const UserBetModal = ({ walletModal, setWalletModal, winPlc }) => {
                 <p>Potential Amount</p>
                 <p>+{(betAmount - (betAmount * 28.18) / 100) * winPlc}</p>
               </div>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-              <Button
-                variant="primary"
-                type="submit"
-                onClick={() => {
-                  setBetAmount(0);
-                  setWalletModal(false);
-                }}
-              >
-                Cancel
-              </Button>
+              <div className={styles["wallet-button-wrapper"]}>
+                <Button
+                  disabled={
+                    Number(betAmount) < Number(userData.amount) &&
+                    0 < Number(betAmount)
+                      ? false
+                      : true
+                  }
+                  variant="primary"
+                  onClick={() => {
+                    handleSubmit();
+                  }}
+                >
+                  Confirm
+                </Button>
+                <Button
+                  variant="primary"
+                  style={{
+                    background: "transparent",
+                    color: "black",
+                    outline: "1px solid black",
+                  }}
+                  onClick={() => {
+                    setBetAmount(0);
+                    setWalletModal(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
             </Form>
           </div>
         </div>

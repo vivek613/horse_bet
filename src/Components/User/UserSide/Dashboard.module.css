@@ -167,3 +167,15 @@
   display: flex;
   justify-content: space-between;
 }
+.please-select-race {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 500px;
+  color: gray;
+}
+.wallet-button-wrapper {
+  display: flex;
+  gap: 10px;
+}
