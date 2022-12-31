@@ -13,8 +13,14 @@ import { UserBetModal } from "./UserBetModal";
 import { ReactComponent as NoRace } from "../../../Assets/NoRace.svg";
 
 export const Dashboard = () => {
-  const { indiaRace, setIndiaRace, raceIndexNum, setRaceIndexNum } =
-    useContext(Context);
+  const {
+    indiaRace,
+    setIndiaRace,
+    raceIndexNum,
+    setRaceIndexNum,
+    winPlc,
+    setWinPlc,
+  } = useContext(Context);
   const navigate = useNavigate();
   const [stateHorce, setStateHorce] = useState([
     "Madras",
@@ -32,7 +38,6 @@ export const Dashboard = () => {
   const [user, loading, error] = useAuthState(auth);
   const [selectedState, setSelectedState] = useState("Madras");
   const [walletModal, setWalletModal] = useState(false);
-  const [winPlc, setWinPlc] = useState(0);
   const [userData, setUserData] = useState();
   const [adminData, setAdminData] = useState();
 
@@ -86,8 +91,12 @@ export const Dashboard = () => {
     setParticipants(e.runners);
     console.log(e);
     setWinPlc({
+      ...winPlc,
+      user_id: user.uid,
       race_number: e.raceNumber,
       venue: e.vName,
+      jockey_name: horcesData.jockey.name,
+      status: "disabled",
     });
   };
 
@@ -232,6 +241,7 @@ export const Dashboard = () => {
                                 ...winPlc,
                                 type: "WIN",
                                 value: e.odds.WIN,
+                                jockey_name: e.jockey.name,
                               });
                               setWalletModal(true);
                             }}
@@ -247,7 +257,8 @@ export const Dashboard = () => {
                               setWinPlc({
                                 ...winPlc,
                                 type: "PLC",
-                                value: e.odds.PLS,
+                                value: e.odds.PLC,
+                                jockey_name: e.jockey.name,
                               });
                               setWalletModal(true);
                             }}

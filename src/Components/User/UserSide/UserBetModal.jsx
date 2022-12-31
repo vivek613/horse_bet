@@ -1,27 +1,38 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "./Dashboard.module.css";
 import { db } from "../../../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
+import { Context } from "../../../App";
 
 export const UserBetModal = ({
   walletModal,
   setWalletModal,
-  winPlc,
   userData,
   adminData,
   horcesData,
 }) => {
+  const { winPlc, setWinPlc } = useContext(Context);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
 
   const [betAmount, setBetAmount] = useState(0);
-  console.log(horcesData, winPlc);
+  const [raceParticipantData, setRaceParcitipantData] = useState([]);
+  console.log(winPlc);
   console.log(user);
+  useEffect(() => {
+    db.collection("participant").onSnapshot((snapshot) => {
+      setRaceParcitipantData(snapshot.docs.map((doc) => doc.data()));
+    });
+  }, []);
+  console.log(raceParticipantData);
 
   const handleSubmit = () => {
+    console.log(winPlc);
     if (Number(betAmount) < Number(userData.amount)) {
+      raceParticipantData.push(winPlc);
+
       db.collection("users")
         .doc(userData.uid)
         .update({
@@ -30,6 +41,7 @@ export const UserBetModal = ({
         })
         .then(function () {
           setWalletModal(false);
+
           db.collection("users")
             .doc(adminData.uid)
             .update({
@@ -38,20 +50,7 @@ export const UserBetModal = ({
             })
             .then(function () {});
         });
-      db.collection("participant")
-        .doc(user.uid)
-        .set({
-          data: {
-            user_id: user.uid,
-            race_no: winPlc.race_number,
-            venue: winPlc.venue,
-            jockey_name: horcesData.jockey.name,
-            user_amount: userData.amount,
-            odds_type: winPlc.type,
-            potential_amount: betAmount,
-            status: "disabled",
-          },
-        });
+      db.collection("participant").doc(user.uid).set(winPlc);
     } else {
       console.log("not");
     }
@@ -90,6 +89,13 @@ export const UserBetModal = ({
                   name="amount"
                   placeholder="Enter Amount"
                   onChange={(e) => {
+                    setWinPlc({
+                      ...winPlc,
+                      user_amount: e.target.value,
+
+                      potential_amount:
+                        (betAmount - (betAmount * 28.18) / 100) * winPlc.value,
+                    });
                     setBetAmount(e.target.value);
                   }}
                 />
@@ -109,7 +115,7 @@ export const UserBetModal = ({
               <hr style={{ color: "#866afb" }} />
               <div className={styles["wallet-calc"]}>
                 <p>Potential Amount</p>
-                <p>+{(betAmount - (betAmount * 28.18) / 100) * winPlc}</p>
+                <p>+{(betAmount - (betAmount * 28.18) / 100) * winPlc.value}</p>
               </div>
               <div className={styles["wallet-button-wrapper"]}>
                 <Button
