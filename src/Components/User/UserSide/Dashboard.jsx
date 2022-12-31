@@ -25,7 +25,7 @@ export const Dashboard = () => {
     "Mysore",
     "Banglore",
   ]);
-  const [horces, setHorces] = useState();
+  const [horcesData, setHorcesData] = useState({});
   const [participants, setParticipants] = useState();
   const [stateWiseData, setStateWiseData] = useState([]);
   const auth = getAuth();
@@ -36,24 +36,24 @@ export const Dashboard = () => {
   const [userData, setUserData] = useState();
   const [adminData, setAdminData] = useState();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
       setParticipants(
         snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum].runners
       );
-      setStateWiseData(
-        snapshot.docs
-          .map((doc) => doc.data())[0]
-          .Allrace.filter((data) => {
-            if (data.vName.toLowerCase() == "Madras") {
-              return data;
-            }
-          })
-      );
-      setHorces(
-        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]
-      );
+      // setStateWiseData(
+      //   snapshot.docs
+      //     .map((doc) => doc.data())[0]
+      //     .Allrace.filter((data) => {
+      //       if (data.vName.toLowerCase() == "Madras") {
+      //         return data;
+      //       }
+      //     })
+      // );
+      // setHorces(
+      //   snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]
+      // );
     });
 
     // doc;
@@ -84,7 +84,11 @@ export const Dashboard = () => {
 
   const handleGetRace = (e) => {
     setParticipants(e.runners);
-    setHorces(e);
+    console.log(e);
+    setWinPlc({
+      race_number: e.raceNumber,
+      venue: e.vName,
+    });
   };
 
   return (
@@ -222,7 +226,13 @@ export const Dashboard = () => {
                           <button
                             className={styles["odds-button"]}
                             onClick={() => {
-                              setWinPlc(e.odds.WIN);
+                              setHorcesData(e);
+
+                              setWinPlc({
+                                ...winPlc,
+                                type: "WIN",
+                                value: e.odds.WIN,
+                              });
                               setWalletModal(true);
                             }}
                           >
@@ -231,7 +241,14 @@ export const Dashboard = () => {
                           <button
                             className={styles["bet-button"]}
                             onClick={() => {
-                              setWinPlc(e.odds.PLC);
+                              setHorcesData(e);
+                              console.log(e);
+
+                              setWinPlc({
+                                ...winPlc,
+                                type: "PLC",
+                                value: e.odds.PLS,
+                              });
                               setWalletModal(true);
                             }}
                           >
@@ -273,6 +290,7 @@ export const Dashboard = () => {
         setWalletModal={setWalletModal}
         winPlc={winPlc}
         userData={userData}
+        horcesData={horcesData}
         adminData={adminData}
       />
     </>

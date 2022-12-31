@@ -13,6 +13,7 @@
 .user-logout {
   color: red;
   margin-left: 15px;
+  cursor: pointer;
 }
 .user-balance-show {
   font-size: 14px;

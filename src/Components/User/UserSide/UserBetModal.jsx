@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "./Dashboard.module.css";
 import { db } from "../../../config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
 
 export const UserBetModal = ({
   walletModal,
@@ -9,8 +11,14 @@ export const UserBetModal = ({
   winPlc,
   userData,
   adminData,
+  horcesData,
 }) => {
+  const auth = getAuth();
+  const [user, loading, error] = useAuthState(auth);
+
   const [betAmount, setBetAmount] = useState(0);
+  console.log(horcesData, winPlc);
+  console.log(user);
 
   const handleSubmit = () => {
     if (Number(betAmount) < Number(userData.amount)) {
@@ -29,6 +37,20 @@ export const UserBetModal = ({
               amount: Number(adminData.amount) + Number(betAmount),
             })
             .then(function () {});
+        });
+      db.collection("participant")
+        .doc(user.uid)
+        .set({
+          data: {
+            user_id: user.uid,
+            race_no: winPlc.race_number,
+            venue: winPlc.venue,
+            jockey_name: horcesData.jockey.name,
+            user_amount: userData.amount,
+            odds_type: winPlc.type,
+            potential_amount: betAmount,
+            status: "disabled",
+          },
         });
     } else {
       console.log("not");
@@ -49,7 +71,7 @@ export const UserBetModal = ({
             <h4>Bet for you...</h4>
             <hr style={{ color: "#866afb" }} />
             <div className={styles["wallet-calc"]}>
-              <p>Odds - Win : {winPlc} </p>
+              <p>Odds - Win : {winPlc.value} </p>
               {Number(betAmount) < Number(userData.amount) ? (
                 <p>Your Bet Amount : {betAmount}</p>
               ) : (

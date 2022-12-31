@@ -8,8 +8,10 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Context } from "../App";
 import { toast } from "react-hot-toast";
 import styles from "./Navbar.module.css";
+import { deleteAllCookies } from "../Hook/Cookies";
 
 export const NavbarCommon = () => {
+  const navigate = useNavigate();
   const auth = getAuth();
 
   const { toastData, setToastData } = useContext(Context);
@@ -25,6 +27,7 @@ export const NavbarCommon = () => {
         setUserData(res.data());
       });
   }, [user]);
+  console.log(userData);
 
   const openNav = () => {
     document.getElementById("mySidenav").style.width = "200px";
@@ -54,7 +57,17 @@ export const NavbarCommon = () => {
           <p className={styles["user-balance-show"]}>Total balance : </p>
           <p className={styles["user-balance-show"]}>{userData?.amount} ₹</p>
         </div>
-        <p className={styles["user-logout"]}>Log out</p>
+        <p
+          className={styles["user-logout"]}
+          onClick={() => {
+            signOut(auth).then((data) => {
+              navigate("/login");
+              deleteAllCookies();
+            });
+          }}
+        >
+          Log out
+        </p>
       </div>
       <div className={styles["navbar-div"]}>
         <span
