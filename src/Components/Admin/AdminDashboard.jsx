@@ -38,9 +38,6 @@ export const AdminDashboard = () => {
       setOddData(
         snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum].runners
       );
-      console.log(
-        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum].runners
-      );
     });
     // doc;
   }, []);
@@ -65,31 +62,26 @@ export const AdminDashboard = () => {
         const array = [];
         Object.values(data.data.racecard).map((data, index) => {
           return data.filter((item) => {
-            console.log(data);
             if (
               item.vName === "Mysore" ||
               item.vName === "Madras" ||
               item.vName === "MUMBAI" ||
               item.vName === "HYDERABAD" ||
               item.vName === "Delhi" ||
-              item.vName === "CALCUTTA"
+              item.vName === "Calcutta"
             ) {
               return array.push(item);
             }
           });
         });
-        console.log(array);
         setNewRace(array);
 
         db.collection("TimeData").doc("RaceData").update({ Allrace: array });
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const handleGetRace = async (e) => {
-    console.log(e);
     setSelectedState(e.raceTime);
     setOddData(e.runners);
   };
@@ -98,17 +90,35 @@ export const AdminDashboard = () => {
     <>
       <div>
         <Sidebar />
-
         <div className="user-data-tabel">
-          <p
+          <div
             style={{
-              marging: "0px",
+              display: "flex",
+              gap: "10px",
+              alignItems: "center",
+              height: "50px",
+              marginLeft: "15px",
             }}
           >
-            indiaRace data refresh button
-          </p>
-          <Button onClick={handleRefreshAPi}>refresh</Button>
-
+            <p
+              style={{
+                marginTop: "10px",
+                color: "black",
+              }}
+            >
+              Indian Race data
+            </p>
+            <Button
+              style={{
+                background: "#cdc6eb",
+                color: "black",
+                border: "1px solid black",
+              }}
+              onClick={handleRefreshAPi}
+            >
+              Refresh
+            </Button>
+          </div>
           <div className={styles["user-card-main"]}>
             {indiaRace?.map((e, index) => {
               return (
@@ -165,7 +175,6 @@ export const AdminDashboard = () => {
                           <FiEdit
                             onClick={(event) => {
                               event.preventDefault();
-                              console.log(index);
                               setModalShow(true);
                               setUseData(e);
                               setIndexNum(index);

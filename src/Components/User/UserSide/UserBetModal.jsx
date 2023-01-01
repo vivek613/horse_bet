@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "./Dashboard.module.css";
 import { db } from "../../../config/firebase";
@@ -11,27 +11,27 @@ export const UserBetModal = ({
   setWalletModal,
   userData,
   adminData,
-  horcesData,
 }) => {
   const { winPlc, setWinPlc } = useContext(Context);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
-
+  const [participantVivek, setParticipantVivek] = useState([]);
   const [betAmount, setBetAmount] = useState(0);
-  const [raceParticipantData, setRaceParcitipantData] = useState([]);
-  console.log(winPlc);
-  console.log(user);
+
+  // console.log(winPlc);
   useEffect(() => {
-    db.collection("participant").onSnapshot((snapshot) => {
-      setRaceParcitipantData(snapshot.docs.map((doc) => doc.data()));
-    });
-  }, []);
-  console.log(raceParticipantData);
+    db.collection("participant")
+      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .onSnapshot((snapshot) => {
+        // console.log(res.data().data.users);
+        setParticipantVivek(snapshot.data()?.data);
+      });
+  }, [user]);
+  // console.log(newBetEntry);
 
   const handleSubmit = () => {
-    console.log(winPlc);
     if (Number(betAmount) < Number(userData.amount)) {
-      raceParticipantData.push(winPlc);
+      // raceParticipantData.push(winPlc);
 
       db.collection("users")
         .doc(userData.uid)
@@ -50,9 +50,12 @@ export const UserBetModal = ({
             })
             .then(function () {});
         });
-      db.collection("participant").doc(user.uid).set(winPlc);
+      db.collection("participant")
+        .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+        .set({
+          data: [...participantVivek, winPlc],
+        });
     } else {
-      console.log("not");
     }
   };
 
@@ -94,7 +97,8 @@ export const UserBetModal = ({
                       user_amount: e.target.value,
 
                       potential_amount:
-                        (betAmount - (betAmount * 28.18) / 100) * winPlc.value,
+                        (e.target.value - (e.target.value * 28.18) / 100) *
+                        winPlc.value,
                     });
                     setBetAmount(e.target.value);
                   }}

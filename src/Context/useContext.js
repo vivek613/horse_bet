@@ -7,7 +7,7 @@ export const useContext = () => {
   const [winPlc, setWinPlc] = useState([]);
 
   const [indexNum, setIndexNum] = useState();
-  const [raceIndexNum, setRaceIndexNum] = useState(0);
+  const [raceIndexNum, setRaceIndexNum] = useState();
 
   const [admin, setAdmin] = useState({});
   return {

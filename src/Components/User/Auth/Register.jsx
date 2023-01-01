@@ -18,8 +18,6 @@ export const Register = () => {
   // const {} = useContext(Context);
   // const [user, loading, error] = useAuthState(auth);
 
-  // console.log(user, loading, error);
-
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
@@ -51,7 +49,6 @@ export const Register = () => {
         })
 
         .catch((error) => {
-          console.log(error);
           toast.error(` Wrong !${error?.message}`);
         });
     } catch (err) {
@@ -65,7 +62,6 @@ export const Register = () => {
 
   //   createUserWithEmailAndPassword(authentication, email, password).then(
   //     (data) => {
-  //       console.log(data);
   //       navigate("/login");
   //     }
   //   );

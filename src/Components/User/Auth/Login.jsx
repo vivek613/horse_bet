@@ -73,12 +73,9 @@ export const Login = () => {
           // }
         })
         .catch((error) => {
-          console.log(error);
           toast.error(` Wrong !${error?.message}`);
         });
     } catch (err) {
-      console.log(err);
-
       toast.error(` Wrong !${err?.message}`);
     }
   };
