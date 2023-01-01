@@ -81,7 +81,8 @@ export const AdminDashboard = () => {
               item.vName === "MUMBAI" ||
               item.vName === "HYDERABAD" ||
               item.vName === "Delhi" ||
-              item.vName === "Calcutta"
+              item.vName === "Calcutta" ||
+              item.vName === "Banglore"
             ) {
               return array.push(item);
             }
@@ -149,9 +150,9 @@ export const AdminDashboard = () => {
                   >
                     <Card.Body className={styles["user-card-body"]}>
                       <Card.Title>{`Race: ${e.raceNumber}`}</Card.Title>
-                      <Card.Text
-                        className={styles["user-simple-card-time"]}
-                      ></Card.Text>
+                      <Card.Text className={styles["user-simple-card-time"]}>
+                        {e.vName}
+                      </Card.Text>
                       <Card.Text className={styles["user-simple-card-hour"]}>
                         {e.raceTime}
                       </Card.Text>

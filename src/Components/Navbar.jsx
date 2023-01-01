@@ -52,7 +52,7 @@ export const NavbarCommon = () => {
         </a>
         <p className={styles["user-email"]}>{userData?.email}</p>
         <div className={styles["user-wallet"]}>
-          <p className={styles["user-balance-show"]}>Total balance : </p>
+          <p className={styles["user-balance-show"]}>Balance : </p>
           <p className={styles["user-balance-show"]}>{userData?.amount} ₹</p>
         </div>
         <p

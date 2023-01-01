@@ -55,7 +55,7 @@ export const Sidebar = () => {
           selected
           eventKey="charts"
           onClick={() => {
-            navigate(`/user/admin/bettable${user.uid}`);
+            navigate(`/user/admin/bettable/${user.uid}`);
           }}
         >
           <NavIcon style={{ opacity: "1" }}>

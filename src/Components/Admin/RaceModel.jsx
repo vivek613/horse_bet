@@ -12,12 +12,13 @@ const RaceModel = (props) => {
     indexNum,
     indiaRace,
     raceIndexNum,
-    setRaceIndexNums,
+    setRaceIndexNum,
     setIndiaRace,
   } = useContext(Context);
 
   const handleSubmit = async (user) => {
     db.collection("TimeData").doc("RaceData").update({ Allrace: indiaRace });
+    setRaceIndexNum(0);
     // db.collection("users")
     //   .doc(userData.uid)
     //   .update(userData)

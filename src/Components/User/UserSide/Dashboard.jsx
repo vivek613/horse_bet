@@ -135,7 +135,11 @@ export const Dashboard = () => {
             return (
               <>
                 <Card
-                  className={styles["user-simple-card"]}
+                  className={
+                    raceIndexNum === e.raceNumber - 1
+                      ? styles["user-simple-card-select"]
+                      : styles["user-simple-card"]
+                  }
                   onClick={() => {
                     handleGetRace(e);
                     setRaceIndexNum(index);

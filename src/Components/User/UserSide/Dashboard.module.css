@@ -42,7 +42,7 @@
   display: inline-block;
   margin: 15px 0px 15px 15px;
   scroll-behavior: smooth;
-  border: 3px solid dodgerblue;
+  border: 3px solid #cdc6eb;
 }
 .user-simple-card-time {
   margin: 0px;

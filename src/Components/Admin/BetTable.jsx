@@ -18,6 +18,7 @@ const BetTable = () => {
     userData,
     betData,
     setBetData,
+    raceIndexNum,
     setRaceIndexNum,
     amountData,
     setAmountData,
@@ -49,11 +50,6 @@ const BetTable = () => {
               return (
                 <>
                   <Card
-                    className={
-                      selectedState === e.raceTime
-                        ? styles["user-simple-card-select"]
-                        : styles["user-simple-card"]
-                    }
                     onClick={() => {
                       // handleGetRace(e);
                       setRaceWiseBetData(
