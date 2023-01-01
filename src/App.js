@@ -8,6 +8,7 @@ import { useContext } from "./Context/useContext";
 
 import { createContext } from "react";
 import User from "./Components/Admin/User";
+import BetTable from "./Components/Admin/BetTable";
 
 export const Context = createContext(useContext);
 function App() {
@@ -23,8 +24,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             {/* <Route path="/dashboard/:id" element={<Dashboard />} /> */}
 
-            <Route path="/user/admin" element={<AdminDashboard />} />
-            <Route path="/user/admin/usertable" element={<User />} />
+            <Route path="/user/admin/:id" element={<AdminDashboard />} />
+            <Route path="/user/admin/usertable/:id" element={<User />} />
+            <Route path="/user/admin/bettable/:id" element={<BetTable />} />
           </Routes>
         </Context.Provider>
       </BrowserRouter>

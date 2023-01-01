@@ -53,4 +53,8 @@ th {
   overflow-y: scroll;
   width: 100%;
 }
-
+.status-form-div{
+  display: flex;
+    align-items: center;
+    justify-content: space-around;
+}

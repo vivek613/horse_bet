@@ -18,21 +18,16 @@ export const UserBetModal = ({
   const [participantVivek, setParticipantVivek] = useState([]);
   const [betAmount, setBetAmount] = useState(0);
 
-  // console.log(winPlc);
   useEffect(() => {
     db.collection("participant")
       .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
       .onSnapshot((snapshot) => {
-        // console.log(res.data().data.users);
         setParticipantVivek(snapshot.data()?.data);
       });
   }, [user]);
-  // console.log(newBetEntry);
 
   const handleSubmit = () => {
     if (Number(betAmount) < Number(userData.amount)) {
-      // raceParticipantData.push(winPlc);
-
       db.collection("users")
         .doc(userData.uid)
         .update({

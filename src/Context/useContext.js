@@ -5,6 +5,8 @@ export const useContext = () => {
   const [indiaRace, setIndiaRace] = useState([]);
   const [userData, setUseData] = useState({});
   const [winPlc, setWinPlc] = useState([]);
+  const [betData, setBetData] = useState();
+  const [amountData, setAmountData] = useState({});
 
   const [indexNum, setIndexNum] = useState();
   const [raceIndexNum, setRaceIndexNum] = useState();
@@ -25,5 +27,9 @@ export const useContext = () => {
     setRaceIndexNum,
     winPlc,
     setWinPlc,
+    betData,
+    setBetData,
+    amountData,
+    setAmountData,
   };
 };

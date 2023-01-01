@@ -12,10 +12,16 @@ import { Sidebar } from "./Sidebar";
 import { FiEdit } from "react-icons/fi";
 import RaceModel from "./RaceModel";
 import { useNavigate } from "react-router";
+import { getCookie } from "../../Hook/Cookies";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 // Be sure to include styles at some point, probably during your bootstraping
 
 export const AdminDashboard = () => {
+  const auth = getAuth();
+
+  const [user, loading, error] = useAuthState(auth);
   const {
     setHorseData,
     indiaRace,
@@ -40,6 +46,13 @@ export const AdminDashboard = () => {
       );
     });
     // doc;
+  }, []);
+  useEffect(() => {
+    if (getCookie("access_token")) {
+      navigate(`/user/admin/${user.uid}`);
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   const handleRefreshAPi = async (e) => {

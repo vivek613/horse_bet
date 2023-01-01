@@ -54,7 +54,7 @@ const User = () => {
                 <th>user id</th>
                 <th>email</th>
                 <th>amount</th>
-                <th>admin</th>
+                {/* <th>admin</th> */}
                 <th>edit</th>
               </tr>
             </thead>
@@ -62,10 +62,10 @@ const User = () => {
               {table?.map((e, index) => {
                 return (
                   <tr index={index}>
-                    <td>{e.id}</td>
+                    <td>{e.uid}</td>
                     <td>{e.email}</td>
                     <td>{e.amount}</td>
-                    <td>{`${e.admin} `}</td>
+                    {/* <td>{`${e.admin} `}</td> */}
                     <td>
                       <FiEdit
                         onClick={(event) => {

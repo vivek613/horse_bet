@@ -36,8 +36,8 @@ export const Login = () => {
       const q = query(citiesRef, where("uid", "==", currentUser?.uid));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        doc.data().admin === true
-          ? navigate("/user/admin")
+        doc.data().uid === "eecYvXE0OXOczXQAodjzfjZ89ry2"
+          ? navigate(`/user/admin/${doc.data().uid}`)
           : navigate("/dashboard");
       });
     });
