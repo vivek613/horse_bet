@@ -50,6 +50,7 @@ const BetTable = () => {
               return (
                 <>
                   <Card
+                    className={styles["user-simple-card"]}
                     onClick={() => {
                       // handleGetRace(e);
                       setRaceWiseBetData(
