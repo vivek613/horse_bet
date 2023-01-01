@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "./Dashboard.module.css";
 import { db } from "../../../config/firebase";
@@ -15,12 +15,32 @@ export const UserBetModal = ({
 }) => {
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
-
+  const [participantVivek, setParticipantVivek] = useState([]);
   const [betAmount, setBetAmount] = useState(0);
-  console.log(horcesData, winPlc);
-  console.log(user);
+  const [newBetEntry, setnewBetEntry] = useState({
+    jockey_name: horcesData?.jockey?.name,
+    odds_type: winPlc?.type,
+    potential_amount: (betAmount - (betAmount * 28.18) / 100) * winPlc.value,
+    race_no: winPlc?.race_number,
+    status: "disabled",
+    user_amount: userData?.amount - betAmount,
+    user_id: user?.uid,
+    venue: winPlc?.venue,
+  });
+
+  useEffect(() => {
+    db.collection("participant")
+      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .get()
+      .then((res) => {
+        setParticipantVivek(res.data()?.data?.users);
+      });
+  }, [user]);
+
+  console.log("participant", participantVivek);
 
   const handleSubmit = () => {
+    // setParticipantVivek([...participantVivek, newBetEntry]);
     if (Number(betAmount) < Number(userData.amount)) {
       db.collection("users")
         .doc(userData.uid)
@@ -39,21 +59,22 @@ export const UserBetModal = ({
             .then(function () {});
         });
       db.collection("participant")
-        .doc(user.uid)
+        .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
         .set({
           data: {
-            user_id: user.uid,
-            race_no: winPlc.race_number,
-            venue: winPlc.venue,
             jockey_name: horcesData.jockey.name,
-            user_amount: userData.amount,
             odds_type: winPlc.type,
-            potential_amount: betAmount,
+            potential_amount:
+              (betAmount - (betAmount * 28.18) / 100) * winPlc.value,
+            race_no: winPlc.race_number,
             status: "disabled",
+            user_amount: userData.amount - betAmount,
+            user_id: user.uid,
+            users: [...participantVivek, newBetEntry],
+            venue: winPlc.venue,
           },
         });
     } else {
-      console.log("not");
     }
   };
 
@@ -109,7 +130,7 @@ export const UserBetModal = ({
               <hr style={{ color: "#866afb" }} />
               <div className={styles["wallet-calc"]}>
                 <p>Potential Amount</p>
-                <p>+{(betAmount - (betAmount * 28.18) / 100) * winPlc}</p>
+                <p>+{(betAmount - (betAmount * 28.18) / 100) * winPlc.value}</p>
               </div>
               <div className={styles["wallet-button-wrapper"]}>
                 <Button

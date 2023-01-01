@@ -22,12 +22,10 @@ export const NavbarCommon = () => {
   useEffect(() => {
     db.collection("users")
       .doc(user?.uid)
-      .get()
-      .then((res) => {
-        setUserData(res.data());
+      .onSnapshot((snapshot) => {
+        setUserData(snapshot.data());
       });
   }, [user]);
-  console.log(userData);
 
   const openNav = () => {
     document.getElementById("mySidenav").style.width = "200px";

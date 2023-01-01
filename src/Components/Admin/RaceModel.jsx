@@ -26,7 +26,6 @@ const RaceModel = (props) => {
     // AddDataToFirebase(formData);
     props.onHide();
   };
-  console.log("props.data", indiaRace);
 
   return (
     <Modal
@@ -63,7 +62,6 @@ const RaceModel = (props) => {
                 const array1 = [...indiaRace];
                 array1[raceIndexNum].runners[indexNum].odds.WIN =
                   e.target.value;
-                console.log(array1);
                 setIndiaRace(array1);
               }}
             />
@@ -83,7 +81,6 @@ const RaceModel = (props) => {
                 const array1 = [...indiaRace];
                 array1[raceIndexNum].runners[indexNum].odds.PLC =
                   e.target.value;
-                console.log(array1);
                 setIndiaRace(array1);
               }}
             />

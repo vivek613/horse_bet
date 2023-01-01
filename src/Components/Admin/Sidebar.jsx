@@ -15,6 +15,7 @@ export const Sidebar = () => {
   const navigate = useNavigate();
   return (
     <SideNav
+      style={{ background: "#cdc6eb" }}
       onSelect={(selected) => {
         // Add your code here
       }}
@@ -27,10 +28,10 @@ export const Sidebar = () => {
             navigate("/user/admin/usertable");
           }}
         >
-          <NavIcon>
-            <FaUserAlt />
+          <NavIcon style={{ opacity: "1" }}>
+            <FaUserAlt style={{ fill: "black" }} />
           </NavIcon>
-          <NavText>User</NavText>
+          <NavText style={{ color: "black" }}>User</NavText>
         </NavItem>
         <NavItem
           selected
@@ -39,10 +40,10 @@ export const Sidebar = () => {
             navigate("/user/admin");
           }}
         >
-          <NavIcon>
-            <MdAccessTimeFilled />
+          <NavIcon style={{ opacity: "1" }}>
+            <MdAccessTimeFilled style={{ fill: "black" }} />
           </NavIcon>
-          <NavText>Time Data</NavText>
+          <NavText style={{ color: "black" }}>Time Data</NavText>
         </NavItem>
       </SideNav.Nav>
     </SideNav>

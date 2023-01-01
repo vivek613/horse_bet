@@ -30,7 +30,7 @@ export const Dashboard = () => {
   const [stateWiseData, setStateWiseData] = useState([]);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
-  const [selectedState, setSelectedState] = useState("Madras");
+  const [selectedState, setSelectedState] = useState("");
   const [walletModal, setWalletModal] = useState(false);
   const [winPlc, setWinPlc] = useState(0);
   const [userData, setUserData] = useState();
@@ -40,7 +40,7 @@ export const Dashboard = () => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
       setParticipants(
-        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum].runners
+        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]?.runners
       );
       // setStateWiseData(
       //   snapshot.docs
@@ -84,7 +84,6 @@ export const Dashboard = () => {
 
   const handleGetRace = (e) => {
     setParticipants(e.runners);
-    console.log(e);
     setWinPlc({
       race_number: e.raceNumber,
       venue: e.vName,
@@ -227,7 +226,6 @@ export const Dashboard = () => {
                             className={styles["odds-button"]}
                             onClick={() => {
                               setHorcesData(e);
-
                               setWinPlc({
                                 ...winPlc,
                                 type: "WIN",
@@ -242,12 +240,10 @@ export const Dashboard = () => {
                             className={styles["bet-button"]}
                             onClick={() => {
                               setHorcesData(e);
-                              console.log(e);
-
                               setWinPlc({
                                 ...winPlc,
                                 type: "PLC",
-                                value: e.odds.PLS,
+                                value: e.odds.PLC,
                               });
                               setWalletModal(true);
                             }}
