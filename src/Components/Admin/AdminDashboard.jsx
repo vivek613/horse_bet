@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 import { getCookie } from "../../Hook/Cookies";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-hot-toast";
 
 // Be sure to include styles at some point, probably during your bootstraping
 
@@ -37,19 +38,20 @@ export const AdminDashboard = () => {
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
   const [selectedState, setSelectedState] = useState(true);
-
+  console.log(user);
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
       setOddData(
-        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum].runners
+        snapshot.docs.map((doc) => doc.data())[0]?.Allrace[raceIndexNum]
+          ?.runners
       );
     });
     // doc;
   }, []);
   useEffect(() => {
     if (getCookie("access_token")) {
-      navigate(`/user/admin/${user.uid}`);
+      navigate(`/user/admin/${user?.uid}`);
     } else {
       navigate("/login");
     }
@@ -57,47 +59,41 @@ export const AdminDashboard = () => {
 
   const handleRefreshAPi = async (e) => {
     e.preventDefault();
-    // axios.get("http://localhost:5000/api/allDataForCountry").then((res) => {
-    //   setHorseData(res?.data?.data);
 
-    //   const taskDocRef = doc(db, "horsedata", "NXXo7iy7JLCkcaIO47O3");
-    //   try {
-    //     updateDoc(taskDocRef, {
-    //       todo: res?.data?.data,
-    //     });
-    //   } catch (err) {
-    //     alert(err);
-    //   }
-    // });
-    axios
-      .get("https://node.rwitc.com:3002/data/racecard.json")
-      .then((data) => {
-        const array = [];
-        Object.values(data.data.racecard).map((data, index) => {
-          return data.filter((item) => {
-            if (
-              item.vName.toLowerCase() === "mysore" ||
-              item.vName.toLowerCase() === "madras" ||
-              item.vName.toLowerCase() === "mumbai" ||
-              item.vName.toLowerCase() === "hyderabad" ||
-              item.vName.toLowerCase() === "delhi" ||
-              item.vName.toLowerCase() === "calcutta" ||
-              item.vName.toLowerCase() === "banglore"
-            ) {
-              return array.push(item);
-            }
-          });
+    axios.get("https://node.rwitc.com:3002/data/racecard.json").then((data) => {
+      const array = [];
+      Object.values(data.data.racecard).map((data, index) => {
+        return data.filter((item) => {
+          if (
+            item.vName.toLowerCase() === "mysore" ||
+            item.vName.toLowerCase() === "madras" ||
+            item.vName.toLowerCase() === "mumbai" ||
+            item.vName.toLowerCase() === "hyderabad" ||
+            item.vName.toLowerCase() === "delhi" ||
+            item.vName.toLowerCase() === "calcutta" ||
+            item.vName.toLowerCase() === "bangalore"
+          ) {
+            return array.push(item);
+          }
         });
-        setNewRace(array);
+      });
+      setNewRace(array);
 
-        db.collection("TimeData").doc("RaceData").update({ Allrace: array });
-      })
-      .catch((error) => {});
+      db.collection("TimeData")
+        .doc("RaceData")
+        .update({ Allrace: array })
+        .then((data) => {
+          toast.success(`update Succesfully `);
+        });
+    });
   };
 
   const handleGetRace = async (e) => {
     setSelectedState(e.raceTime);
     setOddData(e.runners);
+  };
+  const handleBetDelete = () => {
+    db.collection("participant").doc("eecYvXE0OXOczXQAodjzfjZ89ry2").delete();
   };
 
   return (
@@ -129,6 +125,24 @@ export const AdminDashboard = () => {
                 border: "1px solid black",
               }}
               onClick={handleRefreshAPi}
+            >
+              Refresh
+            </Button>
+            <p
+              style={{
+                marginTop: "10px",
+                color: "black",
+              }}
+            >
+              Bet Data Delete
+            </p>
+            <Button
+              style={{
+                background: "#cdc6eb",
+                color: "black",
+                border: "1px solid black",
+              }}
+              onClick={handleBetDelete}
             >
               Refresh
             </Button>
@@ -168,7 +182,7 @@ export const AdminDashboard = () => {
             <Table bordered hover>
               <thead>
                 <tr>
-                  {/* <th>user id</th> */}
+                  <th>horce num</th>
                   <th>jockey</th>
                   <th>trainer</th>
                   <th>Win</th>
@@ -181,7 +195,7 @@ export const AdminDashboard = () => {
                   oddData?.map((e, index) => {
                     return (
                       <tr index={index}>
-                        {/* <td>{e.uid}</td> */}
+                        <td>{e.position}</td>
                         <td>{e.jockey.name}</td>
                         <td>{e.trainer.name}</td>
                         <td>{e.odds.FOWIN}</td>

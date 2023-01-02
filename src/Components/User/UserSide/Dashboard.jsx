@@ -40,8 +40,7 @@ export const Dashboard = () => {
   const [walletModal, setWalletModal] = useState(false);
   const [userData, setUserData] = useState();
   const [adminData, setAdminData] = useState();
-  const [raceStatus, setRaceStatus] = useState("");
-  const [resultOfRace, setResultOfRace] = useState("");
+  const [resultData, setResultData] = useState([]);
 
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
@@ -53,7 +52,7 @@ export const Dashboard = () => {
   }, []);
   useEffect(() => {
     db.collection("users")
-      .doc("hMPGPOkqNQQvRxUD0NuW0oc1U6v1")
+      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
       .get()
       .then((res) => {
         setAdminData(res.data());
@@ -76,8 +75,9 @@ export const Dashboard = () => {
   }, []);
 
   const handleGetRace = (e) => {
-    setRaceStatus(e.status);
-    setParticipants(e.runners);
+    setParticipants(e);
+    e.status === "DRL" && setResultData(e.statusView.split("-").slice(0, -1));
+    console.log(e);
     setWinPlc({
       ...winPlc,
       user_id: user.uid,
@@ -85,7 +85,7 @@ export const Dashboard = () => {
       venue: e.vName,
       status: "disabled",
     });
-    setResultOfRace(e?.poolResults[5]?.winner);
+    // setResultOfRace(e?.poolResults[5]?.winner);
   };
 
   return (
@@ -149,28 +149,67 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        {/* <p className={styles["user-race-title"]}>Race Details :</p>
-        <Card className={styles["race-details-card"]}>
-          <Card.Body className={styles["race-id-main"]}>
-            <div>
-              <Card style={{ height: "100%" }}>
-                <Card.Body>
-                  <Card.Title>{horces?.raceNumber}</Card.Title>
-                </Card.Body>
-              </Card>
-            </div>
-            <Card className={styles["selected-race-data"]}>
-              <Card.Body>
-                <Card.Text>{horces?.name}</Card.Text>
-                <Card.Text>Venue: {horces?.vName}</Card.Text>
-                <Card.Text>Distance: {horces?.length}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Card.Body>
-        </Card> */}
         {participants && participants ? (
           <>
-            <Card style={{ margin: "15px", border: "none" }}>
+            <p className={styles["user-race-title"]}>Race Details :</p>
+            <Card className={styles["race-details-card"]}>
+              <Card.Body className={styles["race-id-main"]}>
+                <div>
+                  <Card style={{ height: "100%" }}>
+                    <Card.Body>
+                      <Card.Title>{participants?.raceNumber}</Card.Title>
+                    </Card.Body>
+                  </Card>
+                </div>
+                <Card className={styles["selected-race-data"]}>
+                  <Card.Body className={styles["race-details-div"]}>
+                    <span className={styles["race-details-span"]}>
+                      {participants?.name}
+                    </span>
+                    <span className={styles["race-details-span"]}>
+                      Distance: {participants?.length}
+                    </span>
+                    <span
+                      style={{
+                        background:
+                          participants?.status === "DRL"
+                            ? "#f44336"
+                            : participants?.status === "STP"
+                            ? "Stop"
+                            : "#1976d2",
+                        textAlign: "center",
+                        borderRadius: "7px",
+                      }}
+                    >
+                      {participants?.status === "DRL"
+                        ? "completed"
+                        : participants?.status === "STP"
+                        ? "Stop"
+                        : "oppening"}
+                    </span>
+                  </Card.Body>
+                  <div></div>
+                  {participants?.status === "DRL" && (
+                    <Card.Body className={styles["results-div"]}>
+                      {resultData?.map((item, index) => {
+                        return (
+                          <div className={styles["jersey-div"]}>
+                            <span className={styles["horce-num"]}>
+                              {index + 1}
+                              <sup>st</sup>
+                            </span>
+
+                            <small className={styles["draw-num"]}>{item}</small>
+                          </div>
+                        );
+                      })}
+                    </Card.Body>
+                  )}
+                </Card>
+              </Card.Body>
+            </Card>
+            <p className={styles["user-race-title"]}>Participant Horces :</p>
+            <Card style={{ marginLeft: "8px", border: "none" }}>
               <Card.Body style={{ padding: "0px", width: "calc(100% - 2px)" }}>
                 <div
                   style={{
@@ -196,21 +235,29 @@ export const Dashboard = () => {
               </Card.Body>
             </Card>
             <div className={styles["user-horce-card"]}>
-              {participants?.map((e) => {
+              {participants?.runners?.map((e) => {
                 return (
                   <>
                     <Card style={{ width: "calc(100% - 2px)" }}>
                       <Card.Body className={styles["horce-card-body"]}>
-                        <div>
-                          <div className={styles["jersey-div"]}>
-                            <p style={{ margin: "0px" }}>{e.position}</p>
+                        <div className={styles["horce-data-div"]}>
+                          <div
+                            className={styles["jersey-div"]}
+                            style={{
+                              marginRight: "15px",
+                              height: "74px",
+                            }}
+                          >
+                            <span className={styles["horce-num"]}>
+                              {e.position}
+                            </span>
                             <img
+                              className={styles["jersey-image"]}
                               src={e.jerseyUrl}
-                              style={{
-                                height: "50px",
-                                width: "50px",
-                              }}
                             ></img>
+                            <small
+                              className={styles["draw-num"]}
+                            >{`(${e.drawNumber})`}</small>
                           </div>
                           <div className={styles["details-div"]}>
                             <div className={styles["horce-card-prs-name"]}>
@@ -226,62 +273,86 @@ export const Dashboard = () => {
                             <div
                               class="text-red-9"
                               style={{
-                                fontSize: "14px",
+                                fontSize: "10px",
                                 display: "flex",
                                 justifyContent: "space-between",
+                                flexDirection: "column",
                               }}
                             >
-                              <span className={styles["jockey-icons"]}>J</span>
                               <span className={styles["jockey-details"]}>
+                                <span className={styles["jockey-icons"]}>
+                                  J
+                                </span>{" "}
                                 {e.jockey.name}
                               </span>
-                              <span class={styles["trainer-icons"]}>T</span>
+
                               <span className={styles["trainer-details"]}>
+                                <span class={styles["trainer-icons"]}>T</span>
                                 {e.trainer.name}
                               </span>
                             </div>
                           </div>
                         </div>
-                        {raceStatus !== "DRL" && (
-                          <div
+                        <div
+                          style={{
+                            width: "125px",
+                            position: "absolute",
+                            right: "0",
+                          }}
+                        >
+                          <button
+                            disabled={
+                              participants.status === "DRL" || "STP"
+                                ? true
+                                : false
+                            }
                             style={{
-                              width: "125px",
-                              position: "absolute",
-                              right: "0",
+                              cursor:
+                                participants.status === "DRL" || "STP"
+                                  ? "not-allowed"
+                                  : "pointer",
+                            }}
+                            className={styles["odds-button"]}
+                            onClick={() => {
+                              setHorcesData(e);
+                              setWinPlc({
+                                ...winPlc,
+                                type: "WIN",
+                                value: e.odds.FOWIN,
+                                jockey_name: e.jockey.name,
+                              });
+                              setWalletModal(true);
                             }}
                           >
-                            <button
-                              className={styles["odds-button"]}
-                              onClick={() => {
-                                setHorcesData(e);
-                                setWinPlc({
-                                  ...winPlc,
-                                  type: "WIN",
-                                  value: e.odds.FOWIN,
-                                  jockey_name: e.jockey.name,
-                                });
-                                setWalletModal(true);
-                              }}
-                            >
-                              {e.odds.FOWIN}
-                            </button>
-                            <button
-                              className={styles["bet-button"]}
-                              onClick={() => {
-                                setHorcesData(e);
-                                setWinPlc({
-                                  ...winPlc,
-                                  type: "PLC",
-                                  value: e.odds.FOPLC,
-                                  jockey_name: e.jockey.name,
-                                });
-                                setWalletModal(true);
-                              }}
-                            >
-                              {e.odds.FOPLC}
-                            </button>
-                          </div>
-                        )}
+                            {e.odds.FOWIN}
+                          </button>
+                          <button
+                            disabled={
+                              participants.status === "DRL" || "STP"
+                                ? true
+                                : false
+                            }
+                            style={{
+                              cursor:
+                                participants.status === "DRL" || "STP"
+                                  ? "not-allowed"
+                                  : "pointer",
+                            }}
+                            className={styles["bet-button"]}
+                            onClick={() => {
+                              setHorcesData(e);
+                              setWinPlc({
+                                ...winPlc,
+                                type: "PLC",
+                                value: e.odds.FOPLC,
+                                jockey_name: e.jockey.name,
+                              });
+                              setWalletModal(true);
+                            }}
+                          >
+                            {e.odds.FOPLC}
+                          </button>
+                        </div>
                       </Card.Body>
                     </Card>
                   </>

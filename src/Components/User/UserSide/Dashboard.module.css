@@ -21,7 +21,7 @@
   height: 900px;
   overflow-y: auto;
   gap: 7px;
-  margin: 15px;
+  margin: 5px;
 }
 .user-simple-card-body {
   width: 400px;
@@ -58,6 +58,7 @@
   display: flex;
   gap: 5px;
   margin: 0px;
+  padding: 3px;
 }
 .race-details-card {
   background: transparent;
@@ -113,11 +114,18 @@
 .jersey-div {
   margin-right: 12px;
   display: flex;
-  gap: 5px;
-  align-items: center;
+  width: 40px;
+  height: 54px;
+  border: 1px solid #cdc6eb;
+  border-radius: 5px;
+  flex-direction: column;
+ 
+  overflow: hidden;
 }
 .selected-race-data {
-  width: 100%;
+  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 0.05), 0 6px 20px 0 rgb(0 0 0 / 0.08);
 }
 .race-status-completed {
@@ -187,4 +195,52 @@
 .wallet-button-wrapper {
   display: flex;
   gap: 10px;
+}
+.horce-num{
+  background: #cdc6eb;
+    width: 100%;
+    float: left;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+}
+.jersey-image{
+  height: 28px;
+    float: left;
+    margin: 5px 0 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.draw-num{
+  width: 100%;
+    float: left;
+    text-align: center;
+    color: #152a47;
+    font-size: 12px;
+    margin-top: 2px;
+}
+.horce-data-div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.race-details-div{
+      padding: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.results-div{
+  display: flex;
+  /* flex-wrap: nowrap; */
+  padding: 8px 11px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 7px;
+
+}
+.race-details-span{
+  font-size: .75rem;
+    line-height: 1rem;
 }
