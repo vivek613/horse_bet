@@ -180,15 +180,30 @@ export const Dashboard = () => {
         </Card> */}
         {participants && participants ? (
           <>
-            <p className={styles["user-race-title"]}>Participant Horces :</p>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <p className={styles["user-race-title"]}>Horces :</p>
+              <div style={{ display: "flex" }}>
+                <p className={styles["user-race-title"]}>Win</p>
+                <p className={styles["user-race-title"]}>Plc</p>
+              </div>
+            </div>
             <div className={styles["user-horce-card"]}>
               {participants?.map((e) => {
+                {
+                  console.log("new---------", e);
+                }
                 return (
                   <>
                     <Card style={{ width: "calc(100% - 2px)" }}>
                       <Card.Body className={styles["horce-card-body"]}>
                         <div>
                           <div className={styles["jersey-div"]}>
+                            <p style={{ margin: "0px" }}>{e.position}</p>
                             <img
                               src={e.jerseyUrl}
                               style={{
@@ -206,7 +221,7 @@ export const Dashboard = () => {
                                 fontSize: "15px",
                               }}
                             >
-                              Wt = {e.weight} , draw : #{e.rating}
+                              Wt = {e.weight} , draw : #{e.drawNumber}
                             </div>
                             <div
                               class="text-red-9"
@@ -241,13 +256,13 @@ export const Dashboard = () => {
                               setWinPlc({
                                 ...winPlc,
                                 type: "WIN",
-                                value: e.odds.WIN,
+                                value: e.odds.FOWIN,
                                 jockey_name: e.jockey.name,
                               });
                               setWalletModal(true);
                             }}
                           >
-                            {e.odds.WIN}
+                            {e.odds.FOWIN}
                           </button>
                           <button
                             className={styles["bet-button"]}
@@ -256,13 +271,13 @@ export const Dashboard = () => {
                               setWinPlc({
                                 ...winPlc,
                                 type: "PLC",
-                                value: e.odds.PLC,
+                                value: e.odds.FOPLC,
                                 jockey_name: e.jockey.name,
                               });
                               setWalletModal(true);
                             }}
                           >
-                            {e.odds.PLC}
+                            {e.odds.FOPLC}
                           </button>
                         </div>
                       </Card.Body>

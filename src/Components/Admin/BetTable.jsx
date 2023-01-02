@@ -51,6 +51,7 @@ const BetTable = () => {
                 <>
                   <Card
                     className={styles["user-simple-card"]}
+                    style={{ cursor: "pointer" }}
                     onClick={() => {
                       // handleGetRace(e);
                       setRaceWiseBetData(

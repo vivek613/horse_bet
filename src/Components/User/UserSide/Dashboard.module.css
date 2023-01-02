@@ -111,6 +111,9 @@
 }
 .jersey-div {
   margin-right: 12px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
 }
 .selected-race-data {
   width: 100%;
@@ -126,6 +129,11 @@
   margin: 10px 0px;
 }
 .state-array {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  transition: 5s all ease;
   display: flex;
   gap: 1px;
   padding: 15px 15px 0px 15px;

@@ -76,13 +76,13 @@ export const AdminDashboard = () => {
         Object.values(data.data.racecard).map((data, index) => {
           return data.filter((item) => {
             if (
-              item.vName === "Mysore" ||
-              item.vName === "Madras" ||
-              item.vName === "MUMBAI" ||
-              item.vName === "HYDERABAD" ||
-              item.vName === "Delhi" ||
-              item.vName === "Calcutta" ||
-              item.vName === "Banglore"
+              item.vName.toLowerCase() === "mysore" ||
+              item.vName.toLowerCase() === "madras" ||
+              item.vName.toLowerCase() === "mumbai" ||
+              item.vName.toLowerCase() === "hyderabad" ||
+              item.vName.toLowerCase() === "delhi" ||
+              item.vName.toLowerCase() === "calcutta" ||
+              item.vName.toLowerCase() === "banglore"
             ) {
               return array.push(item);
             }
@@ -143,6 +143,7 @@ export const AdminDashboard = () => {
                         ? styles["user-simple-card-select"]
                         : styles["user-simple-card"]
                     }
+                    style={{ cursor: "pointer" }}
                     onClick={() => {
                       handleGetRace(e);
                       setRaceIndexNum(index);
@@ -183,8 +184,8 @@ export const AdminDashboard = () => {
                         {/* <td>{e.uid}</td> */}
                         <td>{e.jockey.name}</td>
                         <td>{e.trainer.name}</td>
-                        <td>{e.odds.WIN}</td>
-                        <td>{e.odds.PLC}</td>
+                        <td>{e.odds.FOWIN}</td>
+                        <td>{e.odds.FOPLC}</td>
                         <td>
                           <FiEdit
                             onClick={(event) => {

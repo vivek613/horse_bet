@@ -90,31 +90,17 @@ export const UserBetModal = ({
                     setWinPlc({
                       ...winPlc,
                       user_amount: e.target.value,
-
-                      potential_amount:
-                        (e.target.value - (e.target.value * 28.18) / 100) *
-                        winPlc.value,
+                      potential_amount: e.target.value * winPlc.value,
                     });
                     setBetAmount(e.target.value);
                   }}
                 />
               </Form.Group>
-              <div className={styles["wallet-calc"]}>
-                <p>Win Faces Amount :</p>
-                <p>+ {betAmount - (betAmount * 28.18) / 100}</p>
-              </div>
-              <div className={styles["wallet-calc"]}>
-                <p>GST(14.09%) :</p>
-                <p>+ {(betAmount * 14.09) / 100}</p>
-              </div>
-              <div className={styles["wallet-calc"]}>
-                <p>CGST(14.09%) :</p>
-                <p>+ {(betAmount * 14.09) / 100}</p>
-              </div>
+
               <hr style={{ color: "#866afb" }} />
               <div className={styles["wallet-calc"]}>
                 <p>Potential Amount</p>
-                <p>+{(betAmount - (betAmount * 28.18) / 100) * winPlc.value}</p>
+                <p>+{betAmount * winPlc.value}</p>
               </div>
               <div className={styles["wallet-button-wrapper"]}>
                 <Button

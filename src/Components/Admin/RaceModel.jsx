@@ -55,13 +55,13 @@ const RaceModel = (props) => {
               required
               placeholder="Enter prize"
               defaultValue={
-                indiaRace[raceIndexNum]?.runners[indexNum]?.odds.WIN
+                indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOWIN
               }
-              value={indiaRace[raceIndexNum]?.runners[indexNum]?.odds.WIN}
+              value={indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOWIN}
               onChange={(e) => {
                 // setUseData({ ...userData, amount: e.target.value });
                 const array1 = [...indiaRace];
-                array1[raceIndexNum].runners[indexNum].odds.WIN =
+                array1[raceIndexNum].runners[indexNum].odds.FOWIN =
                   e.target.value;
                 setIndiaRace(array1);
               }}
@@ -75,12 +75,12 @@ const RaceModel = (props) => {
               required
               placeholder="Enter prize"
               defaultValue={
-                indiaRace[raceIndexNum]?.runners[indexNum]?.odds.PLC
+                indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOPLC
               }
-              value={indiaRace[raceIndexNum]?.runners[indexNum]?.odds.PLC}
+              value={indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOPLC}
               onChange={(e) => {
                 const array1 = [...indiaRace];
-                array1[raceIndexNum].runners[indexNum].odds.PLC =
+                array1[raceIndexNum].runners[indexNum].odds.FOPLC =
                   e.target.value;
                 setIndiaRace(array1);
               }}
