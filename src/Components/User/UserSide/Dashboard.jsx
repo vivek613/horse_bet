@@ -40,6 +40,8 @@ export const Dashboard = () => {
   const [walletModal, setWalletModal] = useState(false);
   const [userData, setUserData] = useState();
   const [adminData, setAdminData] = useState();
+  const [raceStatus, setRaceStatus] = useState("");
+  const [resultOfRace, setResultOfRace] = useState("");
 
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
@@ -47,21 +49,7 @@ export const Dashboard = () => {
       setParticipants(
         snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]?.runners
       );
-      // setStateWiseData(
-      //   snapshot.docs
-      //     .map((doc) => doc.data())[0]
-      //     .Allrace.filter((data) => {
-      //       if (data.vName.toLowerCase() == "Madras") {
-      //         return data;
-      //       }
-      //     })
-      // );
-      // setHorces(
-      //   snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]
-      // );
     });
-
-    // doc;
   }, []);
   useEffect(() => {
     db.collection("users")
@@ -88,6 +76,7 @@ export const Dashboard = () => {
   }, []);
 
   const handleGetRace = (e) => {
+    setRaceStatus(e.status);
     setParticipants(e.runners);
     setWinPlc({
       ...winPlc,
@@ -96,6 +85,7 @@ export const Dashboard = () => {
       venue: e.vName,
       status: "disabled",
     });
+    setResultOfRace(e?.poolResults[5]?.winner);
   };
 
   return (
@@ -180,23 +170,33 @@ export const Dashboard = () => {
         </Card> */}
         {participants && participants ? (
           <>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <p className={styles["user-race-title"]}>Horces :</p>
-              <div style={{ display: "flex" }}>
-                <p className={styles["user-race-title"]}>Win</p>
-                <p className={styles["user-race-title"]}>Plc</p>
-              </div>
-            </div>
+            <Card style={{ margin: "15px", border: "none" }}>
+              <Card.Body style={{ padding: "0px", width: "calc(100% - 2px)" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ margin: "0px" }}>Horces :</p>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "10px",
+                      marginRight: "20px",
+                    }}
+                  >
+                    <p className={styles["user-race-title"]}>Win</p>
+                    <p className={styles["user-race-title"]}>Plc</p>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
             <div className={styles["user-horce-card"]}>
               {participants?.map((e) => {
-                {
-                  console.log("new---------", e);
-                }
                 return (
                   <>
                     <Card style={{ width: "calc(100% - 2px)" }}>
@@ -242,44 +242,46 @@ export const Dashboard = () => {
                             </div>
                           </div>
                         </div>
-                        <div
-                          style={{
-                            width: "125px",
-                            position: "absolute",
-                            right: "0",
-                          }}
-                        >
-                          <button
-                            className={styles["odds-button"]}
-                            onClick={() => {
-                              setHorcesData(e);
-                              setWinPlc({
-                                ...winPlc,
-                                type: "WIN",
-                                value: e.odds.FOWIN,
-                                jockey_name: e.jockey.name,
-                              });
-                              setWalletModal(true);
+                        {raceStatus !== "DRL" && (
+                          <div
+                            style={{
+                              width: "125px",
+                              position: "absolute",
+                              right: "0",
                             }}
                           >
-                            {e.odds.FOWIN}
-                          </button>
-                          <button
-                            className={styles["bet-button"]}
-                            onClick={() => {
-                              setHorcesData(e);
-                              setWinPlc({
-                                ...winPlc,
-                                type: "PLC",
-                                value: e.odds.FOPLC,
-                                jockey_name: e.jockey.name,
-                              });
-                              setWalletModal(true);
-                            }}
-                          >
-                            {e.odds.FOPLC}
-                          </button>
-                        </div>
+                            <button
+                              className={styles["odds-button"]}
+                              onClick={() => {
+                                setHorcesData(e);
+                                setWinPlc({
+                                  ...winPlc,
+                                  type: "WIN",
+                                  value: e.odds.FOWIN,
+                                  jockey_name: e.jockey.name,
+                                });
+                                setWalletModal(true);
+                              }}
+                            >
+                              {e.odds.FOWIN}
+                            </button>
+                            <button
+                              className={styles["bet-button"]}
+                              onClick={() => {
+                                setHorcesData(e);
+                                setWinPlc({
+                                  ...winPlc,
+                                  type: "PLC",
+                                  value: e.odds.FOPLC,
+                                  jockey_name: e.jockey.name,
+                                });
+                                setWalletModal(true);
+                              }}
+                            >
+                              {e.odds.FOPLC}
+                            </button>
+                          </div>
+                        )}
                       </Card.Body>
                     </Card>
                   </>

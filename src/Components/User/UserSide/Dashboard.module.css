@@ -32,6 +32,7 @@
   white-space: nowrap;
   scroll-behavior: smooth;
   transition: 5s all ease;
+  padding-right: 20px;
 }
 .user-simple-card {
   display: inline-block;
@@ -136,7 +137,7 @@
   transition: 5s all ease;
   display: flex;
   gap: 1px;
-  padding: 15px 15px 0px 15px;
+  padding: 15px 15px 15px 15px;
 }
 .state-button-user {
   background: #cdc6eb;
