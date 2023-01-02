@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { db } from "../config/firebase";
 // import { signOut } from "firebase/auth";
@@ -9,6 +9,7 @@ import { Context } from "../App";
 import { toast } from "react-hot-toast";
 import styles from "./Navbar.module.css";
 import { deleteAllCookies } from "../Hook/Cookies";
+import { BiWallet } from "react-icons/bi";
 
 export const NavbarCommon = () => {
   const navigate = useNavigate();
@@ -76,6 +77,34 @@ export const NavbarCommon = () => {
         >
           &#9776;
         </span>
+        <button
+          style={{
+            border: "none",
+            borderRadius: "5px",
+          }}
+          onClick={() => {
+            navigate("/dashboard/mybet");
+          }}
+        >
+          MyBet
+        </button>
+        <div
+          style={{
+            color: "#ffffff",
+            marginRight: "11%",
+            display: "flex",
+            gap: "11px",
+            alignItems: "center",
+          }}
+        >
+          <BiWallet
+            style={{
+              width: "24px",
+              height: "24px",
+            }}
+          />
+          ₹{userData?.amount}
+        </div>
       </div>
     </>
   );

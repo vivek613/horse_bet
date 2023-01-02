@@ -77,11 +77,11 @@ export const Dashboard = () => {
   const handleGetRace = (e) => {
     setParticipants(e);
     e.status === "DRL" && setResultData(e.statusView.split("-").slice(0, -1));
-    console.log(e);
     setWinPlc({
       ...winPlc,
       user_id: user.uid,
       race_number: e.raceNumber,
+      race_time: e.raceTime,
       venue: e.vName,
       status: "disabled",
     });

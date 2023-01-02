@@ -38,7 +38,6 @@ export const AdminDashboard = () => {
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
   const [selectedState, setSelectedState] = useState(true);
-  console.log(user);
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
@@ -93,7 +92,9 @@ export const AdminDashboard = () => {
     setOddData(e.runners);
   };
   const handleBetDelete = () => {
-    db.collection("participant").doc("eecYvXE0OXOczXQAodjzfjZ89ry2").delete();
+    db.collection("participant").doc("eecYvXE0OXOczXQAodjzfjZ89ry2").set({
+      data: [],
+    });
   };
 
   return (
@@ -183,6 +184,8 @@ export const AdminDashboard = () => {
               <thead>
                 <tr>
                   <th>horce num</th>
+                  <th>horce name</th>
+
                   <th>jockey</th>
                   <th>trainer</th>
                   <th>Win</th>
@@ -196,6 +199,8 @@ export const AdminDashboard = () => {
                     return (
                       <tr index={index}>
                         <td>{e.position}</td>
+                        <td>{e.name}</td>
+
                         <td>{e.jockey.name}</td>
                         <td>{e.trainer.name}</td>
                         <td>{e.odds.FOWIN}</td>

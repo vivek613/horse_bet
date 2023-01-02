@@ -12,17 +12,27 @@ export const UserBetModal = ({
   userData,
   adminData,
 }) => {
-  const { winPlc, setWinPlc } = useContext(Context);
+  const { winPlc, setWinPlc, userBet, setUserBet } = useContext(Context);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
-  const [participantVivek, setParticipantVivek] = useState([]);
+  const [participant, setParticipant] = useState([]);
   const [betAmount, setBetAmount] = useState(0);
-
+  console.log(participant, userBet);
   useEffect(() => {
+    db.collection("participant")
+      .doc(userData?.uid || user?.uid)
+      .set({
+        data: [],
+      });
     db.collection("participant")
       .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
       .onSnapshot((snapshot) => {
-        setParticipantVivek(snapshot.data()?.data);
+        setParticipant(snapshot.data()?.data);
+      });
+    db.collection("participant")
+      .doc(userData?.uid || user?.uid)
+      .onSnapshot((snapshot) => {
+        setUserBet(snapshot.data()?.data);
       });
   }, [user]);
 
@@ -48,7 +58,12 @@ export const UserBetModal = ({
       db.collection("participant")
         .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
         .set({
-          data: [...participantVivek, winPlc],
+          data: [...participant, winPlc],
+        });
+      db.collection("participant")
+        .doc(userData.uid)
+        .set({
+          data: [...userBet, winPlc],
         });
     } else {
     }

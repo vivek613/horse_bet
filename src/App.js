@@ -9,6 +9,7 @@ import { useContext } from "./Context/useContext";
 import { createContext } from "react";
 import User from "./Components/Admin/User";
 import BetTable from "./Components/Admin/BetTable";
+import MyBet from "./Components/User/UserSide/MyBet";
 
 export const Context = createContext(useContext);
 function App() {
@@ -22,6 +23,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/mybet" element={<MyBet />} />
+
             {/* <Route path="/dashboard/:id" element={<Dashboard />} /> */}
 
             <Route path="/user/admin/:id" element={<AdminDashboard />} />

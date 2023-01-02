@@ -39,7 +39,7 @@ export const Register = () => {
             email,
             authProvider: "local",
             admin: false,
-            amount: "100",
+            amount: "0",
           });
 
           toast.success(`welcome ${response?.user?.email}`);
