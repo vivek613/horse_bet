@@ -50,7 +50,7 @@ export const AdminDashboard = () => {
   }, []);
   useEffect(() => {
     if (getCookie("access_token")) {
-      navigate(`/user/admin/${user?.uid}`);
+      navigate(`/user/admin/eecYvXE0OXOczXQAodjzfjZ89ry2`);
     } else {
       navigate("/login");
     }

@@ -317,6 +317,7 @@ export const Dashboard = () => {
                                 type: "WIN",
                                 value: e.odds.FOWIN,
                                 jockey_name: e.jockey.name,
+                                horce_number: e.position,
                               });
                               setWalletModal(true);
                             }}
@@ -324,11 +325,11 @@ export const Dashboard = () => {
                             {e.odds.FOWIN}
                           </button>
                           <button
-                            disabled={
-                              participants?.status?.toLowerCase() === "bst"
-                                ? false
-                                : true
-                            }
+                            // disabled={
+                            //   participants?.status?.toLowerCase() === "bst"
+                            //     ? false
+                            //     : true
+                            // }
                             style={{
                               cursor:
                                 participants?.status?.toLowerCase() === "bst"
@@ -337,12 +338,14 @@ export const Dashboard = () => {
                             }}
                             className={styles["bet-button"]}
                             onClick={() => {
+                              console.log(e);
                               setHorcesData(e);
                               setWinPlc({
                                 ...winPlc,
                                 type: "PLC",
                                 value: e.odds.FOPLC,
                                 jockey_name: e.jockey.name,
+                                horce_number: e.position,
                               });
                               setWalletModal(true);
                             }}
