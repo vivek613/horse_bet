@@ -38,7 +38,7 @@ export const Dashboard = () => {
   const [user, loading, error] = useAuthState(auth);
   const [selectedState, setSelectedState] = useState("");
   const [walletModal, setWalletModal] = useState(false);
-  const [userData, setUserData] = useState();
+
   const [adminData, setAdminData] = useState();
   const [resultData, setResultData] = useState([]);
 
@@ -58,14 +58,7 @@ export const Dashboard = () => {
         setAdminData(res.data());
       });
   }, [user]);
-  useEffect(() => {
-    db.collection("users")
-      .doc(user?.uid)
-      .get()
-      .then((res) => {
-        setUserData(res.data());
-      });
-  }, [user]);
+
   useEffect(() => {
     if (getCookie("access_token")) {
       navigate("/dashboard");
@@ -76,7 +69,8 @@ export const Dashboard = () => {
 
   const handleGetRace = (e) => {
     setParticipants(e);
-    e.status === "DRL" && setResultData(e.statusView.split("-").slice(0, -1));
+    e.status.toLowerCase() === "drl" &&
+      setResultData(e.statusView.split("-").slice(0, -1));
     setWinPlc({
       ...winPlc,
       user_id: user.uid,
@@ -88,6 +82,7 @@ export const Dashboard = () => {
     // setResultOfRace(e?.poolResults[5]?.winner);
   };
 
+  console.log(participants);
   return (
     <>
       <NavbarCommon />
@@ -181,9 +176,9 @@ export const Dashboard = () => {
                         borderRadius: "7px",
                       }}
                     >
-                      {participants?.status === "DRL"
+                      {participants?.status.toLowerCase() === "drl"
                         ? "completed"
-                        : participants?.status === "STP"
+                        : participants?.status.toLowerCase() === "stp"
                         ? "Stop"
                         : "oppening"}
                     </span>
@@ -302,15 +297,15 @@ export const Dashboard = () => {
                         >
                           <button
                             disabled={
-                              participants.status === "DRL" || "STP"
-                                ? true
-                                : false
+                              participants?.status?.toLowerCase() === "bst"
+                                ? false
+                                : true
                             }
                             style={{
                               cursor:
-                                participants.status === "DRL" || "STP"
-                                  ? "not-allowed"
-                                  : "pointer",
+                                participants?.status?.toLowerCase() === "bst"
+                                  ? "pointer"
+                                  : "not-allowed",
                             }}
                             className={styles["odds-button"]}
                             onClick={() => {
@@ -328,15 +323,15 @@ export const Dashboard = () => {
                           </button>
                           <button
                             disabled={
-                              participants.status === "DRL" || "STP"
-                                ? true
-                                : false
+                              participants?.status?.toLowerCase() === "bst"
+                                ? false
+                                : true
                             }
                             style={{
                               cursor:
-                                participants.status === "DRL" || "STP"
-                                  ? "not-allowed"
-                                  : "pointer",
+                                participants?.status?.toLowerCase() === "bst"
+                                  ? "pointer"
+                                  : "not-allowed",
                             }}
                             className={styles["bet-button"]}
                             onClick={() => {
@@ -387,7 +382,6 @@ export const Dashboard = () => {
         walletModal={walletModal}
         setWalletModal={setWalletModal}
         winPlc={winPlc}
-        userData={userData}
         horcesData={horcesData}
         adminData={adminData}
       />

@@ -6,40 +6,38 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { Context } from "../../../App";
 
-export const UserBetModal = ({
-  walletModal,
-  setWalletModal,
-  userData,
-  adminData,
-}) => {
+export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
   const { winPlc, setWinPlc, userBet, setUserBet } = useContext(Context);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
   const [participant, setParticipant] = useState([]);
   const [betAmount, setBetAmount] = useState(0);
-  console.log(participant, userBet);
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
-    db.collection("participant")
-      .doc(userData?.uid || user?.uid)
-      .set({
-        data: [],
-      });
     db.collection("participant")
       .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
       .onSnapshot((snapshot) => {
         setParticipant(snapshot.data()?.data);
       });
     db.collection("participant")
-      .doc(userData?.uid || user?.uid)
+      .doc(user?.uid)
       .onSnapshot((snapshot) => {
-        setUserBet(snapshot.data()?.data);
+        if (snapshot.data()) {
+          setUserBet(snapshot.data()?.data);
+        }
+      });
+    db.collection("users")
+      .doc(user?.uid)
+
+      .onSnapshot((res) => {
+        setUserData(res.data());
       });
   }, [user]);
 
   const handleSubmit = () => {
     if (Number(betAmount) < Number(userData.amount)) {
       db.collection("users")
-        .doc(userData.uid)
+        .doc(user?.uid)
         .update({
           ...userData,
           amount: Number(userData.amount) - Number(betAmount),
@@ -48,7 +46,7 @@ export const UserBetModal = ({
           setWalletModal(false);
 
           db.collection("users")
-            .doc(adminData.uid)
+            .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
             .update({
               ...adminData,
               amount: Number(adminData.amount) + Number(betAmount),
@@ -61,7 +59,7 @@ export const UserBetModal = ({
           data: [...participant, winPlc],
         });
       db.collection("participant")
-        .doc(userData.uid)
+        .doc(user?.uid)
         .set({
           data: [...userBet, winPlc],
         });
@@ -83,8 +81,8 @@ export const UserBetModal = ({
             <h4>Bet for you...</h4>
             <hr style={{ color: "#866afb" }} />
             <div className={styles["wallet-calc"]}>
-              <p>Odds - Win : {winPlc.value} </p>
-              {Number(betAmount) < Number(userData.amount) ? (
+              <p>Odds - Win : {winPlc?.value} </p>
+              {Number(betAmount) < Number(userData?.amount) ? (
                 <p>Your Bet Amount : {betAmount}</p>
               ) : (
                 <p style={{ color: "red" }}>

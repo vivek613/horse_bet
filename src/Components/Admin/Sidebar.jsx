@@ -31,7 +31,7 @@ export const Sidebar = () => {
         <NavItem
           eventKey="home"
           onClick={() => {
-            navigate(`/user/admin/usertable/${user.uid}`);
+            navigate(`/user/admin/usertable/${user?.uid}`);
           }}
         >
           <NavIcon style={{ opacity: "1" }}>
@@ -43,7 +43,7 @@ export const Sidebar = () => {
           selected
           eventKey="charts"
           onClick={() => {
-            navigate(`/user/admin/${user.uid}`);
+            navigate(`/user/admin/${user?.uid}`);
           }}
         >
           <NavIcon style={{ opacity: "1" }}>
@@ -55,7 +55,7 @@ export const Sidebar = () => {
           selected
           eventKey="charts"
           onClick={() => {
-            navigate(`/user/admin/bettable/${user.uid}`);
+            navigate(`/user/admin/bettable/${user?.uid}`);
           }}
         >
           <NavIcon style={{ opacity: "1" }}>
