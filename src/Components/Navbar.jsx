@@ -52,6 +52,15 @@ export const NavbarCommon = () => {
           &times;
         </a>
         <p className={styles["user-email"]}>{userData?.email}</p>
+        <p
+          className={styles["user-email"]}
+          style={{ fontSize: "14px" }}
+          onClick={() => {
+            navigate("/dashboard/mybet");
+          }}
+        >
+          My Bet
+        </p>
         <div className={styles["user-wallet"]}>
           <p className={styles["user-balance-show"]}>Balance : </p>
           <p className={styles["user-balance-show"]}>{userData?.amount} ₹</p>
@@ -77,21 +86,10 @@ export const NavbarCommon = () => {
         >
           &#9776;
         </span>
-        <button
-          style={{
-            border: "none",
-            borderRadius: "5px",
-          }}
-          onClick={() => {
-            navigate("/dashboard/mybet");
-          }}
-        >
-          MyBet
-        </button>
         <div
           style={{
             color: "#ffffff",
-            marginRight: "11%",
+            marginRight: "5%",
             display: "flex",
             gap: "11px",
             alignItems: "center",
@@ -103,7 +101,7 @@ export const NavbarCommon = () => {
               height: "24px",
             }}
           />
-          ₹{userData?.amount}
+          ₹ {userData?.amount}
         </div>
       </div>
     </>

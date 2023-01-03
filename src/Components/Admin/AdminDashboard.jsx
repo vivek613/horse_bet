@@ -77,7 +77,6 @@ export const AdminDashboard = () => {
         });
       });
       setNewRace(array);
-      console.log(array);
 
       db.collection("TimeData")
         .doc("RaceData")

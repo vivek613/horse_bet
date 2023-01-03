@@ -82,7 +82,6 @@ export const Dashboard = () => {
     // setResultOfRace(e?.poolResults[5]?.winner);
   };
 
-  console.log(participants);
   return (
     <>
       <NavbarCommon />
@@ -100,6 +99,7 @@ export const Dashboard = () => {
                 }
                 onClick={() => {
                   setParticipants();
+                  setRaceIndexNum();
                   setSelectedState(items);
                   setStateWiseData(
                     indiaRace.filter((data) => {
@@ -144,7 +144,7 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        {participants && participants ? (
+        {participants && participants?.runners ? (
           <>
             <p className={styles["user-race-title"]}>Race Details :</p>
             <Card className={styles["race-details-card"]}>
@@ -183,7 +183,6 @@ export const Dashboard = () => {
                         : "oppening"}
                     </span>
                   </Card.Body>
-                  <div></div>
                   {participants?.status === "DRL" && (
                     <Card.Body className={styles["results-div"]}>
                       {resultData?.map((item, index) => {
@@ -203,32 +202,35 @@ export const Dashboard = () => {
                 </Card>
               </Card.Body>
             </Card>
-            <p className={styles["user-race-title"]}>Participant Horces :</p>
-            <Card style={{ marginLeft: "8px", border: "none" }}>
-              <Card.Body style={{ padding: "0px", width: "calc(100% - 2px)" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
+            {participants?.runners && (
+              <Card style={{ marginLeft: "8px", border: "none" }}>
+                <Card.Body
+                  style={{ padding: "0px", width: "calc(100% - 2px)" }}
                 >
-                  <p style={{ margin: "0px" }}>Horces :</p>
                   <div
                     style={{
                       display: "flex",
+                      justifyContent: "space-between",
                       alignItems: "center",
-                      justifyContent: "center",
-                      gap: "10px",
-                      marginRight: "20px",
                     }}
                   >
-                    <p className={styles["user-race-title"]}>Win</p>
-                    <p className={styles["user-race-title"]}>Plc</p>
+                    <p style={{ margin: "0px" }}>Horces :</p>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "10px",
+                        marginRight: "20px",
+                      }}
+                    >
+                      <p className={styles["user-race-title"]}>Win</p>
+                      <p className={styles["user-race-title"]}>Plc</p>
+                    </div>
                   </div>
-                </div>
-              </Card.Body>
-            </Card>
+                </Card.Body>
+              </Card>
+            )}
             <div className={styles["user-horce-card"]}>
               {participants?.runners?.map((e) => {
                 return (
