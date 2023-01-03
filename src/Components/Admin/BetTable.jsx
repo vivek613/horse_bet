@@ -50,10 +50,15 @@ const BetTable = () => {
               return (
                 <>
                   <Card
-                    className={styles["user-simple-card"]}
+                    className={
+                      selectedState === e.raceTime
+                        ? styles["user-simple-card-select"]
+                        : styles["user-simple-card"]
+                    }
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       // handleGetRace(e);
+                      setSelectedState(e.raceTime);
                       setRaceWiseBetData(
                         betData.filter((item) => {
                           if (
@@ -89,6 +94,7 @@ const BetTable = () => {
                 <tr>
                   <th>user id</th>
                   <th>jockey</th>
+                  <th>Horce num</th>
                   <th>Race No</th>
                   <th>potential am</th>
                   <th>odds</th>
@@ -105,6 +111,8 @@ const BetTable = () => {
                       <tr index={index}>
                         <td>{e.user_id}</td>
                         <td>{e.jockey_name}</td>
+                        <td>{e.horce_number}</td>
+
                         <td>{e.race_number}</td>
                         <td>{e.potential_amount}</td>
                         <td>{e.type}</td>
