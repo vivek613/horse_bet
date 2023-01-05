@@ -2,9 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin: 20px;
-  height: 100vh;
-  overflow: scroll;
 }
 .form-control {
   font-size: 14px;
@@ -18,19 +15,19 @@
 .table tr {
   font-size: 14px;
 }
-.user-data-tabel{
+.user-data-tabel {
   position: relative;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 64px;
-    overflow: hidden;
-    -webkit-transition: all .15s;
-    transition: all .15s;
-    padding: 0 20px;
-    background: inherit;
-    -webkit-transition: background-color .35s cubic-bezier(.4,0,.2,1);
-    transition: background-color .35s cubic-bezier(.4,0,.2,1);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 64px;
+  overflow: hidden;
+  -webkit-transition: all 0.15s;
+  transition: all 0.15s;
+  padding: 0 20px;
+  background: inherit;
+  -webkit-transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 table {
   border: 1px solid black;
@@ -53,15 +50,15 @@ th {
   overflow-y: scroll;
   width: 100%;
 }
-.status-form-div{
+.status-form-div {
   display: flex;
-    align-items: center;
-    justify-content: space-around;
+  align-items: center;
+  justify-content: space-around;
 }
 
-.add-user-check{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
+.add-user-check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
 }

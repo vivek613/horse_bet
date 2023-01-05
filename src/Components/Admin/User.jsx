@@ -52,7 +52,7 @@ const User = () => {
         <div
           className="table-container"
           style={{
-            margin: "10px 89px",
+            margin: "10px 10px 10px 72px",
           }}
         >
           <button

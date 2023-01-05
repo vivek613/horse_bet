@@ -179,7 +179,10 @@ export const AdminDashboard = () => {
             })}
           </div>
 
-          <div className="table-container">
+          <div
+            className="table-container"
+            style={{ margin: "20px 60px 20px 0px" }}
+          >
             <Table bordered hover>
               <thead>
                 <tr>

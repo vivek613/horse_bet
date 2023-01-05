@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SideNav, {
   Toggle,
   Nav,
@@ -21,7 +21,6 @@ export const Sidebar = () => {
   const auth = getAuth();
 
   const [user, loading, error] = useAuthState(auth);
-
   const navigate = useNavigate();
   return (
     <SideNav

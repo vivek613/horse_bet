@@ -90,8 +90,11 @@ const BetTable = () => {
             })}
           </div>
 
-          <div className="table-container">
-            <Table bordered hover style={{ marginRight: "33px" }}>
+          <div
+            className="table-container"
+            style={{ margin: "20px 55px 20px -10px" }}
+          >
+            <Table bordered hover>
               <thead>
                 <tr>
                   <th>User id</th>
