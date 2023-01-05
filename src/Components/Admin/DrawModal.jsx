@@ -24,7 +24,7 @@ const DrawModal = (props) => {
         .set({
           data: betData.map((data) => {
             if (props.updateData.key === data.key) {
-              data.status = "enabled";
+              data.withdraw = true;
             }
             return data;
           }),
@@ -36,7 +36,7 @@ const DrawModal = (props) => {
               ...amountData,
               amount:
                 Number(amountData.amount) +
-                Number(props.updateData.potential_amount),
+                Number(props.updateData.user_amount),
             })
             .then(() => {
               props.onHide();
