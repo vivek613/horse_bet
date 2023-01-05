@@ -13,6 +13,8 @@ export const useContext = () => {
   const [raceIndexNum, setRaceIndexNum] = useState();
   const [userBet, setUserBet] = useState([]);
   const [admin, setAdmin] = useState({});
+  const [participants, setParticipants] = useState();
+
   return {
     hosreData,
     setHorseData,
@@ -36,5 +38,7 @@ export const useContext = () => {
     setUserBet,
     addUser,
     setAddUser,
+    participants,
+    setParticipants,
   };
 };

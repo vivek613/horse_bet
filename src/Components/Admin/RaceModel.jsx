@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -14,7 +14,20 @@ const RaceModel = (props) => {
     raceIndexNum,
     setRaceIndexNum,
     setIndiaRace,
+
+    setParticipants,
   } = useContext(Context);
+  useEffect(() => {
+    db.collection("TimeData").onSnapshot((snapshot) => {
+      // window.location.reload(true);
+      console.log(indiaRace);
+
+      setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
+      setParticipants(
+        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]?.runners
+      );
+    });
+  }, []);
 
   const handleSubmit = async (user) => {
     db.collection("TimeData").doc("RaceData").update({ Allrace: indiaRace });

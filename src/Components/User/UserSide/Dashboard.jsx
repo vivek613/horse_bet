@@ -20,6 +20,8 @@ export const Dashboard = () => {
     setRaceIndexNum,
     winPlc,
     setWinPlc,
+    participants,
+    setParticipants,
   } = useContext(Context);
   const navigate = useNavigate();
   const [stateHorce, setStateHorce] = useState([
@@ -32,7 +34,6 @@ export const Dashboard = () => {
     "Banglore",
   ]);
   const [horcesData, setHorcesData] = useState({});
-  const [participants, setParticipants] = useState();
   const [stateWiseData, setStateWiseData] = useState([]);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
@@ -42,14 +43,18 @@ export const Dashboard = () => {
   const [adminData, setAdminData] = useState();
   const [resultData, setResultData] = useState([]);
 
-  useEffect(() => {
-    db.collection("TimeData").onSnapshot((snapshot) => {
-      setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
-      setParticipants(
-        snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]?.runners
-      );
-    });
-  }, []);
+  // useEffect(() => {
+  //   db.collection("TimeData").onSnapshot((snapshot) => {
+  //     // window.location.reload(true);
+  //     console.log(indiaRace);
+
+  //     setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
+  //     setParticipants(
+  //       snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]?.runners
+  //     );
+  //   });
+  // }, []);
+  console.log(indiaRace);
   useEffect(() => {
     db.collection("users")
       .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
@@ -331,11 +336,11 @@ export const Dashboard = () => {
                           }}
                         >
                           <button
-                            // disabled={
-                            //   participants?.status?.toLowerCase() === "bst"
-                            //     ? false
-                            //     : true
-                            // }
+                            disabled={
+                              participants?.status?.toLowerCase() === "bst"
+                                ? false
+                                : true
+                            }
                             style={{
                               cursor:
                                 participants?.status?.toLowerCase() === "bst"
