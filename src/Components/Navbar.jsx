@@ -63,7 +63,7 @@ export const NavbarCommon = () => {
         </p>
         <div className={styles["user-wallet"]}>
           <p className={styles["user-balance-show"]}>Balance : </p>
-          <p className={styles["user-balance-show"]}>{userData?.amount} ₹</p>
+          <p className={styles["user-balance-show"]}>₹ {userData?.amount}</p>
         </div>
         <p
           className={styles["user-logout"]}

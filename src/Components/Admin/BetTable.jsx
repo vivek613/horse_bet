@@ -10,6 +10,7 @@ import { db } from "../../config/firebase";
 import { FiEdit } from "react-icons/fi";
 import { doc, updateDoc } from "firebase/firestore";
 import StatusModel from "./StatusModel";
+import DrawModal from "./DrawModal";
 
 const BetTable = () => {
   const {
@@ -27,6 +28,7 @@ const BetTable = () => {
   const [raceWiseBetData, setRaceWiseBetData] = useState();
   const [updateData, setUpdateData] = useState();
   const [modalShow, setModalShow] = useState(false);
+  const [drawModalShow, setDrawModalShow] = useState(false);
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
@@ -39,6 +41,8 @@ const BetTable = () => {
 
     // doc;
   }, []);
+
+  console.log("raceWiseBetData", raceWiseBetData);
 
   return (
     <>
@@ -92,16 +96,17 @@ const BetTable = () => {
             <Table bordered hover>
               <thead>
                 <tr>
-                  <th>user id</th>
-                  <th>jockey</th>
+                  <th>User id</th>
+                  <th>Jockey</th>
                   <th>Horce num</th>
                   <th>Race No</th>
-                  <th>potential am</th>
-                  <th>odds</th>
-                  <th>venue</th>
-
-                  <th>status</th>
+                  <th>Potential am</th>
+                  <th>Odds</th>
+                  <th>Venue</th>
+                  <th>₹ Bet</th>
+                  <th>Status</th>
                   <th>Action</th>
+                  <th>draw Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -117,8 +122,8 @@ const BetTable = () => {
                         <td>{e.potential_amount}</td>
                         <td>{e.type}</td>
                         <td>{e.venue}</td>
+                        <td>{e.user_amount}</td>
                         <td>{e.status}</td>
-
                         <td>
                           <FiEdit
                             onClick={(event) => {
@@ -135,6 +140,22 @@ const BetTable = () => {
                             }}
                           />
                         </td>
+                        <td>
+                          <FiEdit
+                            onClick={(event) => {
+                              event.preventDefault();
+
+                              setUpdateData(e);
+                              db.collection("users")
+                                .doc(e.user_id)
+                                .onSnapshot((snapshot) => {
+                                  setAmountData(snapshot.data());
+                                });
+
+                              setDrawModalShow(true);
+                            }}
+                          />
+                        </td>
                       </tr>
                     );
                   })}
@@ -147,6 +168,11 @@ const BetTable = () => {
         show={modalShow}
         updateData={updateData}
         onHide={() => setModalShow(false)}
+      />
+      <DrawModal
+        show={drawModalShow}
+        updateData={updateData}
+        onHide={() => setDrawModalShow(false)}
       />
     </>
   );

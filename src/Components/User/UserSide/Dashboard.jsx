@@ -78,6 +78,7 @@ export const Dashboard = () => {
       race_time: e.raceTime,
       venue: e.vName,
       status: "disabled",
+      withdraw: false,
     });
     // setResultOfRace(e?.poolResults[5]?.winner);
   };
@@ -187,14 +188,46 @@ export const Dashboard = () => {
                     <Card.Body className={styles["results-div"]}>
                       {resultData?.map((item, index) => {
                         return (
-                          <div className={styles["jersey-div"]}>
-                            <span className={styles["horce-num"]}>
-                              {index + 1}
-                              <sup>st</sup>
-                            </span>
+                          <>
+                            {participants?.runners.length < 8 &&
+                            (index === 1 || index === 0) ? (
+                              <div className={styles["jersey-div"]}>
+                                <span className={styles["horce-num"]}>
+                                  {index + 1}
+                                  <sup>
+                                    {index === 0
+                                      ? "st"
+                                      : index === 1
+                                      ? "nd"
+                                      : "rd"}
+                                  </sup>
+                                </span>
 
-                            <small className={styles["draw-num"]}>{item}</small>
-                          </div>
+                                <small className={styles["draw-num"]}>
+                                  {item}
+                                </small>
+                              </div>
+                            ) : (
+                              participants?.runners.length >= 8 && (
+                                <div className={styles["jersey-div"]}>
+                                  <span className={styles["horce-num"]}>
+                                    {index + 1}
+                                    <sup>
+                                      {index === 0
+                                        ? "st"
+                                        : index === 1
+                                        ? "nd"
+                                        : "rd"}
+                                    </sup>
+                                  </span>
+
+                                  <small className={styles["draw-num"]}>
+                                    {item}
+                                  </small>
+                                </div>
+                              )
+                            )}
+                          </>
                         );
                       })}
                     </Card.Body>
@@ -298,11 +331,11 @@ export const Dashboard = () => {
                           }}
                         >
                           <button
-                            disabled={
-                              participants?.status?.toLowerCase() === "bst"
-                                ? false
-                                : true
-                            }
+                            // disabled={
+                            //   participants?.status?.toLowerCase() === "bst"
+                            //     ? false
+                            //     : true
+                            // }
                             style={{
                               cursor:
                                 participants?.status?.toLowerCase() === "bst"

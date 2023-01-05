@@ -6,7 +6,8 @@ import "./AdminDashboard.css";
 import { Context } from "../../App";
 import { db } from "../../config/firebase";
 
-const StatusModel = (props) => {
+const DrawModal = (props) => {
+  console.log("props", props);
   const {
     raceIndexNum,
     setRaceIndexNums,
@@ -52,7 +53,7 @@ const StatusModel = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          status update
+          Withdraw Status Update
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -62,7 +63,7 @@ const StatusModel = (props) => {
           }}
         >
           <Form.Group className="status-form-div" controlId="formBasicPassword">
-            <Form.Label> status</Form.Label>
+            <Form.Label> Withdraw Status</Form.Label>
             <input
               style={{
                 height: "40px",
@@ -99,4 +100,4 @@ const StatusModel = (props) => {
   );
 };
 
-export default StatusModel;
+export default DrawModal;

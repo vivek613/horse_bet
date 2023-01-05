@@ -89,7 +89,7 @@ const MyBet = () => {
                       width: "100%",
                     }}
                   >
-                    <p>{item.type}</p>
+                    <p>Odds: {item.type}</p>
                     <p>Amount: {item.user_amount}</p>
                   </div>
                 </div>
