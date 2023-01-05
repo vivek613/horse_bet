@@ -325,11 +325,11 @@ export const Dashboard = () => {
                             {e.odds.FOWIN}
                           </button>
                           <button
-                            // disabled={
-                            //   participants?.status?.toLowerCase() === "bst"
-                            //     ? false
-                            //     : true
-                            // }
+                            disabled={
+                              participants?.status?.toLowerCase() === "bst"
+                                ? false
+                                : true
+                            }
                             style={{
                               cursor:
                                 participants?.status?.toLowerCase() === "bst"

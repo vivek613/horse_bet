@@ -7,6 +7,7 @@ export const useContext = () => {
   const [winPlc, setWinPlc] = useState([]);
   const [betData, setBetData] = useState();
   const [amountData, setAmountData] = useState({});
+  const [addUser, setAddUser] = useState({});
 
   const [indexNum, setIndexNum] = useState();
   const [raceIndexNum, setRaceIndexNum] = useState();
@@ -34,5 +35,7 @@ export const useContext = () => {
     setAmountData,
     userBet,
     setUserBet,
+    addUser,
+    setAddUser,
   };
 };

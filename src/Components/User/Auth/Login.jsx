@@ -36,7 +36,7 @@ export const Login = () => {
       const q = query(citiesRef, where("uid", "==", currentUser?.uid));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        doc.data().uid === "eecYvXE0OXOczXQAodjzfjZ89ry2"
+        doc.data().admin === true
           ? navigate(`/user/admin/eecYvXE0OXOczXQAodjzfjZ89ry2`)
           : navigate("/dashboard");
       });
@@ -60,17 +60,6 @@ export const Login = () => {
           );
           setCookie("Uid", response._tokenResponse.localId, 1000);
           navigateData();
-          // if (
-          //   response._tokenResponse.localId === "eecYvXE0OXOczXQAodjzfjZ89ry2"
-          // ) {
-          //   setInterval(() => {
-          //     navigate("/user/admin");
-          //   }, 2000);
-          // } else {
-          //   setTimeout(() => {
-          //     navigate("/dashboard");
-          //   }, 2000);
-          // }
         })
         .catch((error) => {
           toast.error(` Wrong !${error?.message}`);

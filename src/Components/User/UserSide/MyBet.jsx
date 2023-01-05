@@ -1,14 +1,28 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../../../App";
 import { NavbarCommon } from "../../Navbar";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router";
 import { Card } from "react-bootstrap";
 import styles from "./Dashboard.module.css";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../../../config/firebase";
 
 const MyBet = () => {
   const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
+
   const { winPlc, setWinPlc, userBet, setUserBet } = useContext(Context);
+  console.log(userBet);
+  useEffect(() => {
+    db.collection("participant")
+      .doc(user?.uid)
+      .onSnapshot((snapshot) => {
+        if (snapshot.data()) {
+          setUserBet(snapshot.data()?.data);
+        }
+      });
+  }, [user]);
 
   return (
     <>
@@ -38,6 +52,17 @@ const MyBet = () => {
                 >
                   <div
                     style={{
+                      backgroundColor: "green",
+                      width: "53px",
+                      color: "black",
+                      borderRadius: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {/* {item?.status === "enabled" && "Win"} */}
+                  </div>
+                  <div
+                    style={{
                       display: "flex",
                       justifyContent: "space-between",
                       width: "100%",
@@ -56,6 +81,7 @@ const MyBet = () => {
                     <p>Horce Number: {item.horce_number}</p>
                     <p>Venue: {item.venue}</p>
                   </div>
+
                   <div
                     style={{
                       display: "flex",

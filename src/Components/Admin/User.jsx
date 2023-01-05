@@ -5,11 +5,13 @@ import { db } from "../../config/firebase";
 import { Sidebar } from "./Sidebar";
 import { FiEdit } from "react-icons/fi";
 import { UserModel } from "./UserModel";
+import { AddUserModel } from "./AddUserModel";
 
 const User = () => {
   const { setAdmin, userData, setUseData } = useContext(Context);
   const [table, setTable] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const [addModalShow, setAddModalShow] = useState(false);
 
   useEffect(() => {
     let item;
@@ -42,19 +44,28 @@ const User = () => {
         >
           User
         </h3>
+        <div></div>
+
         <div
           className="table-container"
           style={{
             margin: "10px 89px",
           }}
         >
+          <button
+            onClick={() => {
+              setAddModalShow(true);
+            }}
+          >
+            Add User
+          </button>
           <Table striped bordered hover>
             <thead>
               <tr>
                 <th>user id</th>
                 <th>email</th>
                 <th>amount</th>
-                {/* <th>admin</th> */}
+                <th>admin</th>
                 <th>edit</th>
               </tr>
             </thead>
@@ -65,7 +76,7 @@ const User = () => {
                     <td>{e.uid}</td>
                     <td>{e.email}</td>
                     <td>{e.amount}</td>
-                    {/* <td>{`${e.admin} `}</td> */}
+                    <td>{`${e.admin} `}</td>
                     <td>
                       <FiEdit
                         onClick={(event) => {
@@ -86,6 +97,10 @@ const User = () => {
           show={modalShow}
           data={userData}
           onHide={() => setModalShow(false)}
+        />
+        <AddUserModel
+          show={addModalShow}
+          onHide={() => setAddModalShow(false)}
         />
       </div>
     </>

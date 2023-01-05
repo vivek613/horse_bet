@@ -7,11 +7,15 @@ import SideNav, {
   NavText,
 } from "@trendmicro/react-sidenav";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+import { signOut } from "firebase/auth";
+
 import { FaUserAlt, FaUsers } from "react-icons/fa";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { useNavigate } from "react-router";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { BiLogOut } from "react-icons/bi";
+import { deleteAllCookies } from "../../Hook/Cookies";
 
 export const Sidebar = () => {
   const auth = getAuth();
@@ -62,6 +66,21 @@ export const Sidebar = () => {
             <FaUsers style={{ fill: "black" }} />
           </NavIcon>
           <NavText style={{ color: "black" }}>Bet Data</NavText>
+        </NavItem>
+        <NavItem
+          selected
+          eventKey="charts"
+          onClick={() => {
+            signOut(auth).then((data) => {
+              navigate("/login");
+              deleteAllCookies();
+            });
+          }}
+        >
+          <NavIcon style={{ opacity: "1" }}>
+            <BiLogOut style={{ fill: "black" }} />
+          </NavIcon>
+          <NavText style={{ color: "black" }}>Log Out</NavText>
         </NavItem>
       </SideNav.Nav>
     </SideNav>

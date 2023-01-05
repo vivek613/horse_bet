@@ -58,3 +58,10 @@ th {
     align-items: center;
     justify-content: space-around;
 }
+
+.add-user-check{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
