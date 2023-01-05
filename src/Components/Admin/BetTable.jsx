@@ -42,8 +42,6 @@ const BetTable = () => {
     // doc;
   }, []);
 
-  console.log("raceWiseBetData", raceWiseBetData);
-
   return (
     <>
       <div>
@@ -93,7 +91,7 @@ const BetTable = () => {
           </div>
 
           <div className="table-container">
-            <Table bordered hover>
+            <Table bordered hover style={{ marginRight: "33px" }}>
               <thead>
                 <tr>
                   <th>User id</th>

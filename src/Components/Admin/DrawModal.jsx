@@ -7,7 +7,6 @@ import { Context } from "../../App";
 import { db } from "../../config/firebase";
 
 const DrawModal = (props) => {
-  console.log("props", props);
   const {
     raceIndexNum,
     setRaceIndexNums,
@@ -70,10 +69,10 @@ const DrawModal = (props) => {
                 width: "26px",
               }}
               type="checkbox"
-              disabled={props?.updateData?.status === "enabled" ? true : false}
-              checked={props?.updateData?.status === "enabled" ? true : false}
-              id="vehicle1"
-              name="vehicle1"
+              disabled={props?.updateData?.withdraw}
+              checked={props?.updateData?.withdraw}
+              id="withdraw"
+              name="withdraw"
               value="Bike"
               onChange={(event) => {
                 handleChange(event);
@@ -81,16 +80,6 @@ const DrawModal = (props) => {
             ></input>
           </Form.Group>
 
-          {/* <Button
-            style={{
-              marginRight: "10px",
-            }}
-            variant="primary"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button> */}
           <Button variant="secondary" onClick={props.onHide}>
             Close
           </Button>
