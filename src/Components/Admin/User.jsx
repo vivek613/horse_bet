@@ -40,6 +40,9 @@ const User = () => {
         <h3
           style={{
             textAlign: "center",
+            margin: "20px 10px 10px 10px",
+            outline: "none",
+            color: "black",
           }}
         >
           User
@@ -55,6 +58,17 @@ const User = () => {
           <button
             onClick={() => {
               setAddModalShow(true);
+            }}
+            style={{
+              margin: "10px",
+              height: "36px",
+              padding: "0px 10px",
+              outline: "none",
+              border: "1px solid black",
+              background: "#cdc6eb",
+              color: "black",
+              borderRadius: "5px",
+              cursor: "pointer",
             }}
           >
             Add User
