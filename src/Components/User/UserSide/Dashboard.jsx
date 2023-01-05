@@ -22,6 +22,7 @@ export const Dashboard = () => {
     setWinPlc,
     participants,
     setParticipants,
+    setIndexNum,
   } = useContext(Context);
   const navigate = useNavigate();
   const [stateHorce, setStateHorce] = useState([
@@ -42,19 +43,17 @@ export const Dashboard = () => {
 
   const [adminData, setAdminData] = useState();
   const [resultData, setResultData] = useState([]);
+  const [ind, setInd] = useState();
+  useEffect(() => {
+    db.collection("TimeData").onSnapshot((snapshot) => {
+      // window.location.reload(true);
 
-  // useEffect(() => {
-  //   db.collection("TimeData").onSnapshot((snapshot) => {
-  //     // window.location.reload(true);
-  //     console.log(indiaRace);
+      setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
 
-  //     setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
-  //     setParticipants(
-  //       snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]?.runners
-  //     );
-  //   });
-  // }, []);
-  console.log(indiaRace);
+      setParticipants(snapshot.docs.map((doc) => doc.data())[0].Allrace[ind]);
+    });
+  }, [ind]);
+
   useEffect(() => {
     db.collection("users")
       .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
@@ -95,7 +94,7 @@ export const Dashboard = () => {
       <div className={styles["user-race-data-main"]}>
         <p className={styles["user-race-title"]}>Today's Race</p>
         <div className={styles["state-array"]}>
-          {stateHorce.map((items) => {
+          {stateHorce.map((items, index) => {
             return (
               <button
                 className={
@@ -105,7 +104,7 @@ export const Dashboard = () => {
                 }
                 onClick={() => {
                   setParticipants();
-                  setRaceIndexNum();
+                  setRaceIndexNum(index);
                   setSelectedState(items);
                   setStateWiseData(
                     indiaRace.filter((data) => {
@@ -134,6 +133,7 @@ export const Dashboard = () => {
                   onClick={() => {
                     handleGetRace(e);
                     setRaceIndexNum(index);
+                    setInd(index);
                   }}
                 >
                   <Card.Body className={styles["user-card-body"]}>
@@ -270,7 +270,7 @@ export const Dashboard = () => {
               </Card>
             )}
             <div className={styles["user-horce-card"]}>
-              {participants?.runners?.map((e) => {
+              {participants?.runners?.map((e, index) => {
                 return (
                   <>
                     <Card style={{ width: "calc(100% - 2px)" }}>
@@ -336,11 +336,11 @@ export const Dashboard = () => {
                           }}
                         >
                           <button
-                            disabled={
-                              participants?.status?.toLowerCase() === "bst"
-                                ? false
-                                : true
-                            }
+                            // disabled={
+                            //   participants?.status?.toLowerCase() === "bst"
+                            //     ? false
+                            //     : true
+                            // }
                             style={{
                               cursor:
                                 participants?.status?.toLowerCase() === "bst"
@@ -349,6 +349,7 @@ export const Dashboard = () => {
                             }}
                             className={styles["odds-button"]}
                             onClick={() => {
+                              setIndexNum(index);
                               setHorcesData(e);
                               setWinPlc({
                                 ...winPlc,
@@ -363,11 +364,11 @@ export const Dashboard = () => {
                             {e.odds.FOWIN}
                           </button>
                           <button
-                            disabled={
-                              participants?.status?.toLowerCase() === "bst"
-                                ? false
-                                : true
-                            }
+                            // disabled={
+                            //   participants?.status?.toLowerCase() === "bst"
+                            //     ? false
+                            //     : true
+                            // }
                             style={{
                               cursor:
                                 participants?.status?.toLowerCase() === "bst"
@@ -376,7 +377,6 @@ export const Dashboard = () => {
                             }}
                             className={styles["bet-button"]}
                             onClick={() => {
-                              console.log(e);
                               setHorcesData(e);
                               setWinPlc({
                                 ...winPlc,

@@ -7,7 +7,17 @@ import { getAuth } from "firebase/auth";
 import { Context } from "../../../App";
 
 export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
-  const { winPlc, setWinPlc, userBet, setUserBet } = useContext(Context);
+  const {
+    winPlc,
+    setWinPlc,
+    userBet,
+    setUserBet,
+    raceIndexNum,
+    indexNum,
+
+    indiaRace,
+    setIndiaRace,
+  } = useContext(Context);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
   const [participant, setParticipant] = useState([]);
@@ -33,9 +43,14 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
         setUserData(res.data());
       });
   }, [user]);
+  useEffect(() => {
+    db.collection("TimeData").onSnapshot((snapshot) => {
+      // window.location.reload(true);
 
+      setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
+    });
+  }, []);
   const handleSubmit = () => {
-    console.log("userData", userBet);
     if (Number(betAmount) < Number(userData.amount)) {
       db.collection("users")
         .doc(user?.uid)
@@ -81,8 +96,28 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
           >
             <h4>Bet for you...</h4>
             <hr style={{ color: "#866afb" }} />
+            {winPlc.type === "WIN" &&
+            winPlc.value ===
+              indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOWIN ? (
+              ""
+            ) : (
+              <p
+                style={{
+                  color: "red",
+                }}
+              >
+                {" "}
+                odds change
+              </p>
+            )}
             <div className={styles["wallet-calc"]}>
-              <p>Odds - Win : {winPlc?.value} </p>
+              <p>
+                Odds - Win :
+                {winPlc.type === "WIN"
+                  ? indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOWIN
+                  : indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOPLC}
+              </p>
+
               {Number(betAmount) < Number(userData?.amount) ? (
                 <p>Your Bet Amount : {betAmount}</p>
               ) : (

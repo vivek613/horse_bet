@@ -20,7 +20,6 @@ const RaceModel = (props) => {
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       // window.location.reload(true);
-      console.log(indiaRace);
 
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
       setParticipants(

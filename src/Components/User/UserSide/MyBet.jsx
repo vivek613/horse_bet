@@ -13,7 +13,6 @@ const MyBet = () => {
   const [user, loading, error] = useAuthState(auth);
 
   const { winPlc, setWinPlc, userBet, setUserBet } = useContext(Context);
-  console.log(userBet);
   useEffect(() => {
     db.collection("participant")
       .doc(user?.uid)
