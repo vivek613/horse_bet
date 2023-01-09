@@ -100,9 +100,9 @@ const BetTable = () => {
                   <th>User id</th>
                   <th>Jockey</th>
                   <th>Horce num</th>
+                  <th>Odds</th>
                   <th>Race No</th>
                   <th>Potential am</th>
-                  <th>Odds</th>
                   <th>Venue</th>
                   <th>₹ Bet</th>
                   <th>Status</th>
@@ -118,10 +118,9 @@ const BetTable = () => {
                         <td>{e.user_id}</td>
                         <td>{e.jockey_name}</td>
                         <td>{e.horce_number}</td>
-
+                        <td>{e.type}</td>
                         <td>{e.race_number}</td>
                         <td>{e.potential_amount}</td>
-                        <td>{e.type}</td>
                         <td>{e.venue}</td>
                         <td>{e.user_amount}</td>
                         <td>{e.status}</td>

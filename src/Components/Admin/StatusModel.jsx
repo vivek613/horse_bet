@@ -16,6 +16,8 @@ const StatusModel = (props) => {
     amountData,
     setAmountData,
   } = useContext(Context);
+  const [dividend, setDividend] = useState(0);
+
   const handleChange = async (event) => {
     if (event.target.checked) {
       db.collection("participant")
@@ -35,7 +37,10 @@ const StatusModel = (props) => {
               ...amountData,
               amount:
                 Number(amountData.amount) +
-                Number(props.updateData.potential_amount),
+                (Number(props?.updateData?.user_amount) *
+                  (Number(props?.updateData?.value) -
+                    (Number(props?.updateData?.value) * dividend) / 100) +
+                  Number(props?.updateData?.user_amount)),
             })
             .then(() => {
               props.onHide();
@@ -43,6 +48,7 @@ const StatusModel = (props) => {
         });
     }
   };
+
   return (
     <Modal
       {...props}
@@ -61,35 +67,57 @@ const StatusModel = (props) => {
             e.preventDefault();
           }}
         >
-          <Form.Group className="status-form-div" controlId="formBasicPassword">
-            <Form.Label> status</Form.Label>
-            <input
-              style={{
-                height: "40px",
-                width: "26px",
-              }}
-              type="checkbox"
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Dividend ( IN %)</Form.Label>
+            <Form.Control
               disabled={props?.updateData?.status === "enabled" ? true : false}
-              checked={props?.updateData?.status === "enabled" ? true : false}
-              id="vehicle1"
-              name="vehicle1"
-              value="Bike"
-              onChange={(event) => {
-                handleChange(event);
-              }}
-            ></input>
+              type="number"
+              name="dividend"
+              required
+              placeholder="Enter divident amount"
+              value={dividend}
+              onChange={(e) => setDividend(e.target.value)}
+            />
           </Form.Group>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <p>
+              Potential Amount :{"  "}
+              {Number(props?.updateData?.user_amount) *
+                (Number(props?.updateData?.value) -
+                  (Number(props?.updateData?.value) * dividend) / 100) +
+                Number(props?.updateData?.user_amount)}
+            </p>
+            <Form.Group
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "15px",
+                padding: "0px",
+              }}
+              controlId="formBasicPassword"
+            >
+              <Form.Label>Status :</Form.Label>
+              <input
+                style={{
+                  height: "26px",
+                  width: "26px",
+                }}
+                type="checkbox"
+                disabled={
+                  props?.updateData?.status === "enabled" ? true : false
+                }
+                checked={props?.updateData?.status === "enabled" ? true : false}
+                id="vehicle1"
+                name="vehicle1"
+                value="Bike"
+                onChange={(event) => {
+                  handleChange(event);
+                }}
+              ></input>
+            </Form.Group>
+          </div>
 
-          {/* <Button
-            style={{
-              marginRight: "10px",
-            }}
-            variant="primary"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button> */}
           <Button variant="secondary" onClick={props.onHide}>
             Close
           </Button>

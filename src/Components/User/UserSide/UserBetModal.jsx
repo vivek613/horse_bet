@@ -142,7 +142,10 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
                     setWinPlc({
                       ...winPlc,
                       user_amount: e.target.value,
-                      potential_amount: e.target.value * winPlc.value,
+                      dividend: 0,
+                      potential_amount:
+                        Number(e.target.value) * Number(winPlc.value) +
+                        Number(e.target.value),
                     });
                     setBetAmount(e.target.value);
                   }}
@@ -152,7 +155,10 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
               <hr style={{ color: "#866afb" }} />
               <div className={styles["wallet-calc"]}>
                 <p>Potential Amount</p>
-                <p>+{betAmount * winPlc.value}</p>
+                <p>
+                  +
+                  {Number(betAmount) * Number(winPlc.value) + Number(betAmount)}
+                </p>
               </div>
               <div className={styles["wallet-button-wrapper"]}>
                 <Button
