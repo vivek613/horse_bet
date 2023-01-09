@@ -43,11 +43,10 @@ export const AdminDashboard = () => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
       setOddData(
         snapshot.docs.map((doc) => doc.data())[0]?.Allrace[raceIndexNum]
-          ?.runners
       );
     });
     // doc;
-  }, []);
+  }, [raceIndexNum]);
   useEffect(() => {
     if (getCookie("access_token")) {
       navigate(`/user/admin/eecYvXE0OXOczXQAodjzfjZ89ry2`);
@@ -89,7 +88,7 @@ export const AdminDashboard = () => {
 
   const handleGetRace = async (e) => {
     setSelectedState(e.raceTime);
-    setOddData(e.runners);
+    setOddData(e);
   };
   const handleBetDelete = () => {
     db.collection("participant").doc("eecYvXE0OXOczXQAodjzfjZ89ry2").set({
@@ -183,6 +182,40 @@ export const AdminDashboard = () => {
             className="table-container"
             style={{ margin: "20px 60px 20px 0px" }}
           >
+            <div>
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  checked={
+                    oddData?.status?.toLowerCase() === "drl" ||
+                    oddData?.status?.toLowerCase() === "stp"
+                      ? true
+                      : false
+                  }
+                  onChange={(e) => {
+                    const array1 = [...indiaRace];
+                    if (array1[raceIndexNum].status.toLowerCase() === "drl") {
+                      array1[raceIndexNum].status = "BST";
+                    } else if (
+                      array1[raceIndexNum].status.toLowerCase() === "bst"
+                    ) {
+                      array1[raceIndexNum].status = "DRL";
+                    } else if (
+                      array1[raceIndexNum].status.toLowerCase() === "stp"
+                    ) {
+                      array1[raceIndexNum].status = "DRL";
+                    }
+
+                    db.collection("TimeData")
+                      .doc("RaceData")
+                      .update({ Allrace: array1 });
+
+                    // setIndiaRace(array1);
+                  }}
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
             <Table bordered hover>
               <thead>
                 <tr>
@@ -198,7 +231,7 @@ export const AdminDashboard = () => {
               </thead>
               <tbody>
                 {!!oddData &&
-                  oddData?.map((e, index) => {
+                  oddData?.runners?.map((e, index) => {
                     return (
                       <tr index={index}>
                         <td>{e.position}</td>

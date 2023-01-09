@@ -7,6 +7,7 @@ import { doc, updateDoc } from "@firebase/firestore";
 import { db } from "../../config/firebase";
 import { Context } from "../../App";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { toast } from "react-hot-toast";
 
 export const AddUserModel = (props) => {
   const { setAdmin, userData, setUseData, addUser, setAddUser } =
@@ -24,9 +25,10 @@ export const AddUserModel = (props) => {
     )
       .then((response) => {
         const user = response.user;
+        toast.success(`add Succesfully ${addUser.email}`);
 
-        db.collection("users").doc(user.uid).set({
-          uid: user.uid,
+        db.collection("users").doc(response._tokenResponse.localId).set({
+          uid: response._tokenResponse.localId,
           email: addUser.email,
           password: addUser.password,
           admin: addUser.admin,
@@ -37,10 +39,7 @@ export const AddUserModel = (props) => {
       .catch((error) => {
         console.log(error);
       });
-    db.collection("users")
-      .doc(userData.uid)
-      .update(userData)
-      .then(function () {});
+
     // e.preventDefault();
     // AddDataToFirebase(formData);
     props.onHide();

@@ -5,7 +5,7 @@ import styles from "./Dashboard.module.css";
 import { auth, db } from "../../../config/firebase";
 import { useNavigate } from "react-router";
 import { getCookie } from "../../../Hook/Cookies";
-import { Toaster } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
 import { Context } from "../../../App";
@@ -51,6 +51,7 @@ export const Dashboard = () => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
 
       setParticipants(snapshot.docs.map((doc) => doc.data())[0].Allrace[ind]);
+      toast.success(` data update`);
     });
   }, [ind]);
 
@@ -335,61 +336,67 @@ export const Dashboard = () => {
                             right: "0",
                           }}
                         >
-                          <button
-                            // disabled={
-                            //   participants?.status?.toLowerCase() === "bst"
-                            //     ? false
-                            //     : true
-                            // }
-                            style={{
-                              cursor:
-                                participants?.status?.toLowerCase() === "bst"
-                                  ? "pointer"
-                                  : "not-allowed",
-                            }}
-                            className={styles["odds-button"]}
-                            onClick={() => {
-                              setIndexNum(index);
-                              setHorcesData(e);
-                              setWinPlc({
-                                ...winPlc,
-                                type: "WIN",
-                                value: e.odds.FOWIN,
-                                jockey_name: e.jockey.name,
-                                horce_number: e.position,
-                              });
-                              setWalletModal(true);
-                            }}
-                          >
-                            {e.odds.FOWIN}
-                          </button>
-                          <button
-                            // disabled={
-                            //   participants?.status?.toLowerCase() === "bst"
-                            //     ? false
-                            //     : true
-                            // }
-                            style={{
-                              cursor:
-                                participants?.status?.toLowerCase() === "bst"
-                                  ? "pointer"
-                                  : "not-allowed",
-                            }}
-                            className={styles["bet-button"]}
-                            onClick={() => {
-                              setHorcesData(e);
-                              setWinPlc({
-                                ...winPlc,
-                                type: "PLC",
-                                value: e.odds.FOPLC,
-                                jockey_name: e.jockey.name,
-                                horce_number: e.position,
-                              });
-                              setWalletModal(true);
-                            }}
-                          >
-                            {e.odds.FOPLC}
-                          </button>
+                          {participants?.status?.toLowerCase() === "bst" && (
+                            <>
+                              <button
+                                disabled={
+                                  participants?.status?.toLowerCase() === "bst"
+                                    ? false
+                                    : true
+                                }
+                                style={{
+                                  cursor:
+                                    participants?.status?.toLowerCase() ===
+                                    "bst"
+                                      ? "pointer"
+                                      : "not-allowed",
+                                }}
+                                className={styles["odds-button"]}
+                                onClick={() => {
+                                  setIndexNum(index);
+                                  setHorcesData(e);
+                                  setWinPlc({
+                                    ...winPlc,
+                                    type: "WIN",
+                                    value: e.odds.FOWIN,
+                                    jockey_name: e.jockey.name,
+                                    horce_number: e.position,
+                                  });
+                                  setWalletModal(true);
+                                }}
+                              >
+                                {e.odds.FOWIN}
+                              </button>
+                              <button
+                                disabled={
+                                  participants?.status?.toLowerCase() === "bst"
+                                    ? false
+                                    : true
+                                }
+                                style={{
+                                  cursor:
+                                    participants?.status?.toLowerCase() ===
+                                    "bst"
+                                      ? "pointer"
+                                      : "not-allowed",
+                                }}
+                                className={styles["bet-button"]}
+                                onClick={() => {
+                                  setHorcesData(e);
+                                  setWinPlc({
+                                    ...winPlc,
+                                    type: "PLC",
+                                    value: e.odds.FOPLC,
+                                    jockey_name: e.jockey.name,
+                                    horce_number: e.position,
+                                  });
+                                  setWalletModal(true);
+                                }}
+                              >
+                                {e.odds.FOPLC}
+                              </button>
+                            </>
+                          )}
                         </div>
                       </Card.Body>
                     </Card>

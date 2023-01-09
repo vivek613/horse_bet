@@ -4,8 +4,12 @@ import { Context } from "../../App";
 import { db } from "../../config/firebase";
 import { Sidebar } from "./Sidebar";
 import { FiEdit } from "react-icons/fi";
+
+import { AiFillDelete } from "react-icons/ai";
+
 import { UserModel } from "./UserModel";
 import { AddUserModel } from "./AddUserModel";
+import { Toaster } from "react-hot-toast";
 
 const User = () => {
   const { setAdmin, userData, setUseData } = useContext(Context);
@@ -24,18 +28,12 @@ const User = () => {
       // });
     });
   }, []);
-  useEffect(() => {
-    table.filter((data) => {
-      if (data.admin === true) {
-        setAdmin(data);
-      }
-    });
-  }, [table]);
 
   return (
     <>
       <div>
         <Sidebar />
+        <Toaster position="top-center" reverseOrder={false} />
 
         <h3
           style={{
@@ -81,6 +79,7 @@ const User = () => {
                 <th>amount</th>
                 <th>admin</th>
                 <th>edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -98,6 +97,13 @@ const User = () => {
 
                           setModalShow(true);
                           setUseData(e);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <AiFillDelete
+                        onClick={(event) => {
+                          db.collection("users").doc(e.uid).delete();
                         }}
                       />
                     </td>
