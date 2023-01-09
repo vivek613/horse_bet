@@ -16,6 +16,7 @@ import { getCookie } from "../../Hook/Cookies";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-hot-toast";
+import { DeleteModel } from "./DeleteModel";
 
 // Be sure to include styles at some point, probably during your bootstraping
 
@@ -35,6 +36,8 @@ export const AdminDashboard = () => {
   } = useContext(Context);
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
+  const [detelemodalShow, setDeleteModalShow] = useState(false);
+
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
   const [selectedState, setSelectedState] = useState(true);
@@ -91,9 +94,7 @@ export const AdminDashboard = () => {
     setOddData(e);
   };
   const handleBetDelete = () => {
-    db.collection("participant").doc("eecYvXE0OXOczXQAodjzfjZ89ry2").set({
-      data: [],
-    });
+    setDeleteModalShow(true);
   };
 
   return (
@@ -265,6 +266,10 @@ export const AdminDashboard = () => {
         data={oddData}
         onHide={() => setModalShow(false)}
       />
+      <DeleteModel
+        show={detelemodalShow}
+        onHide={() => setDeleteModalShow(false)}
+      ></DeleteModel>
     </>
   );
 };

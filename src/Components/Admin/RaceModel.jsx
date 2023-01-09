@@ -49,7 +49,7 @@ const RaceModel = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          Odd Win Change
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

@@ -51,7 +51,7 @@ export const Dashboard = () => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
 
       setParticipants(snapshot.docs.map((doc) => doc.data())[0].Allrace[ind]);
-      toast.success(` data update`);
+      toast.success(`Success`);
     });
   }, [ind]);
 
@@ -91,7 +91,7 @@ export const Dashboard = () => {
   return (
     <>
       <NavbarCommon />
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
       <div className={styles["user-race-data-main"]}>
         <p className={styles["user-race-title"]}>Today's Race</p>
         <div className={styles["state-array"]}>
