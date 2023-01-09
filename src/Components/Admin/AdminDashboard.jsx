@@ -145,7 +145,7 @@ export const AdminDashboard = () => {
               }}
               onClick={handleBetDelete}
             >
-              Refresh
+              Delete
             </Button>
           </div>
           <div className={styles["user-card-main"]}>
@@ -183,7 +183,26 @@ export const AdminDashboard = () => {
             className="table-container"
             style={{ margin: "20px 60px 20px 0px" }}
           >
-            <div>
+            <div
+              style={{
+                display: "flex",
+                gap: "20px",
+                height: "50px",
+                margin: "10px",
+                alignItems: "center",
+              }}
+            >
+              <p
+                style={{
+                  margin: "0px",
+                  padding: "0px",
+                  color: "red",
+                  fontSize: "20px",
+                  fontWeight: "600",
+                }}
+              >
+                Stop Bet :{" "}
+              </p>
               <label class="switch">
                 <input
                   type="checkbox"

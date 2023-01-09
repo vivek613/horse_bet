@@ -109,7 +109,6 @@ export const Register = () => {
               value="Login"
               onClick={(e) => {
                 e.preventDefault();
-
                 registerWithEmailAndPassword(
                   registerData.email,
                   registerData.password
@@ -122,6 +121,10 @@ export const Register = () => {
           <div class="text-center small">
             Do you have an account?{" "}
             <a
+              style={{
+                curser: "pointer",
+                color: "black",
+              }}
               onClick={() => {
                 navigate("/login");
               }}
@@ -130,8 +133,25 @@ export const Register = () => {
             </a>
           </div>
         </div>
+
         <Toaster position="top-right" reverseOrder={false} />
       </div>
+      <p
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          bottom: "-15px",
+          position: "absolute",
+          width: "100%",
+          background: "#00000063",
+          color: "white",
+          padding: "3px 15px",
+          fontSize: "14px",
+        }}
+      >
+        For Balance Contact Number : 1000020000
+      </p>
     </>
   );
 };

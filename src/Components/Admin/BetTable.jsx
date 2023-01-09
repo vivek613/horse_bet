@@ -47,6 +47,17 @@ const BetTable = () => {
       <div>
         <Sidebar />
         <div className="user-data-tabel">
+          <p
+            style={{
+              margin: "15px 15px 5px 15px",
+              padding: "10px 10px 0px 10px",
+              fontSize: "20px",
+              color: "black",
+              fontWeight: "600",
+            }}
+          >
+            User Bet Data :{" "}
+          </p>
           <div className={styles["user-card-main"]}>
             {indiaRace?.map((e, index) => {
               return (

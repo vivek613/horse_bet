@@ -52,7 +52,7 @@ export const Sidebar = () => {
           <NavIcon style={{ opacity: "1" }}>
             <MdAccessTimeFilled style={{ fill: "black" }} />
           </NavIcon>
-          <NavText style={{ color: "black" }}>Time Data</NavText>
+          <NavText style={{ color: "black" }}>Indian Race Data</NavText>
         </NavItem>
         <NavItem
           selected
@@ -64,7 +64,7 @@ export const Sidebar = () => {
           <NavIcon style={{ opacity: "1" }}>
             <FaUsers style={{ fill: "black" }} />
           </NavIcon>
-          <NavText style={{ color: "black" }}>Bet Data</NavText>
+          <NavText style={{ color: "black" }}>User Bet Data</NavText>
         </NavItem>
         <NavItem
           selected
