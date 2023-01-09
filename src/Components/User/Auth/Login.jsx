@@ -137,6 +137,22 @@ export const Login = () => {
           </div>
         </div>
       </div>
+      <p
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          bottom: "-15px",
+          position: "absolute",
+          width: "100%",
+          background: "#00000063",
+          color: "white",
+          padding: "3px 15px",
+          fontSize: "14px",
+        }}
+      >
+        For Balance Contact Number : 1000020000
+      </p>
     </>
   );
 };
