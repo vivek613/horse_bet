@@ -37,7 +37,7 @@ export const Login = () => {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         doc.data().admin === true
-          ? navigate(`/user/admin/eecYvXE0OXOczXQAodjzfjZ89ry2`)
+          ? navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`)
           : navigate("/dashboard");
       });
     });

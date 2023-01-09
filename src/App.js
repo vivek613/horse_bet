@@ -27,18 +27,9 @@ function App() {
 
             {/* <Route path="/dashboard/:id" element={<Dashboard />} /> */}
 
-            <Route
-              path="/user/admin/eecYvXE0OXOczXQAodjzfjZ89ry2"
-              element={<AdminDashboard />}
-            />
-            <Route
-              path="/user/admin/usertable/eecYvXE0OXOczXQAodjzfjZ89ry2"
-              element={<User />}
-            />
-            <Route
-              path="/user/admin/bettable/eecYvXE0OXOczXQAodjzfjZ89ry2"
-              element={<BetTable />}
-            />
+            <Route path="/user/admin/:id" element={<AdminDashboard />} />
+            <Route path="/user/admin/usertable/:id" element={<User />} />
+            <Route path="/user/admin/bettable/:id" element={<BetTable />} />
           </Routes>
         </Context.Provider>
       </BrowserRouter>

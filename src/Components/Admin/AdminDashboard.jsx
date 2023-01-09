@@ -52,7 +52,7 @@ export const AdminDashboard = () => {
   }, [raceIndexNum]);
   useEffect(() => {
     if (getCookie("access_token")) {
-      navigate(`/user/admin/eecYvXE0OXOczXQAodjzfjZ89ry2`);
+      navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`);
     } else {
       navigate("/login");
     }
