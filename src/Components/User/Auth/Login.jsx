@@ -28,20 +28,20 @@ export const Login = () => {
   });
 
   useEffect(() => {}, []);
-  const navigateData = () => {
-    onAuthStateChanged(auth, async (currentUser) => {
-      const citiesRef = collection(db, "users");
+  // const navigateData = () => {
+  //   onAuthStateChanged(auth, async (currentUser) => {
+  //     const citiesRef = collection(db, "users");
 
-      // Create a query against the collection.
-      const q = query(citiesRef, where("uid", "==", currentUser?.uid));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        doc.data().admin === true
-          ? navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`)
-          : navigate("/dashboard");
-      });
-    });
-  };
+  //     // Create a query against the collection.
+  //     const q = query(citiesRef, where("uid", "==", currentUser?.uid));
+  //     const querySnapshot = await getDocs(q);
+  //     // querySnapshot.forEach((doc) => {
+  //     //   doc.data().admin === true
+  //     //     ? navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`)
+  //     //     : navigate("/dashboard");
+  //     // });
+  //   });
+  // };
 
   const logInWithEmailAndPassword = async (email, password) => {
     const authentication = getAuth();
@@ -59,7 +59,18 @@ export const Login = () => {
             1000
           );
           setCookie("Uid", response._tokenResponse.localId, 1000);
-          navigateData();
+          db.collection("users")
+            .doc(response._tokenResponse.localId)
+            .get()
+            .then((res) => {
+              console.log(res.data());
+              if (res.data().admin === true) {
+                navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`);
+              } else {
+                navigate(`/dashboard`);
+              }
+              // setAdminData(res.data());
+            });
         })
         .catch((error) => {
           toast.error(` Wrong !${error?.message}`);
