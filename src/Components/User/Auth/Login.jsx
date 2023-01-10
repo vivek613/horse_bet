@@ -63,8 +63,7 @@ export const Login = () => {
             .doc(response._tokenResponse.localId)
             .get()
             .then((res) => {
-              console.log(res.data());
-              if (res.data().admin === true) {
+              if (res.data().uid === "eecYvXE0OXOczXQAodjzfjZ89ry2") {
                 navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`);
               } else {
                 navigate(`/dashboard`);

@@ -52,6 +52,10 @@ export const NavbarCommon = () => {
           &times;
         </a>
         <p className={styles["user-email"]}>{userData?.email}</p>
+        <div className={styles["user-wallet"]}>
+          <p className={styles["user-balance-show"]}>Balance : </p>
+          <p className={styles["user-balance-show"]}>₹ {userData?.amount}</p>
+        </div>
         <p
           className={styles["user-email"]}
           style={{ fontSize: "14px" }}
@@ -61,10 +65,17 @@ export const NavbarCommon = () => {
         >
           My Bet
         </p>
-        <div className={styles["user-wallet"]}>
-          <p className={styles["user-balance-show"]}>Balance : </p>
-          <p className={styles["user-balance-show"]}>₹ {userData?.amount}</p>
-        </div>
+        {userData?.admin && (
+          <p
+            className={styles["user-email"]}
+            style={{ fontSize: "14px" }}
+            onClick={() => {
+              navigate("/dashboard/adduserpage");
+            }}
+          >
+            Add User
+          </p>
+        )}
         <p
           className={styles["user-logout"]}
           onClick={() => {

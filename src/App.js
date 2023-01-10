@@ -10,6 +10,7 @@ import { createContext } from "react";
 import User from "./Components/Admin/User";
 import BetTable from "./Components/Admin/BetTable";
 import MyBet from "./Components/User/UserSide/MyBet";
+import AddUserClient from "./Components/User/UserSide/AddUserClient";
 
 export const Context = createContext(useContext);
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/mybet" element={<MyBet />} />
+            <Route path="/dashboard/adduserpage" element={<AddUserClient />} />
 
             {/* <Route path="/dashboard/:id" element={<Dashboard />} /> */}
 
