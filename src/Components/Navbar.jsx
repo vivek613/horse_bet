@@ -8,7 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Context } from "../App";
 import { toast } from "react-hot-toast";
 import styles from "./Navbar.module.css";
-import { deleteAllCookies } from "../Hook/Cookies";
+import { deleteAllCookies, getCookie } from "../Hook/Cookies";
 import { BiWallet } from "react-icons/bi";
 
 export const NavbarCommon = () => {
@@ -21,8 +21,10 @@ export const NavbarCommon = () => {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
+    const uid = getCookie("Uid");
+
     db.collection("users")
-      .doc(user?.uid)
+      .doc(uid)
       .onSnapshot((snapshot) => {
         setUserData(snapshot.data());
       });

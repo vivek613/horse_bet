@@ -7,6 +7,7 @@ import { Card } from "react-bootstrap";
 import styles from "./Dashboard.module.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../../config/firebase";
+import { getCookie } from "../../../Hook/Cookies";
 
 const MyBet = () => {
   const navigate = useNavigate();
@@ -14,8 +15,9 @@ const MyBet = () => {
 
   const { winPlc, setWinPlc, userBet, setUserBet } = useContext(Context);
   useEffect(() => {
+    const uid = getCookie("Uid");
     db.collection("participant")
-      .doc(user?.uid)
+      .doc(uid)
       .onSnapshot((snapshot) => {
         if (snapshot.data()) {
           setUserBet(snapshot.data()?.data);

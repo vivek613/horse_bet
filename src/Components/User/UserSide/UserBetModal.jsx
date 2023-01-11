@@ -5,6 +5,7 @@ import { db } from "../../../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { Context } from "../../../App";
+import { getCookie } from "../../../Hook/Cookies";
 
 export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
   const {
@@ -24,20 +25,21 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
   const [betAmount, setBetAmount] = useState(0);
   const [userData, setUserData] = useState([]);
   useEffect(() => {
+    const uid = getCookie("Uid");
     db.collection("participant")
       .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
       .onSnapshot((snapshot) => {
         setParticipant(snapshot.data()?.data);
       });
     db.collection("participant")
-      .doc(user?.uid)
+      .doc(uid)
       .onSnapshot((snapshot) => {
         if (snapshot.data()) {
           setUserBet(snapshot.data()?.data);
         }
       });
     db.collection("users")
-      .doc(user?.uid)
+      .doc(uid)
 
       .onSnapshot((res) => {
         setUserData(res.data());

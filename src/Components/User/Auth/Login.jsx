@@ -113,11 +113,7 @@ export const Login = () => {
                 }
               />
             </div>
-            <div class="form-group small clearfix">
-              <a href="#" class="forgot-link">
-                Forgot Password?
-              </a>
-            </div>
+
             <button
               type="submit"
               class="btn btn-primary btn-block btn-lg"

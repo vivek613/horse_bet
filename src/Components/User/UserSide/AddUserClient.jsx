@@ -7,7 +7,8 @@ import { NavbarCommon } from "../../Navbar";
 import { db } from "../../../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
+import { getCookie } from "../../../Hook/Cookies";
 
 const AddUserClient = () => {
   const navigate = useNavigate();
@@ -19,10 +20,12 @@ const AddUserClient = () => {
     amount: 0,
     admin: false,
   });
+  console.log(user);
   const [clientData, setClientData] = useState();
   useEffect(() => {
+    const uid = getCookie("Uid");
     db.collection("users")
-      .doc(user?.uid)
+      .doc(uid)
       .onSnapshot((snapshot) => {
         setClientData(snapshot.data());
       });
@@ -36,8 +39,8 @@ const AddUserClient = () => {
       newUser.password
     )
       .then((response) => {
-        navigate("/dashboard");
         toast.success(`add Succesfully ${newUser.email}`);
+
         db.collection("users").doc(response._tokenResponse.localId).set({
           uid: response._tokenResponse.localId,
           email: newUser.email,
@@ -51,7 +54,9 @@ const AddUserClient = () => {
             ...clientData,
             amount: Number(clientData.amount) - Number(newUser.amount),
           });
+        setNewUser({ email: "", password: "", amount: 0, admin: false });
       })
+
       .catch((error) => {
         toast.error(` ${error.message}`);
       });
@@ -60,6 +65,8 @@ const AddUserClient = () => {
   return (
     <>
       <NavbarCommon />
+      <Toaster position="top-right" reverseOrder={false} />
+
       <span
         style={{
           fontSize: "39px",
