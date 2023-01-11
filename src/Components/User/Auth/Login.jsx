@@ -1,23 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
 import "../../../Assets/common.css";
 import { FaLock } from "react-icons/fa";
-import { getCookie, setCookie } from "../../../Hook/Cookies";
-import { Context } from "../../../App";
+import { setCookie } from "../../../Hook/Cookies";
 import { toast, Toaster } from "react-hot-toast";
-
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../../../config/firebase";
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { db } from "../../../config/firebase";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -26,22 +14,6 @@ export const Login = () => {
     email: "",
     password: "",
   });
-
-  useEffect(() => {}, []);
-  // const navigateData = () => {
-  //   onAuthStateChanged(auth, async (currentUser) => {
-  //     const citiesRef = collection(db, "users");
-
-  //     // Create a query against the collection.
-  //     const q = query(citiesRef, where("uid", "==", currentUser?.uid));
-  //     const querySnapshot = await getDocs(q);
-  //     // querySnapshot.forEach((doc) => {
-  //     //   doc.data().admin === true
-  //     //     ? navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`)
-  //     //     : navigate("/dashboard");
-  //     // });
-  //   });
-  // };
 
   const logInWithEmailAndPassword = async (email, password) => {
     const authentication = getAuth();
@@ -113,7 +85,6 @@ export const Login = () => {
                 }
               />
             </div>
-
             <button
               type="submit"
               class="btn btn-primary btn-block btn-lg"
@@ -157,7 +128,7 @@ export const Login = () => {
           fontSize: "14px",
         }}
       >
-        For Balance Contact Number : 1000020000
+        For Balance Contact Number : 86 69 64 69 69
       </p>
     </>
   );

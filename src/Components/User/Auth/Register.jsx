@@ -150,7 +150,7 @@ export const Register = () => {
           fontSize: "14px",
         }}
       >
-        For Balance Contact Number : 1000020000
+        For Balance Contact Number : 86 69 64 69 69
       </p>
     </>
   );

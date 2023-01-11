@@ -6,7 +6,6 @@ import "./AdminDashboard.css";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { db } from "../../config/firebase";
-import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { Context } from "../../App";
 import { Sidebar } from "./Sidebar";
 import { FiEdit } from "react-icons/fi";
@@ -71,8 +70,7 @@ export const AdminDashboard = () => {
             item.vName.toLowerCase() === "mumbai" ||
             item.vName.toLowerCase() === "hyderabad" ||
             item.vName.toLowerCase() === "delhi" ||
-            item.vName.toLowerCase() === "calcutta" ||
-            item.vName.toLowerCase() === "bangalore"
+            item.vName.toLowerCase() === "calcutta"
           ) {
             return array.push(item);
           }
@@ -96,6 +94,8 @@ export const AdminDashboard = () => {
   const handleBetDelete = () => {
     setDeleteModalShow(true);
   };
+
+  console.log("oddData", oddData);
 
   return (
     <>
@@ -188,53 +188,120 @@ export const AdminDashboard = () => {
                 display: "flex",
                 gap: "20px",
                 height: "50px",
-                margin: "10px",
+                margin: "10px 0px 30px 0px",
+                justifyContent: "space-between",
+                width: "100%",
                 alignItems: "center",
               }}
             >
-              <p
+              <div>
+                {oddData?.status === "DRL" && (
+                  <Card>
+                    <Card.Body className={styles["results-div"]}>
+                      {oddData?.statusView
+                        ?.split("-")
+                        .slice(0, -1)
+                        ?.map((item, index) => {
+                          return (
+                            <>
+                              {oddData?.runners.length < 8 &&
+                              (index === 1 || index === 0) ? (
+                                <div className={styles["jersey-div"]}>
+                                  <span className={styles["horce-num"]}>
+                                    {index + 1}
+                                    <sup>
+                                      {index === 0
+                                        ? "st"
+                                        : index === 1
+                                        ? "nd"
+                                        : "rd"}
+                                    </sup>
+                                  </span>
+
+                                  <small className={styles["draw-num"]}>
+                                    {item}
+                                  </small>
+                                </div>
+                              ) : (
+                                oddData?.runners.length >= 8 && (
+                                  <div className={styles["jersey-div"]}>
+                                    <span className={styles["horce-num"]}>
+                                      {index + 1}
+                                      <sup>
+                                        {index === 0
+                                          ? "st"
+                                          : index === 1
+                                          ? "nd"
+                                          : "rd"}
+                                      </sup>
+                                    </span>
+
+                                    <small className={styles["draw-num"]}>
+                                      {item}
+                                    </small>
+                                  </div>
+                                )
+                              )}
+                            </>
+                          );
+                        })}
+                    </Card.Body>
+                  </Card>
+                )}
+              </div>
+              <div
                 style={{
-                  margin: "0px",
-                  padding: "0px",
-                  color: "red",
-                  fontSize: "20px",
-                  fontWeight: "600",
+                  display: "flex",
+                  gap: "20px",
+                  height: "50px",
+                  margin: "10px 0px",
+                  alignItems: "center",
                 }}
               >
-                Stop Bet :{" "}
-              </p>
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  checked={
-                    oddData?.status?.toLowerCase() === "drl" ||
-                    oddData?.status?.toLowerCase() === "stp"
-                      ? true
-                      : false
-                  }
-                  onChange={(e) => {
-                    const array1 = [...indiaRace];
-                    if (array1[raceIndexNum].status.toLowerCase() === "drl") {
-                      array1[raceIndexNum].status = "BST";
-                    } else if (
-                      array1[raceIndexNum].status.toLowerCase() === "bst"
-                    ) {
-                      array1[raceIndexNum].status = "DRL";
-                    } else if (
-                      array1[raceIndexNum].status.toLowerCase() === "stp"
-                    ) {
-                      array1[raceIndexNum].status = "DRL";
-                    }
-
-                    db.collection("TimeData")
-                      .doc("RaceData")
-                      .update({ Allrace: array1 });
-
-                    // setIndiaRace(array1);
+                <p
+                  style={{
+                    margin: "0px",
+                    padding: "0px",
+                    color: "red",
+                    fontSize: "20px",
+                    fontWeight: "600",
                   }}
-                />
-                <span class="slider round"></span>
-              </label>
+                >
+                  Stop Bet :{" "}
+                </p>
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    checked={
+                      oddData?.status?.toLowerCase() === "drl" ||
+                      oddData?.status?.toLowerCase() === "stp"
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      const array1 = [...indiaRace];
+                      if (array1[raceIndexNum].status.toLowerCase() === "drl") {
+                        array1[raceIndexNum].status = "BST";
+                      } else if (
+                        array1[raceIndexNum].status.toLowerCase() === "bst"
+                      ) {
+                        array1[raceIndexNum].status = "DRL";
+                      } else if (
+                        array1[raceIndexNum].status.toLowerCase() === "stp"
+                      ) {
+                        array1[raceIndexNum].status = "DRL";
+                      }
+
+                      db.collection("TimeData")
+                        .doc("RaceData")
+                        .update({ Allrace: array1 });
+
+                      // setIndiaRace(array1);
+                    }}
+                  />
+                  <span class="slider round"></span>
+                </label>
+              </div>
             </div>
             <Table bordered hover>
               <thead>

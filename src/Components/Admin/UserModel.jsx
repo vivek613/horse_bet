@@ -9,18 +9,21 @@ import { Context } from "../../App";
 
 export const UserModel = (props) => {
   const { setAdmin, userData, setUseData } = useContext(Context);
+  const [userAddAMount, setUserAddAMount] = useState(0);
 
   const [formData, setFormData] = useState(userData);
 
   const handleSubmit = async (user) => {
     db.collection("users")
       .doc(userData.uid)
-      .update(userData)
+      .update({
+        ...userData,
+        amount: Number(userData.amount) + Number(userAddAMount),
+      })
       .then(function () {});
-    // e.preventDefault();
-    // AddDataToFirebase(formData);
     props.onHide();
   };
+
   return (
     <Modal
       {...props}
@@ -43,15 +46,12 @@ export const UserModel = (props) => {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Prize</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               name="Amount"
               required
               placeholder="Enter prize"
-              defaultValue={userData.amount}
-              value={userData.amount}
-              onChange={(e) =>
-                setUseData({ ...userData, amount: e.target.value })
-              }
+              value={userAddAMount}
+              onChange={(e) => setUserAddAMount(e.target.value)}
             />
           </Form.Group>
           <Button

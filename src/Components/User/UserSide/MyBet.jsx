@@ -41,7 +41,7 @@ const MyBet = () => {
       </span>
       <div
         className={styles["user-horce-card"]}
-        style={{ height: "calc(100vh - 170px)" }}
+        style={{ height: "calc(100vh - 170px)", color: "black" }}
       >
         {userBet?.reverse().map((item) => {
           return (
@@ -90,7 +90,7 @@ const MyBet = () => {
                       width: "100%",
                     }}
                   >
-                    <p>Odds: {item.type}</p>
+                    <p>Odds Type: {item.type}</p>
                     <p>Amount: {item.user_amount}</p>
                   </div>
                 </div>

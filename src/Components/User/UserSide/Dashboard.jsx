@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { NavbarCommon } from "../../Navbar";
 import styles from "./Dashboard.module.css";
@@ -32,7 +32,6 @@ export const Dashboard = () => {
     "Calcutta",
     "Hyderabad",
     "Mysore",
-    "Banglore",
   ]);
   const [horcesData, setHorcesData] = useState({});
   const [stateWiseData, setStateWiseData] = useState([]);
@@ -85,7 +84,6 @@ export const Dashboard = () => {
       status: "disabled",
       withdraw: false,
     });
-    // setResultOfRace(e?.poolResults[5]?.winner);
   };
 
   return (
