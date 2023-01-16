@@ -27,7 +27,6 @@ const MyBet = () => {
               }
             })
           );
-          console.log(snapshot?.data()?.data);
           // setUserBet(snapshot.data()?.data);
         }
       });

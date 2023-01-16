@@ -95,8 +95,6 @@ export const AdminDashboard = () => {
     setDeleteModalShow(true);
   };
 
-  console.log("oddData", oddData);
-
   return (
     <>
       <div>

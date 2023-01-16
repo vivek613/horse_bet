@@ -47,13 +47,11 @@ export const ResetPassword = () => {
                 e.preventDefault();
                 sendPasswordResetEmail(auth, email)
                   .then((data) => {
-                    console.log(data);
                     toast.success(
                       ` reset password link send yout email id ${email} Succesfully `
                     );
                   })
                   .catch((errors) => {
-                    console.log(errors);
                     toast.error(`${errors?.message}`);
                   });
                 // logInWithEmailAndPassword(loginData.email, loginData.password);

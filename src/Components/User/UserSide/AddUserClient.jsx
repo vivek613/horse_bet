@@ -20,7 +20,6 @@ const AddUserClient = () => {
     amount: 0,
     admin: false,
   });
-  console.log(user);
   const [clientData, setClientData] = useState();
   useEffect(() => {
     const uid = getCookie("Uid");
