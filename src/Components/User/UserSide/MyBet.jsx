@@ -27,7 +27,6 @@ const MyBet = () => {
               }
             })
           );
-          console.log(snapshot?.data()?.data);
           // setUserBet(snapshot.data()?.data);
         }
       });
@@ -63,12 +62,13 @@ const MyBet = () => {
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
-                      gap: "50px",
+                      width: "100%",
+                      margin: "0 0 10px 0",
                     }}
                   >
                     <div
                       style={{
-                        backgroundColor: "green",
+                        backgroundColor: "#39e75f",
                         width: "53px",
                         color: "black",
                         borderRadius: "5px",
@@ -76,15 +76,6 @@ const MyBet = () => {
                       }}
                     >
                       {item?.status === "enabled" && "Win"}
-                    </div>
-                    <div
-                      style={{
-                        color: "black",
-                        borderRadius: "5px",
-                        textAlign: "center",
-                      }}
-                    >
-                      Amount:<span>{item.potential_amount}</span>
                     </div>
                   </div>
                   <div
@@ -128,6 +119,7 @@ const MyBet = () => {
                     <p>
                       {item.type} rate: {Number(item.value).toFixed(2)}
                     </p>
+                    <p>Potential Amount: {item.potential_amount} </p>
                   </div>
                 </div>
               </Card.Body>
