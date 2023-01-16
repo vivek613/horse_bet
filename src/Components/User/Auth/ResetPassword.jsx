@@ -25,7 +25,7 @@ export const ResetPassword = () => {
             <div class="avatar">
               <FaLock />
             </div>
-            <h4 class="modal-title">Login to Your Account</h4>
+            <h4 class="modal-title">Reset Password</h4>
             <div class="form-group">
               <input
                 type="email"
