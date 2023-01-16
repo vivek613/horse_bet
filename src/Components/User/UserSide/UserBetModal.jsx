@@ -100,23 +100,7 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
           >
             <h4>Bet for you...</h4>
             <hr style={{ color: "#866afb" }} />
-            {/* {winPlc.type === "WIN" ||
-            (winPlc.type === "PLC" &&
-              winPlc.value ===
-                indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOWIN) ||
-            winPlc.value ===
-              indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOPLC ? (
-              ""
-            ) : (
-              <p
-                style={{
-                  color: "red",
-                }}
-              >
-                {" "}
-                odds change
-              </p>
-            )} */}
+
             <div className={styles["wallet-calc"]}>
               <p>
                 Odds - {winPlc.type} :
@@ -186,9 +170,10 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
                 <Button
                   disabled={
                     Number(betAmount) < Number(userData.amount) &&
-                    (betAmount < 10 || betAmount > 100000)
-                      ? true
-                      : false
+                    betAmount >= 10 &&
+                    betAmount <= 100000
+                      ? false
+                      : true
                   }
                   variant="primary"
                   onClick={() => {

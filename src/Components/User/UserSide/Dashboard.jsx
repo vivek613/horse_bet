@@ -322,72 +322,69 @@ export const Dashboard = () => {
                         >
                           {participants?.status?.toLowerCase() === "bst" && (
                             <>
-                              {(Number(e.odds.FOWIN) !== 0.0 ||
-                                Number(e.odds.FOWIN) !== 0) &&
-                                (Number(e.odds.FOPLC) !== 0.0 ||
-                                  Number(e.odds.FOPLC) !== 0) && (
-                                  <>
-                                    <button
-                                      disabled={
-                                        participants?.status?.toLowerCase() ===
-                                        "bst"
-                                          ? false
-                                          : true
-                                      }
-                                      style={{
-                                        cursor:
-                                          participants?.status?.toLowerCase() ===
-                                          "bst"
-                                            ? "pointer"
-                                            : "not-allowed",
-                                      }}
-                                      className={styles["odds-button"]}
-                                      onClick={() => {
-                                        setIndexNum(index);
-                                        setHorcesData(e);
-                                        setWinPlc({
-                                          ...winPlc,
-                                          type: "WIN",
-                                          value: e.odds.FOWIN,
-                                          jockey_name: e.jockey.name,
-                                          horce_number: e.position,
-                                        });
-                                        setWalletModal(true);
-                                      }}
-                                    >
-                                      {e.odds.FOWIN}
-                                    </button>
-                                    <button
-                                      disabled={
-                                        participants?.status?.toLowerCase() ===
-                                        "bst"
-                                          ? false
-                                          : true
-                                      }
-                                      style={{
-                                        cursor:
-                                          participants?.status?.toLowerCase() ===
-                                          "bst"
-                                            ? "pointer"
-                                            : "not-allowed",
-                                      }}
-                                      className={styles["bet-button"]}
-                                      onClick={() => {
-                                        setHorcesData(e);
-                                        setWinPlc({
-                                          ...winPlc,
-                                          type: "PLC",
-                                          value: e.odds.FOPLC,
-                                          jockey_name: e.jockey.name,
-                                          horce_number: e.position,
-                                        });
-                                        setWalletModal(true);
-                                      }}
-                                    >
-                                      {e.odds.FOPLC}
-                                    </button>
-                                  </>
-                                )}
+                              <button
+                                disabled={
+                                  participants?.status?.toLowerCase() ===
+                                    "bst" &&
+                                  Number(e.odds.FOWIN) !== 0 &&
+                                  Number(e.odds.FOWIN) !== 0.0
+                                    ? false
+                                    : true
+                                }
+                                style={{
+                                  cursor:
+                                    participants?.status?.toLowerCase() ===
+                                    "bst"
+                                      ? "pointer"
+                                      : "not-allowed",
+                                }}
+                                className={styles["odds-button"]}
+                                onClick={() => {
+                                  setIndexNum(index);
+                                  setHorcesData(e);
+                                  setWinPlc({
+                                    ...winPlc,
+                                    type: "WIN",
+                                    value: e.odds.FOWIN,
+                                    jockey_name: e.jockey.name,
+                                    horce_number: e.position,
+                                  });
+                                  setWalletModal(true);
+                                }}
+                              >
+                                {e.odds.FOWIN}
+                              </button>
+                              <button
+                                disabled={
+                                  participants?.status?.toLowerCase() ===
+                                    "bst" &&
+                                  Number(e.odds.FOWIN) !== 0 &&
+                                  Number(e.odds.FOWIN) !== 0.0
+                                    ? false
+                                    : true
+                                }
+                                style={{
+                                  cursor:
+                                    participants?.status?.toLowerCase() ===
+                                    "bst"
+                                      ? "pointer"
+                                      : "not-allowed",
+                                }}
+                                className={styles["bet-button"]}
+                                onClick={() => {
+                                  setHorcesData(e);
+                                  setWinPlc({
+                                    ...winPlc,
+                                    type: "PLC",
+                                    value: e.odds.FOPLC,
+                                    jockey_name: e.jockey.name,
+                                    horce_number: e.position,
+                                  });
+                                  setWalletModal(true);
+                                }}
+                              >
+                                {e.odds.FOPLC}
+                              </button>
                             </>
                           )}
                         </div>

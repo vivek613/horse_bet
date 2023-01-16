@@ -118,6 +118,17 @@ const MyBet = () => {
                     <p>Odds Type: {item.type}</p>
                     <p>Bet Amount: {item.user_amount}</p>
                   </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
+                    <p>
+                      {item.type} rate: {Number(item.value).toFixed(2)}
+                    </p>
+                  </div>
                 </div>
               </Card.Body>
             </Card>
