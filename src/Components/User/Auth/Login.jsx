@@ -21,6 +21,7 @@ export const Login = () => {
     try {
       await signInWithEmailAndPassword(authentication, email, password)
         .then((response) => {
+          // db.collection()
           toast.success(`login Succesfully ${response._tokenResponse.email}`);
 
           setCookie("access_token", response._tokenResponse.idToken, 1000);

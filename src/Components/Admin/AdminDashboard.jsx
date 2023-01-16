@@ -285,7 +285,7 @@ export const AdminDashboard = () => {
                       } else if (
                         array1[raceIndexNum].status.toLowerCase() === "bst"
                       ) {
-                        array1[raceIndexNum].status = "DRL";
+                        array1[raceIndexNum].status = "STP";
                       } else if (
                         array1[raceIndexNum].status.toLowerCase() === "stp"
                       ) {

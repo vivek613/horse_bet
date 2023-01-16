@@ -26,7 +26,7 @@ const BetTable = () => {
   } = useContext(Context);
   const [selectedState, setSelectedState] = useState(true);
   const [raceWiseBetData, setRaceWiseBetData] = useState();
-  const [updateData, setUpdateData] = useState();
+  const [updateData, setUpdateData] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [drawModalShow, setDrawModalShow] = useState(false);
   useEffect(() => {
@@ -37,11 +37,22 @@ const BetTable = () => {
       .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
       .onSnapshot((snapshot) => {
         setBetData(snapshot.data()?.data);
+        setRaceWiseBetData(
+          snapshot.data()?.data.filter((item) => {
+            if (
+              item.venue === selectedState.venue &&
+              item.race_number === selectedState.num
+            ) {
+              return item;
+            }
+          })
+        );
       });
 
     // doc;
   }, []);
 
+  console.log(raceWiseBetData, raceIndexNum);
   return (
     <>
       <div>
@@ -64,14 +75,18 @@ const BetTable = () => {
                 <>
                   <Card
                     className={
-                      selectedState === e.raceTime
+                      selectedState.time === e.raceTime
                         ? styles["user-simple-card-select"]
                         : styles["user-simple-card"]
                     }
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       // handleGetRace(e);
-                      setSelectedState(e.raceTime);
+                      setSelectedState({
+                        time: e.raceTime,
+                        venue: e.vName,
+                        num: e.raceNumber,
+                      });
                       setRaceWiseBetData(
                         betData.filter((item) => {
                           if (
@@ -108,7 +123,7 @@ const BetTable = () => {
             <Table bordered hover>
               <thead>
                 <tr>
-                  <th>User id</th>
+                  <th>Email ID</th>
                   <th>Jockey</th>
                   <th>Horce num</th>
                   <th>Odds</th>
@@ -126,7 +141,7 @@ const BetTable = () => {
                   raceWiseBetData?.map((e, index) => {
                     return (
                       <tr index={index}>
-                        <td>{e.user_id}</td>
+                        <td>{e.email}</td>
                         <td>{e.jockey_name}</td>
                         <td>{e.horce_number}</td>
                         <td>{e.type}</td>
@@ -140,7 +155,10 @@ const BetTable = () => {
                             onClick={(event) => {
                               event.preventDefault();
 
-                              setUpdateData(e);
+                              setUpdateData({
+                                data: e,
+                                key: index,
+                              });
                               db.collection("users")
                                 .doc(e.user_id)
                                 .onSnapshot((snapshot) => {
@@ -156,7 +174,11 @@ const BetTable = () => {
                             onClick={(event) => {
                               event.preventDefault();
 
-                              setUpdateData(e);
+                              // setUpdateData(e);
+                              setUpdateData({
+                                data: e,
+                                key: index,
+                              });
                               db.collection("users")
                                 .doc(e.user_id)
                                 .onSnapshot((snapshot) => {

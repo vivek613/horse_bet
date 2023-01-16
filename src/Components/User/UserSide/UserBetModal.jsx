@@ -24,6 +24,8 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
   const [participant, setParticipant] = useState([]);
   const [betAmount, setBetAmount] = useState(0);
   const [userData, setUserData] = useState([]);
+  const [showValue, setShowValue] = useState(false);
+  console.log(showValue);
   useEffect(() => {
     const uid = getCookie("Uid");
     db.collection("participant")
@@ -62,7 +64,7 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
         })
         .then(function () {
           setWalletModal(false);
-
+          setBetAmount(0);
           db.collection("users")
             .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
             .update({
@@ -98,7 +100,7 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
           >
             <h4>Bet for you...</h4>
             <hr style={{ color: "#866afb" }} />
-            {winPlc.type === "WIN" ||
+            {/* {winPlc.type === "WIN" ||
             (winPlc.type === "PLC" &&
               winPlc.value ===
                 indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOWIN) ||
@@ -114,7 +116,7 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
                 {" "}
                 odds change
               </p>
-            )}
+            )} */}
             <div className={styles["wallet-calc"]}>
               <p>
                 Odds - {winPlc.type} :
@@ -136,24 +138,42 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
                 <Form.Label>Amount</Form.Label>
                 <Form.Control
                   type="number"
-                  min={0}
+                  min={10}
+                  max={100000}
                   value={betAmount}
                   name="amount"
                   placeholder="Enter Amount"
                   onChange={(e) => {
-                    setWinPlc({
-                      ...winPlc,
-                      user_amount: e.target.value,
-                      dividend: 0,
-                      potential_amount:
-                        Number(e.target.value) * Number(winPlc.value) +
-                        Number(e.target.value),
-                    });
+                    if (e.target.value < 10 || e.target.value > 100000) {
+                      setShowValue(true);
+                    } else {
+                      setShowValue(false);
+
+                      setWinPlc({
+                        ...winPlc,
+                        user_amount: e.target.value,
+                        dividend: 0,
+                        potential_amount:
+                          Number(e.target.value) * Number(winPlc.value) +
+                          Number(e.target.value),
+                      });
+                    }
                     setBetAmount(e.target.value);
                   }}
                 />
               </Form.Group>
-
+              {showValue && betAmount !== 0 ? (
+                <p
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  {" "}
+                  please enter a minimum 10 and maximum 100000 amount
+                </p>
+              ) : (
+                ""
+              )}
               <hr style={{ color: "#866afb" }} />
               <div className={styles["wallet-calc"]}>
                 <p>Potential Amount</p>
@@ -166,9 +186,9 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
                 <Button
                   disabled={
                     Number(betAmount) < Number(userData.amount) &&
-                    0 < Number(betAmount)
-                      ? false
-                      : true
+                    (betAmount < 10 || betAmount > 100000)
+                      ? true
+                      : false
                   }
                   variant="primary"
                   onClick={() => {

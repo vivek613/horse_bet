@@ -21,8 +21,8 @@ const DrawModal = (props) => {
       db.collection("participant")
         .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
         .set({
-          data: betData.map((data) => {
-            if (props.updateData.key === data.key) {
+          data: betData.map((data, index) => {
+            if (props.updateData.key === index) {
               data.withdraw = true;
             }
             return data;
@@ -30,12 +30,12 @@ const DrawModal = (props) => {
         })
         .then(async (dd) => {
           db.collection("users")
-            .doc(props.updateData.user_id)
+            .doc(props?.updateData?.data?.user_id)
             .update({
               ...amountData,
               amount:
                 Number(amountData.amount) +
-                Number(props.updateData.user_amount),
+                Number(props?.updateData?.data?.user_amount),
             })
             .then(() => {
               props.onHide();
@@ -69,8 +69,8 @@ const DrawModal = (props) => {
                 width: "26px",
               }}
               type="checkbox"
-              disabled={props?.updateData?.withdraw}
-              checked={props?.updateData?.withdraw}
+              disabled={props?.updateData?.data?.withdraw}
+              checked={props?.updateData?.data?.withdraw}
               id="withdraw"
               name="withdraw"
               value="Bike"

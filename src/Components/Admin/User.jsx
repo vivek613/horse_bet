@@ -10,12 +10,14 @@ import { AiFillDelete } from "react-icons/ai";
 import { UserModel } from "./UserModel";
 import { AddUserModel } from "./AddUserModel";
 import { Toaster } from "react-hot-toast";
+import { deleteUser, getAuth } from "firebase/auth";
 
 const User = () => {
   const { setAdmin, userData, setUseData } = useContext(Context);
   const [table, setTable] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [addModalShow, setAddModalShow] = useState(false);
+  const auth = getAuth();
 
   useEffect(() => {
     let item;
@@ -27,6 +29,16 @@ const User = () => {
       //  setTable()
       // });
     });
+    // firebase
+    //   .auth()
+    //   .getUser("v3Vo9zautNTdPGlwdSBhGHixN502")
+    //   .delete()
+    //   .then(function () {
+    //     console.log("user deleted");
+    //   })
+    //   .catch(function (error) {
+    //     // console.log("Error while deleting user " + user.email);
+    //   });
   }, []);
 
   return (
@@ -103,7 +115,25 @@ const User = () => {
                     <td>
                       <AiFillDelete
                         onClick={(event) => {
-                          db.collection("users").doc(e.uid).delete();
+                          // const auth = getAuth();
+                          // const user = auth.currentUser;
+                          // // const user = auth.getUser(e.uid);
+                          // deleteUser(e.uid).then((data) => {
+                          //   console.log(data);
+                          // });
+                          // console.log(user);
+
+                          getAuth()
+                            .getUser(e.uid)
+                            .then((userRecord) => {
+                              // See the UserRecord reference doc for the contents of userRecord.
+                              console.log(
+                                `Successfully fetched user data: ${userRecord.toJSON()}`
+                              );
+                            })
+                            .catch((error) => {
+                              console.log("Error fetching user data:", error);
+                            });
                         }}
                       />
                     </td>

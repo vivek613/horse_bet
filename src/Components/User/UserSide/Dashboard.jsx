@@ -37,7 +37,10 @@ export const Dashboard = () => {
   const [stateWiseData, setStateWiseData] = useState([]);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
-  const [selectedState, setSelectedState] = useState("");
+  const [selectedState, setSelectedState] = useState({
+    venue: "",
+    raceNum: "",
+  });
   const [walletModal, setWalletModal] = useState(false);
 
   const [adminData, setAdminData] = useState();
@@ -50,7 +53,6 @@ export const Dashboard = () => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
 
       setParticipants(snapshot.docs.map((doc) => doc.data())[0].Allrace[ind]);
-      toast.success(`Success`);
     });
   }, [ind]);
 
@@ -78,6 +80,7 @@ export const Dashboard = () => {
     setWinPlc({
       ...winPlc,
       user_id: user.uid,
+      email: user.email,
       race_number: e.raceNumber,
       race_time: e.raceTime,
       venue: e.vName,
@@ -86,6 +89,7 @@ export const Dashboard = () => {
     });
   };
 
+  console.log(resultData);
   return (
     <>
       <NavbarCommon />
@@ -97,14 +101,14 @@ export const Dashboard = () => {
             return (
               <button
                 className={
-                  selectedState === items
+                  selectedState.venue === index
                     ? styles["state-button-user-select"]
                     : styles["state-button-user"]
                 }
                 onClick={() => {
                   setParticipants();
                   setRaceIndexNum(index);
-                  setSelectedState(items);
+                  setSelectedState({ ...selectedState, venue: index });
                   setStateWiseData(
                     indiaRace.filter((data) => {
                       if (data.vName.toLowerCase() == items.toLowerCase()) {
@@ -125,7 +129,7 @@ export const Dashboard = () => {
               <>
                 <Card
                   className={
-                    raceIndexNum === e.raceNumber - 1
+                    selectedState.raceNum === index
                       ? styles["user-simple-card-select"]
                       : styles["user-simple-card"]
                   }
@@ -133,6 +137,10 @@ export const Dashboard = () => {
                     handleGetRace(e);
                     setRaceIndexNum(index);
                     setInd(index);
+                    setSelectedState({
+                      ...selectedState,
+                      raceNum: index,
+                    });
                   }}
                 >
                   <Card.Body className={styles["user-card-body"]}>
@@ -175,7 +183,7 @@ export const Dashboard = () => {
                           participants?.status === "DRL"
                             ? "#f44336"
                             : participants?.status === "STP"
-                            ? "Stop"
+                            ? "#f44336"
                             : "#1976d2",
                         textAlign: "center",
                         borderRadius: "7px",
@@ -193,44 +201,22 @@ export const Dashboard = () => {
                       {resultData?.map((item, index) => {
                         return (
                           <>
-                            {participants?.runners.length < 8 &&
-                            (index === 1 || index === 0) ? (
-                              <div className={styles["jersey-div"]}>
-                                <span className={styles["horce-num"]}>
-                                  {index + 1}
-                                  <sup>
-                                    {index === 0
-                                      ? "st"
-                                      : index === 1
-                                      ? "nd"
-                                      : "rd"}
-                                  </sup>
-                                </span>
+                            <div className={styles["jersey-div"]}>
+                              <span className={styles["horce-num"]}>
+                                {index + 1}
+                                <sup>
+                                  {index === 0
+                                    ? "st"
+                                    : index === 1
+                                    ? "nd"
+                                    : "rd"}
+                                </sup>
+                              </span>
 
-                                <small className={styles["draw-num"]}>
-                                  {item}
-                                </small>
-                              </div>
-                            ) : (
-                              participants?.runners.length >= 8 && (
-                                <div className={styles["jersey-div"]}>
-                                  <span className={styles["horce-num"]}>
-                                    {index + 1}
-                                    <sup>
-                                      {index === 0
-                                        ? "st"
-                                        : index === 1
-                                        ? "nd"
-                                        : "rd"}
-                                    </sup>
-                                  </span>
-
-                                  <small className={styles["draw-num"]}>
-                                    {item}
-                                  </small>
-                                </div>
-                              )
-                            )}
+                              <small className={styles["draw-num"]}>
+                                {item}
+                              </small>
+                            </div>
                           </>
                         );
                       })}
@@ -336,63 +322,70 @@ export const Dashboard = () => {
                         >
                           {participants?.status?.toLowerCase() === "bst" && (
                             <>
-                              <button
-                                disabled={
-                                  participants?.status?.toLowerCase() === "bst"
-                                    ? false
-                                    : true
-                                }
-                                style={{
-                                  cursor:
-                                    participants?.status?.toLowerCase() ===
-                                    "bst"
-                                      ? "pointer"
-                                      : "not-allowed",
-                                }}
-                                className={styles["odds-button"]}
-                                onClick={() => {
-                                  setIndexNum(index);
-                                  setHorcesData(e);
-                                  setWinPlc({
-                                    ...winPlc,
-                                    type: "WIN",
-                                    value: e.odds.FOWIN,
-                                    jockey_name: e.jockey.name,
-                                    horce_number: e.position,
-                                  });
-                                  setWalletModal(true);
-                                }}
-                              >
-                                {e.odds.FOWIN}
-                              </button>
-                              <button
-                                disabled={
-                                  participants?.status?.toLowerCase() === "bst"
-                                    ? false
-                                    : true
-                                }
-                                style={{
-                                  cursor:
-                                    participants?.status?.toLowerCase() ===
-                                    "bst"
-                                      ? "pointer"
-                                      : "not-allowed",
-                                }}
-                                className={styles["bet-button"]}
-                                onClick={() => {
-                                  setHorcesData(e);
-                                  setWinPlc({
-                                    ...winPlc,
-                                    type: "PLC",
-                                    value: e.odds.FOPLC,
-                                    jockey_name: e.jockey.name,
-                                    horce_number: e.position,
-                                  });
-                                  setWalletModal(true);
-                                }}
-                              >
-                                {e.odds.FOPLC}
-                              </button>
+                              {e.odds.FOWIN !== "0.00" &&
+                                e.odds.FOPLC !== "0.00" && (
+                                  <>
+                                    <button
+                                      disabled={
+                                        participants?.status?.toLowerCase() ===
+                                        "bst"
+                                          ? false
+                                          : true
+                                      }
+                                      style={{
+                                        cursor:
+                                          participants?.status?.toLowerCase() ===
+                                          "bst"
+                                            ? "pointer"
+                                            : "not-allowed",
+                                      }}
+                                      className={styles["odds-button"]}
+                                      onClick={() => {
+                                        setIndexNum(index);
+                                        setHorcesData(e);
+                                        setWinPlc({
+                                          ...winPlc,
+                                          type: "WIN",
+                                          value: e.odds.FOWIN,
+                                          jockey_name: e.jockey.name,
+                                          horce_number: e.position,
+                                        });
+                                        setWalletModal(true);
+                                      }}
+                                    >
+                                      {e.odds.FOWIN}
+                                    </button>
+                                    <button
+                                      disabled={
+                                        participants?.status?.toLowerCase() ===
+                                        "bst"
+                                          ? false
+                                          : true
+                                      }
+                                      style={{
+                                        cursor:
+                                          participants?.status?.toLowerCase() ===
+                                          "bst"
+                                            ? "pointer"
+                                            : "not-allowed",
+                                      }}
+                                      className={styles["bet-button"]}
+                                      onClick={() => {
+                                        setHorcesData(e);
+                                        setWinPlc({
+                                          ...winPlc,
+                                          type: "PLC",
+                                          value: e.odds.FOPLC,
+                                          jockey_name: e.jockey.name,
+                                          horce_number: e.position,
+                                        });
+                                        setWalletModal(true);
+                                      }}
+                                    >
+                                      {e.odds.FOPLC}
+                                    </button>
+                                  </>
+                                )}
                             </>
                           )}
                         </div>

@@ -17,14 +17,15 @@ const StatusModel = (props) => {
     setAmountData,
   } = useContext(Context);
   const [dividend, setDividend] = useState(0);
-
+  console.log(props);
   const handleChange = async (event) => {
     if (event.target.checked) {
       db.collection("participant")
         .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
         .set({
-          data: betData.map((data) => {
-            if (props.updateData.key === data.key) {
+          data: betData.map((data, index) => {
+            console.log(data);
+            if (props.updateData.key === index) {
               data.status = "enabled";
             }
             return data;
@@ -32,15 +33,15 @@ const StatusModel = (props) => {
         })
         .then(async (dd) => {
           db.collection("users")
-            .doc(props.updateData.user_id)
+            .doc(props?.updateData?.data?.user_id)
             .update({
               ...amountData,
               amount:
                 Number(amountData.amount) +
-                (Number(props?.updateData?.user_amount) *
-                  (Number(props?.updateData?.value) -
-                    (Number(props?.updateData?.value) * dividend) / 100) +
-                  Number(props?.updateData?.user_amount)),
+                (Number(props?.updateData?.data?.user_amount) *
+                  (Number(props?.updateData?.data?.value) -
+                    (Number(props?.updateData?.data?.value) * dividend) / 100) +
+                  Number(props?.updateData?.data?.user_amount)),
             })
             .then(() => {
               props.onHide();
@@ -70,7 +71,9 @@ const StatusModel = (props) => {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Dividend ( IN %)</Form.Label>
             <Form.Control
-              disabled={props?.updateData?.status === "enabled" ? true : false}
+              // disabled={
+              //   props?.updateData?.data.status === "enabled" ? true : false
+              // }
               type="number"
               name="dividend"
               required
@@ -82,10 +85,10 @@ const StatusModel = (props) => {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <p>
               Potential Amount :{"  "}
-              {Number(props?.updateData?.user_amount) *
-                (Number(props?.updateData?.value) -
-                  (Number(props?.updateData?.value) * dividend) / 100) +
-                Number(props?.updateData?.user_amount)}
+              {Number(props?.updateData?.data?.user_amount) *
+                (Number(props?.updateData?.data?.value) -
+                  (Number(props?.updateData?.data?.value) * dividend) / 100) +
+                Number(props?.updateData?.data?.user_amount)}
             </p>
             <Form.Group
               style={{
@@ -105,9 +108,11 @@ const StatusModel = (props) => {
                 }}
                 type="checkbox"
                 disabled={
-                  props?.updateData?.status === "enabled" ? true : false
+                  props?.updateData?.data?.status === "enabled" ? true : false
                 }
-                checked={props?.updateData?.status === "enabled" ? true : false}
+                checked={
+                  props?.updateData?.data?.status === "enabled" ? true : false
+                }
                 id="vehicle1"
                 name="vehicle1"
                 value="Bike"
