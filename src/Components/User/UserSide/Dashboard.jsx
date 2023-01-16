@@ -89,7 +89,6 @@ export const Dashboard = () => {
     });
   };
 
-  console.log(resultData);
   return (
     <>
       <NavbarCommon />
@@ -334,7 +333,9 @@ export const Dashboard = () => {
                                 style={{
                                   cursor:
                                     participants?.status?.toLowerCase() ===
-                                    "bst"
+                                      "bst" &&
+                                    Number(e.odds.FOWIN) !== 0 &&
+                                    Number(e.odds.FOWIN) !== 0.0
                                       ? "pointer"
                                       : "not-allowed",
                                 }}
@@ -358,15 +359,17 @@ export const Dashboard = () => {
                                 disabled={
                                   participants?.status?.toLowerCase() ===
                                     "bst" &&
-                                  Number(e.odds.FOWIN) !== 0 &&
-                                  Number(e.odds.FOWIN) !== 0.0
+                                  Number(e.odds.FOPLC) !== 0 &&
+                                  Number(e.odds.FOPLC) !== 0.0
                                     ? false
                                     : true
                                 }
                                 style={{
                                   cursor:
                                     participants?.status?.toLowerCase() ===
-                                    "bst"
+                                      "bst" &&
+                                    Number(e.odds.FOPLC) !== 0 &&
+                                    Number(e.odds.FOPLC) !== 0.0
                                       ? "pointer"
                                       : "not-allowed",
                                 }}

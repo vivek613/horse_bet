@@ -25,7 +25,6 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
   const [betAmount, setBetAmount] = useState(0);
   const [userData, setUserData] = useState([]);
   const [showValue, setShowValue] = useState(false);
-  console.log(showValue);
   useEffect(() => {
     const uid = getCookie("Uid");
     db.collection("participant")

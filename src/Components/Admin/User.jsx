@@ -115,25 +115,13 @@ const User = () => {
                     <td>
                       <AiFillDelete
                         onClick={(event) => {
-                          // const auth = getAuth();
-                          // const user = auth.currentUser;
-                          // // const user = auth.getUser(e.uid);
-                          // deleteUser(e.uid).then((data) => {
-                          //   console.log(data);
-                          // });
-                          // console.log(user);
-
-                          getAuth()
-                            .getUser(e.uid)
-                            .then((userRecord) => {
-                              // See the UserRecord reference doc for the contents of userRecord.
-                              console.log(
-                                `Successfully fetched user data: ${userRecord.toJSON()}`
-                              );
-                            })
-                            .catch((error) => {
-                              console.log("Error fetching user data:", error);
-                            });
+                          const auth = getAuth();
+                          const user = auth.currentUser;
+                          // const user = auth.getUser(e.uid);
+                          deleteUser(e.uid).then((data) => {
+                            console.log(data);
+                          });
+                          console.log(user);
                         }}
                       />
                     </td>

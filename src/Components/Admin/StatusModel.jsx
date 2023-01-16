@@ -17,14 +17,12 @@ const StatusModel = (props) => {
     setAmountData,
   } = useContext(Context);
   const [dividend, setDividend] = useState(0);
-  console.log(props);
   const handleChange = async (event) => {
     if (event.target.checked) {
       db.collection("participant")
         .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
         .set({
           data: betData.map((data, index) => {
-            console.log(data);
             if (props.updateData.key === index) {
               data.status = "enabled";
             }
