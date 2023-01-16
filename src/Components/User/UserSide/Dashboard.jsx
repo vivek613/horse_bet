@@ -322,8 +322,10 @@ export const Dashboard = () => {
                         >
                           {participants?.status?.toLowerCase() === "bst" && (
                             <>
-                              {e.odds.FOWIN !== "0.00" &&
-                                e.odds.FOPLC !== "0.00" && (
+                              {(Number(e.odds.FOWIN) !== 0.0 ||
+                                Number(e.odds.FOWIN) !== 0) &&
+                                (Number(e.odds.FOPLC) !== 0.0 ||
+                                  Number(e.odds.FOPLC) !== 0) && (
                                   <>
                                     <button
                                       disabled={

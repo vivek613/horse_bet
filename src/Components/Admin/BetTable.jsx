@@ -52,7 +52,7 @@ const BetTable = () => {
     // doc;
   }, []);
 
-  console.log(raceWiseBetData, raceIndexNum);
+  console.log(raceWiseBetData, raceIndexNum, selectedState);
   return (
     <>
       <div>

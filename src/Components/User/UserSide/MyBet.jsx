@@ -17,10 +17,18 @@ const MyBet = () => {
   useEffect(() => {
     const uid = getCookie("Uid");
     db.collection("participant")
-      .doc(uid)
+      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
       .onSnapshot((snapshot) => {
-        if (snapshot.data()) {
-          setUserBet(snapshot.data()?.data);
+        if (snapshot?.data()?.data) {
+          setUserBet(
+            snapshot?.data()?.data.filter((item) => {
+              if (uid === item.user_id) {
+                return item;
+              }
+            })
+          );
+          console.log(snapshot?.data()?.data);
+          // setUserBet(snapshot.data()?.data);
         }
       });
   }, [user]);
@@ -53,14 +61,31 @@ const MyBet = () => {
                 >
                   <div
                     style={{
-                      backgroundColor: "green",
-                      width: "53px",
-                      color: "black",
-                      borderRadius: "5px",
-                      textAlign: "center",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "50px",
                     }}
                   >
-                    {/* {item?.status === "enabled" && "Win"} */}
+                    <div
+                      style={{
+                        backgroundColor: "green",
+                        width: "53px",
+                        color: "black",
+                        borderRadius: "5px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item?.status === "enabled" && "Win"}
+                    </div>
+                    <div
+                      style={{
+                        color: "black",
+                        borderRadius: "5px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Amount:<span>{item.potential_amount}</span>
+                    </div>
                   </div>
                   <div
                     style={{
@@ -91,7 +116,7 @@ const MyBet = () => {
                     }}
                   >
                     <p>Odds Type: {item.type}</p>
-                    <p>Amount: {item.user_amount}</p>
+                    <p>Bet Amount: {item.user_amount}</p>
                   </div>
                 </div>
               </Card.Body>

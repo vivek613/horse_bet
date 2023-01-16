@@ -86,6 +86,19 @@ export const Login = () => {
                 }
               />
             </div>
+            <div class="form-group small clearfix">
+              <p
+                onClick={() => {
+                  navigate("/resetpassword");
+                }}
+                style={{
+                  cursor: "pointer",
+                }}
+                class="forgot-link"
+              >
+                Forgot Password?
+              </p>
+            </div>
             <button
               type="submit"
               class="btn btn-primary btn-block btn-lg"

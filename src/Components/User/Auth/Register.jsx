@@ -54,7 +54,7 @@ export const Register = () => {
     } catch (err) {
       console.error(err);
       // alert(err.message);
-      toast.error(` Wrong !${err?.message}`);
+      // toast.error(` Wrong !${err?.message}`);
     }
   };
   // const handleAction = (email, password) => {

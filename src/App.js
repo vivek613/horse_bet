@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import { AdminDashboard } from "./Components/Admin/AdminDashboard";
 import { Login } from "./Components/User/Auth/Login";
+import { ResetPassword } from "./Components/User/Auth/ResetPassword";
 import { Dashboard } from "./Components/User/UserSide/Dashboard";
 import { Register } from "./Components/User/Auth/Register";
 import { useContext } from "./Context/useContext";
@@ -22,6 +23,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
+
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/mybet" element={<MyBet />} />
