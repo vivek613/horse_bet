@@ -7,6 +7,7 @@ import { Context } from "../../App";
 import { db } from "../../config/firebase";
 
 const StatusModel = (props) => {
+  console.log("props", props);
   const {
     raceIndexNum,
     setRaceIndexNums,
@@ -18,6 +19,7 @@ const StatusModel = (props) => {
   } = useContext(Context);
   const [dividend, setDividend] = useState(0);
   const handleChange = async (event) => {
+    console.log("betData", betData);
     if (event.target.checked) {
       db.collection("participant")
         .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")

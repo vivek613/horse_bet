@@ -29,6 +29,7 @@ const BetTable = () => {
   const [updateData, setUpdateData] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [drawModalShow, setDrawModalShow] = useState(false);
+  const [filterHorce, setFilterHorce] = useState("");
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
@@ -116,6 +117,30 @@ const BetTable = () => {
           </div>
 
           <div
+            style={{
+              margin: "20px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <p style={{ fontWeight: "600", color: "black" }}>
+              Horce Number :-{" "}
+            </p>
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="text"
+                  name="horce_number"
+                  placeholder="Enter Horce Number"
+                  onChange={(e) => {
+                    setFilterHorce(e.target.value);
+                  }}
+                />
+              </Form.Group>
+            </Form>
+          </div>
+          <div
             className="table-container"
             style={{ margin: "20px 55px 20px -10px" }}
           >
@@ -137,60 +162,62 @@ const BetTable = () => {
               </thead>
               <tbody>
                 {!!raceWiseBetData &&
-                  raceWiseBetData?.map((e, index) => {
-                    return (
-                      <tr index={index}>
-                        <td>{e.email}</td>
-                        <td>{e.jockey_name}</td>
-                        <td>{e.horce_number}</td>
-                        <td>{e.type}</td>
-                        <td>{e.race_number}</td>
-                        <td>{e.potential_amount}</td>
-                        <td>{e.venue}</td>
-                        <td>{e.user_amount}</td>
-                        <td>{e.status}</td>
-                        <td>
-                          <FiEdit
-                            onClick={(event) => {
-                              event.preventDefault();
+                  raceWiseBetData
+                    ?.filter((e) => e.horce_number.includes(filterHorce))
+                    ?.map((e, index) => {
+                      return (
+                        <tr index={index}>
+                          <td>{e.email}</td>
+                          <td>{e.jockey_name}</td>
+                          <td>{e.horce_number}</td>
+                          <td>{e.type}</td>
+                          <td>{e.race_number}</td>
+                          <td>{e.potential_amount}</td>
+                          <td>{e.venue}</td>
+                          <td>{e.user_amount}</td>
+                          <td>{e.status}</td>
+                          <td>
+                            <FiEdit
+                              onClick={(event) => {
+                                event.preventDefault();
 
-                              setUpdateData({
-                                data: e,
-                                key: index,
-                              });
-                              db.collection("users")
-                                .doc(e.user_id)
-                                .onSnapshot((snapshot) => {
-                                  setAmountData(snapshot.data());
+                                setUpdateData({
+                                  data: e,
+                                  key: index,
                                 });
+                                db.collection("users")
+                                  .doc(e.user_id)
+                                  .onSnapshot((snapshot) => {
+                                    setAmountData(snapshot.data());
+                                  });
 
-                              setModalShow(true);
-                            }}
-                          />
-                        </td>
-                        <td>
-                          <FiEdit
-                            onClick={(event) => {
-                              event.preventDefault();
+                                setModalShow(true);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <FiEdit
+                              onClick={(event) => {
+                                event.preventDefault();
 
-                              // setUpdateData(e);
-                              setUpdateData({
-                                data: e,
-                                key: index,
-                              });
-                              db.collection("users")
-                                .doc(e.user_id)
-                                .onSnapshot((snapshot) => {
-                                  setAmountData(snapshot.data());
+                                // setUpdateData(e);
+                                setUpdateData({
+                                  data: e,
+                                  key: index,
                                 });
+                                db.collection("users")
+                                  .doc(e.user_id)
+                                  .onSnapshot((snapshot) => {
+                                    setAmountData(snapshot.data());
+                                  });
 
-                              setDrawModalShow(true);
-                            }}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
+                                setDrawModalShow(true);
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
               </tbody>
             </Table>
           </div>

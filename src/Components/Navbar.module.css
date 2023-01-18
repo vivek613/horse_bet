@@ -6,12 +6,13 @@
   background: #cdc6eb;
   padding-left: 15px;
   display: flex;
-    justify-content: space-between;
-    align-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
 .user-email {
   color: black;
   margin-left: 15px;
+  font-size: 12px;
 }
 .user-logout {
   color: red;
