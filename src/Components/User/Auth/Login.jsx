@@ -21,7 +21,6 @@ export const Login = () => {
     try {
       await signInWithEmailAndPassword(authentication, email, password)
         .then((response) => {
-          // db.collection()
           toast.success(`login Succesfully ${response._tokenResponse.email}`);
 
           setCookie("access_token", response._tokenResponse.idToken, 1000);
@@ -57,61 +56,79 @@ export const Login = () => {
       <div className="main-div">
         <Toaster position="top-right" reverseOrder={false} />
         <div class="login-form">
-          <form>
-            <div class="avatar">
-              <FaLock />
-            </div>
-            <h4 class="modal-title">Login to Your Account</h4>
-            <div class="form-group">
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Enter Email"
-                required
-                value={loginData.email}
-                onChange={(e) =>
-                  setLoginData({ ...loginData, email: e.target.value })
-                }
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="password"
-                class="form-control"
-                placeholder="Enter Password"
-                required
-                value={loginData.password}
-                onChange={(e) =>
-                  setLoginData({ ...loginData, password: e.target.value })
-                }
-              />
-            </div>
-            <div class="form-group small clearfix">
-              <p
-                onClick={() => {
-                  navigate("/resetpassword");
-                }}
-                style={{
-                  cursor: "pointer",
-                }}
-                class="forgot-link"
-              >
-                Forgot Password?
-              </p>
-            </div>
-            <button
-              type="submit"
-              class="btn btn-primary btn-block btn-lg"
-              value="Login"
-              onClick={(e) => {
-                e.preventDefault();
+          <div>
+            <form>
+              <div class="avatar">
+                <FaLock />
+              </div>
+              <h4 class="modal-title">Login to Your Account</h4>
+              <div class="form-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Enter Email"
+                  required
+                  value={loginData.email}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, email: e.target.value })
+                  }
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Enter Password"
+                  required
+                  value={loginData.password}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, password: e.target.value })
+                  }
+                />
+              </div>
+              <div class="form-group small clearfix">
+                <p
+                  onClick={() => {
+                    navigate("/resetpassword");
+                  }}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  class="forgot-link"
+                >
+                  Forgot Password?
+                </p>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary btn-block btn-lg"
+                value="Login"
+                onClick={(e) => {
+                  e.preventDefault();
 
-                logInWithEmailAndPassword(loginData.email, loginData.password);
+                  logInWithEmailAndPassword(
+                    loginData.email,
+                    loginData.password
+                  );
+                }}
+              >
+                Log in
+              </button>
+            </form>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "-16px 0 5px 0",
+                background: "#f0eeee",
+                padding: "5px 0px",
+                color: "black",
               }}
             >
-              Log in
-            </button>
-          </form>
+              Welcome to BetwinPlace
+            </div>
+          </div>
           <div class="text-center small">
             Don't have an account?{" "}
             <a
@@ -142,7 +159,8 @@ export const Login = () => {
           fontSize: "14px",
         }}
       >
-        For Balance Contact Number : 86 69 64 69 69
+        For Inquiry and Balance Withdrawal Contact : 86 69 64 69 69 / 86 69 65
+        69 69
       </p>
     </>
   );

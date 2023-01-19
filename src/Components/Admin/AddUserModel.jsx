@@ -2,8 +2,6 @@ import React, { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-
-import { doc, updateDoc } from "@firebase/firestore";
 import { db } from "../../config/firebase";
 import { Context } from "../../App";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
@@ -37,12 +35,9 @@ export const AddUserModel = (props) => {
       })
 
       .catch((error) => {
-        console.log(error);
         toast.error(` ${error.message}`);
       });
 
-    // e.preventDefault();
-    // AddDataToFirebase(formData);
     props.onHide();
   };
   return (

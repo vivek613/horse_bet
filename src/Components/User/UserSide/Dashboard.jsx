@@ -48,10 +48,7 @@ export const Dashboard = () => {
   const [ind, setInd] = useState();
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
-      // window.location.reload(true);
-
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
-
       setParticipants(snapshot.docs.map((doc) => doc.data())[0].Allrace[ind]);
     });
   }, [ind]);
@@ -87,7 +84,6 @@ export const Dashboard = () => {
       status: "disabled",
       withdraw: false,
     });
-    console.log(Math.round(Date.now() / 1000));
   };
 
   return (

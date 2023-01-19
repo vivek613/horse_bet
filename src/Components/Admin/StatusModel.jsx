@@ -7,7 +7,6 @@ import { Context } from "../../App";
 import { db } from "../../config/firebase";
 
 const StatusModel = (props) => {
-  console.log("props", props);
   const {
     raceIndexNum,
     setRaceIndexNums,
@@ -19,7 +18,6 @@ const StatusModel = (props) => {
   } = useContext(Context);
   const [dividend, setDividend] = useState(0);
   const handleChange = async (event) => {
-    console.log("betData", betData);
     if (event.target.checked) {
       db.collection("participant")
         .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
@@ -27,7 +25,10 @@ const StatusModel = (props) => {
           data: betData.map((data, index) => {
             if (
               props?.updateData?.data?.time === data.time &&
-              props?.updateData?.data?.user_id === data.user_id
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
             ) {
               data.status = "enabled";
             }

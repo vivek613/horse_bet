@@ -4,9 +4,7 @@ import { Context } from "../../App";
 import { db } from "../../config/firebase";
 import { Sidebar } from "./Sidebar";
 import { FiEdit } from "react-icons/fi";
-
 import { AiFillDelete } from "react-icons/ai";
-
 import { UserModel } from "./UserModel";
 import { AddUserModel } from "./AddUserModel";
 import { Toaster } from "react-hot-toast";
@@ -17,28 +15,11 @@ const User = () => {
   const [table, setTable] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [addModalShow, setAddModalShow] = useState(false);
-  const auth = getAuth();
 
   useEffect(() => {
-    let item;
-    const array = [];
-
     db.collection("users").onSnapshot((snapshot) => {
       setTable(snapshot.docs.map((doc) => doc.data()));
-      // snapshot.docs.map((doc) => {
-      //  setTable()
-      // });
     });
-    // firebase
-    //   .auth()
-    //   .getUser("v3Vo9zautNTdPGlwdSBhGHixN502")
-    //   .delete()
-    //   .then(function () {
-    //     console.log("user deleted");
-    //   })
-    //   .catch(function (error) {
-    //     // console.log("Error while deleting user " + user.email);
-    //   });
   }, []);
 
   return (
@@ -117,11 +98,7 @@ const User = () => {
                         onClick={(event) => {
                           const auth = getAuth();
                           const user = auth.currentUser;
-                          // const user = auth.getUser(e.uid);
-                          deleteUser(e.uid).then((data) => {
-                            console.log(data);
-                          });
-                          console.log(user);
+                          deleteUser(e.uid).then((data) => {});
                         }}
                       />
                     </td>
