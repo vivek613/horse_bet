@@ -22,7 +22,10 @@ const DrawModal = (props) => {
         .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
         .set({
           data: betData.map((data, index) => {
-            if (props.updateData.key === index) {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id
+            ) {
               data.withdraw = true;
             }
             return data;

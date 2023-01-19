@@ -87,6 +87,7 @@ export const Dashboard = () => {
       status: "disabled",
       withdraw: false,
     });
+    console.log(Math.round(Date.now() / 1000));
   };
 
   return (
@@ -349,6 +350,7 @@ export const Dashboard = () => {
                                     value: e.odds.FOWIN,
                                     jockey_name: e.jockey.name,
                                     horce_number: e.position,
+                                    time: Math.round(Date.now() / 1000),
                                   });
                                   setWalletModal(true);
                                 }}
@@ -382,6 +384,7 @@ export const Dashboard = () => {
                                     value: e.odds.FOPLC,
                                     jockey_name: e.jockey.name,
                                     horce_number: e.position,
+                                    time: Math.round(Date.now() / 1000),
                                   });
                                   setWalletModal(true);
                                 }}

@@ -51,7 +51,7 @@ const BetTable = () => {
       });
 
     // doc;
-  }, []);
+  }, [selectedState]);
 
   return (
     <>
@@ -183,7 +183,6 @@ const BetTable = () => {
 
                                 setUpdateData({
                                   data: e,
-                                  key: index,
                                 });
                                 db.collection("users")
                                   .doc(e.user_id)
@@ -203,7 +202,6 @@ const BetTable = () => {
                                 // setUpdateData(e);
                                 setUpdateData({
                                   data: e,
-                                  key: index,
                                 });
                                 db.collection("users")
                                   .doc(e.user_id)
