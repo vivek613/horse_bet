@@ -46,13 +46,21 @@ export const Dashboard = () => {
   const [adminData, setAdminData] = useState();
   const [resultData, setResultData] = useState([]);
   const [ind, setInd] = useState();
+  const [stateName, setStateName] = useState("");
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
-      setParticipants(snapshot.docs.map((doc) => doc.data())[0].Allrace[ind]);
+      setParticipants(
+        snapshot.docs
+          .map((doc) => doc.data())[0]
+          .Allrace.filter((item) => {
+            if (item.vName === stateName) {
+              return item;
+            }
+          })[ind]
+      );
     });
   }, [ind]);
-
   useEffect(() => {
     db.collection("users")
       .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
@@ -85,6 +93,7 @@ export const Dashboard = () => {
       withdraw: false,
     });
   };
+  console.log(stateWiseData, stateName, indiaRace);
 
   return (
     <>
@@ -102,12 +111,12 @@ export const Dashboard = () => {
                     : styles["state-button-user"]
                 }
                 onClick={() => {
-                  setParticipants();
                   setRaceIndexNum(index);
                   setSelectedState({ ...selectedState, venue: index });
+                  setStateName(items);
                   setStateWiseData(
                     indiaRace.filter((data) => {
-                      if (data.vName.toLowerCase() == items.toLowerCase()) {
+                      if (data.vName.toLowerCase() === items.toLowerCase()) {
                         return data;
                       }
                     })
@@ -131,8 +140,9 @@ export const Dashboard = () => {
                   }
                   onClick={() => {
                     handleGetRace(e);
-                    setRaceIndexNum(index);
                     setInd(index);
+
+                    setRaceIndexNum(index);
                     setSelectedState({
                       ...selectedState,
                       raceNum: index,
