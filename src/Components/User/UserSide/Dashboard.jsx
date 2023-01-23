@@ -113,6 +113,9 @@ export const Dashboard = () => {
                 onClick={() => {
                   setRaceIndexNum(index);
                   setSelectedState({ ...selectedState, venue: index });
+                  setParticipants([]);
+                  setInd();
+
                   setStateName(items);
                   setStateWiseData(
                     indiaRace.filter((data) => {
