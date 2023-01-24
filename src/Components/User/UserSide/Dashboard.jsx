@@ -93,7 +93,6 @@ export const Dashboard = () => {
       withdraw: false,
     });
   };
-  console.log(stateWiseData, stateName, indiaRace);
 
   return (
     <>

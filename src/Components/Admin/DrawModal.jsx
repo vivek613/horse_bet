@@ -24,9 +24,13 @@ const DrawModal = (props) => {
           data: betData.map((data, index) => {
             if (
               props?.updateData?.data?.time === data.time &&
-              props?.updateData?.data?.user_id === data.user_id
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
             ) {
               data.withdraw = true;
+              data.status = "enabled";
             }
             return data;
           }),
