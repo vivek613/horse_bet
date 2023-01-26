@@ -15,6 +15,7 @@ import { getCookie } from "../../Hook/Cookies";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-hot-toast";
+import ReactLoading from "react-loading";
 import { DeleteModel } from "./DeleteModel";
 
 // Be sure to include styles at some point, probably during your bootstraping
@@ -36,6 +37,7 @@ export const AdminDashboard = () => {
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   const [detelemodalShow, setDeleteModalShow] = useState(false);
+  const [loadingg, setLoadingg] = useState(false);
 
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
@@ -58,33 +60,41 @@ export const AdminDashboard = () => {
   }, []);
 
   const handleRefreshAPi = async (e) => {
+    setLoadingg(true);
     e.preventDefault();
 
-    axios.get("https://node.rwitc.com:3002/data/racecard.json").then((data) => {
-      const array = [];
-      Object.values(data.data.racecard).map((data, index) => {
-        return data.filter((item) => {
-          if (
-            item.vName.toLowerCase() === "mysore" ||
-            item.vName.toLowerCase() === "madras" ||
-            item.vName.toLowerCase() === "mumbai" ||
-            item.vName.toLowerCase() === "hyderabad" ||
-            item.vName.toLowerCase() === "delhi" ||
-            item.vName.toLowerCase() === "calcutta"
-          ) {
-            return array.push(item);
-          }
-        });
-      });
-      setNewRace(array);
+    axios
+      .get("https://node.rwitc.com:3002/data/racecard.json")
+      .then((data) => {
+        setLoadingg(false);
 
-      db.collection("TimeData")
-        .doc("RaceData")
-        .update({ Allrace: array })
-        .then((data) => {
-          toast.success(`update Succesfully `);
+        const array = [];
+        Object.values(data.data.racecard).map((data, index) => {
+          return data.filter((item) => {
+            if (
+              item.vName.toLowerCase() === "mysore" ||
+              item.vName.toLowerCase() === "madras" ||
+              item.vName.toLowerCase() === "mumbai" ||
+              item.vName.toLowerCase() === "hyderabad" ||
+              item.vName.toLowerCase() === "delhi" ||
+              item.vName.toLowerCase() === "calcutta"
+            ) {
+              return array.push(item);
+            }
+          });
         });
-    });
+        setNewRace(array);
+
+        db.collection("TimeData")
+          .doc("RaceData")
+          .update({ Allrace: array })
+          .then((data) => {
+            toast.success(`update Succesfully `);
+          });
+      })
+      .catch((error) => {
+        setLoadingg(false);
+      });
   };
 
   const handleGetRace = async (e) => {
@@ -125,7 +135,16 @@ export const AdminDashboard = () => {
               }}
               onClick={handleRefreshAPi}
             >
-              Refresh
+              {loadingg ? (
+                <ReactLoading
+                  type={"spin"}
+                  color={"#000000"}
+                  height={30}
+                  width={30}
+                />
+              ) : (
+                "Refresh"
+              )}
             </Button>
             <p
               style={{
