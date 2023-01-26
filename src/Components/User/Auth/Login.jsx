@@ -6,7 +6,6 @@ import { FaLock } from "react-icons/fa";
 import { setCookie } from "../../../Hook/Cookies";
 import { toast, Toaster } from "react-hot-toast";
 import { db } from "../../../config/firebase";
-
 export const Login = () => {
   const navigate = useNavigate();
 
@@ -126,7 +125,7 @@ export const Login = () => {
                 color: "black",
               }}
             >
-              Welcome to BetwinPlace
+              Welcome to BetWinPlace
             </div>
           </div>
           <div class="text-center small">
@@ -140,7 +139,7 @@ export const Login = () => {
                 navigate("/register");
               }}
             >
-              register
+              Register
             </a>
           </div>
         </div>
@@ -156,7 +155,7 @@ export const Login = () => {
           background: "#00000063",
           color: "white",
           padding: "3px 15px",
-          fontSize: "14px",
+          fontSize: "5px",
         }}
       >
         For Inquiry and Balance Withdrawal Contact : 86 69 64 69 69 / 86 69 65

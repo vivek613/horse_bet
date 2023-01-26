@@ -31,6 +31,7 @@ const StatusModel = (props) => {
               props?.updateData?.data?.venue === data.venue
             ) {
               data.status = "enabled";
+              data.withdraw = true;
             }
             return data;
           }),

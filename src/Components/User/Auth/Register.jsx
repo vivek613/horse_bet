@@ -113,7 +113,7 @@ export const Register = () => {
                 color: "black",
               }}
             >
-              Welcome to BetwinPlace
+              Welcome to BetWinPlace
             </div>
           </div>
           <div class="text-center small">
@@ -145,7 +145,7 @@ export const Register = () => {
           background: "#00000063",
           color: "white",
           padding: "3px 15px",
-          fontSize: "14px",
+          fontSize: "5px",
         }}
       >
         For Inquiry and Balance Withdrawal Contact : 86 69 64 69 69 / 86 69 65

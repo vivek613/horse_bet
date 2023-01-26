@@ -114,7 +114,6 @@ export const Dashboard = () => {
                   setSelectedState({ ...selectedState, venue: index });
                   setParticipants([]);
                   setInd();
-
                   setStateName(items);
                   setStateWiseData(
                     indiaRace.filter((data) => {
@@ -143,7 +142,6 @@ export const Dashboard = () => {
                   onClick={() => {
                     handleGetRace(e);
                     setInd(index);
-
                     setRaceIndexNum(index);
                     setSelectedState({
                       ...selectedState,
