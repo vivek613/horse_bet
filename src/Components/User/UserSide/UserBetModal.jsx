@@ -6,6 +6,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { Context } from "../../../App";
 import { getCookie } from "../../../Hook/Cookies";
+import ReactLoading from "react-loading";
 
 export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
   const {
@@ -15,7 +16,6 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
     setUserBet,
     raceIndexNum,
     indexNum,
-
     indiaRace,
     setIndiaRace,
   } = useContext(Context);
@@ -25,6 +25,7 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
   const [betAmount, setBetAmount] = useState(0);
   const [userData, setUserData] = useState([]);
   const [showValue, setShowValue] = useState(false);
+  const [betLoading, setbetLoading] = useState(false);
   useEffect(() => {
     const uid = getCookie("Uid");
     db.collection("participant")
@@ -54,6 +55,7 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
     });
   }, []);
   const handleSubmit = () => {
+    setbetLoading(true);
     if (Number(betAmount) < Number(userData.amount)) {
       db.collection("users")
         .doc(user?.uid)
@@ -62,6 +64,7 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
           amount: Number(userData.amount) - Number(betAmount),
         })
         .then(function () {
+          setbetLoading(false);
           setWalletModal(false);
           setBetAmount(0);
           db.collection("users")
@@ -166,21 +169,30 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
                 </p>
               </div>
               <div className={styles["wallet-button-wrapper"]}>
-                <Button
-                  disabled={
-                    Number(betAmount) <= Number(userData?.amount) &&
-                    betAmount >= 100 &&
-                    betAmount <= 25000
-                      ? false
-                      : true
-                  }
-                  variant="primary"
-                  onClick={() => {
-                    handleSubmit();
-                  }}
-                >
-                  Confirm
-                </Button>
+                {betLoading ? (
+                  <ReactLoading
+                    type={"spin"}
+                    color={"#000000"}
+                    height={30}
+                    width={30}
+                  />
+                ) : (
+                  <Button
+                    disabled={
+                      Number(betAmount) <= Number(userData?.amount) &&
+                      betAmount >= 100 &&
+                      betAmount <= 25000
+                        ? false
+                        : true
+                    }
+                    variant="primary"
+                    onClick={() => {
+                      handleSubmit();
+                    }}
+                  >
+                    Confirm
+                  </Button>
+                )}
                 <Button
                   variant="primary"
                   style={{

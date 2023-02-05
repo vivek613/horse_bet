@@ -9,9 +9,11 @@ import {
 } from "firebase/auth";
 import { db, auth } from "../../../config/firebase";
 import { toast, Toaster } from "react-hot-toast";
+import ReactLoading from "react-loading";
 
 export const Register = () => {
   const navigate = useNavigate();
+  const [registerLoading, setregisterLoading] = useState(false);
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
@@ -19,6 +21,7 @@ export const Register = () => {
 
   const registerWithEmailAndPassword = async (email, password) => {
     const authentication = getAuth();
+    setregisterLoading(true);
     try {
       const res = createUserWithEmailAndPassword(
         authentication,
@@ -27,7 +30,7 @@ export const Register = () => {
       )
         .then((response) => {
           const user = response.user;
-
+          setregisterLoading(false);
           db.collection("users").doc(user.uid).set({
             uid: user.uid,
             email,
@@ -43,9 +46,13 @@ export const Register = () => {
         })
 
         .catch((error) => {
+          setregisterLoading(false);
           toast.error(` Wrong !${error?.message}`);
         });
-    } catch (err) {}
+    } catch (err) {
+      setregisterLoading(false);
+      toast.error(`Oops , Something went wrong...`);
+    }
   };
 
   return (
@@ -57,8 +64,14 @@ export const Register = () => {
               <div class="avatar">
                 <FaLock />
               </div>
+              <div class="login-logo">
+                <img
+                  src="/Images/logo1.jpg"
+                  width={"100px"}
+                  style={{ background: "transparent" }}
+                ></img>
+              </div>
               <h4 class="modal-title">Register</h4>
-
               <div class="form-group">
                 <input
                   type="email"
@@ -87,20 +100,29 @@ export const Register = () => {
                 />
               </div>
 
-              <button
-                type="submit"
-                class="btn btn-primary btn-block btn-lg"
-                value="Login"
-                onClick={(e) => {
-                  e.preventDefault();
-                  registerWithEmailAndPassword(
-                    registerData.email,
-                    registerData.password
-                  );
-                }}
-              >
-                Register
-              </button>
+              {registerLoading ? (
+                <ReactLoading
+                  type={"spin"}
+                  color={"#000000"}
+                  height={30}
+                  width={30}
+                />
+              ) : (
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block btn-lg"
+                  value="Login"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    registerWithEmailAndPassword(
+                      registerData.email,
+                      registerData.password
+                    );
+                  }}
+                >
+                  Register
+                </button>
+              )}
             </form>
             <div
               style={{
@@ -120,7 +142,6 @@ export const Register = () => {
             Do you have an account?{" "}
             <a
               style={{
-                curser: "pointer",
                 color: "black",
               }}
               onClick={() => {
@@ -145,7 +166,7 @@ export const Register = () => {
           background: "#00000063",
           color: "white",
           padding: "3px 15px",
-          fontSize: "5px",
+          fontSize: "8px",
         }}
       >
         For Inquiry and Balance Withdrawal Contact : 86 69 64 69 69 / 86 69 65

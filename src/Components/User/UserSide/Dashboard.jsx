@@ -243,7 +243,7 @@ export const Dashboard = () => {
                       alignItems: "center",
                     }}
                   >
-                    <p style={{ margin: "0px" }}>Horces :</p>
+                    <p style={{ margin: "0px" }}>Horses :</p>
                     <div
                       style={{
                         display: "flex",

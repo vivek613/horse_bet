@@ -62,12 +62,10 @@ export const AdminDashboard = () => {
   const handleRefreshAPi = async (e) => {
     setLoadingg(true);
     e.preventDefault();
-
     axios
       .get("https://node.rwitc.com:3002/data/racecard.json")
       .then((data) => {
         setLoadingg(false);
-
         const array = [];
         Object.values(data.data.racecard).map((data, index) => {
           return data.filter((item) => {

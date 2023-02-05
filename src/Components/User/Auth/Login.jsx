@@ -6,9 +6,10 @@ import { FaLock } from "react-icons/fa";
 import { setCookie } from "../../../Hook/Cookies";
 import { toast, Toaster } from "react-hot-toast";
 import { db } from "../../../config/firebase";
+import ReactLoading from "react-loading";
 export const Login = () => {
   const navigate = useNavigate();
-
+  const [loginLoading, setloginLoading] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -16,12 +17,11 @@ export const Login = () => {
 
   const logInWithEmailAndPassword = async (email, password) => {
     const authentication = getAuth();
-
+    setloginLoading(true);
     try {
       await signInWithEmailAndPassword(authentication, email, password)
         .then((response) => {
           toast.success(`login Succesfully ${response._tokenResponse.email}`);
-
           setCookie("access_token", response._tokenResponse.idToken, 1000);
           setCookie("email", response._tokenResponse.email, 1000);
           setCookie(
@@ -34,6 +34,7 @@ export const Login = () => {
             .doc(response._tokenResponse.localId)
             .get()
             .then((res) => {
+              setloginLoading(false);
               if (res.data().uid === "eecYvXE0OXOczXQAodjzfjZ89ry2") {
                 navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`);
               } else {
@@ -43,9 +44,11 @@ export const Login = () => {
             });
         })
         .catch((error) => {
+          setloginLoading(false);
           toast.error(` Wrong !${error?.message}`);
         });
     } catch (err) {
+      setloginLoading(false);
       toast.error(` Wrong !${err?.message}`);
     }
   };
@@ -59,6 +62,13 @@ export const Login = () => {
             <form>
               <div class="avatar">
                 <FaLock />
+              </div>
+              <div class="login-logo">
+                <img
+                  src="/Images/logo1.jpg"
+                  width={"100px"}
+                  style={{ background: "transparent" }}
+                ></img>
               </div>
               <h4 class="modal-title">Login to Your Account</h4>
               <div class="form-group">
@@ -85,7 +95,10 @@ export const Login = () => {
                   }
                 />
               </div>
-              <div class="form-group small clearfix">
+              <div
+                class="form-group small clearfix"
+                style={{ marginBottom: "0" }}
+              >
                 <p
                   onClick={() => {
                     navigate("/resetpassword");
@@ -98,21 +111,29 @@ export const Login = () => {
                   Forgot Password?
                 </p>
               </div>
-              <button
-                type="submit"
-                class="btn btn-primary btn-block btn-lg"
-                value="Login"
-                onClick={(e) => {
-                  e.preventDefault();
-
-                  logInWithEmailAndPassword(
-                    loginData.email,
-                    loginData.password
-                  );
-                }}
-              >
-                Log in
-              </button>
+              {loginLoading ? (
+                <ReactLoading
+                  type={"spin"}
+                  color={"#000000"}
+                  height={30}
+                  width={30}
+                />
+              ) : (
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block btn-lg"
+                  value="Login"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    logInWithEmailAndPassword(
+                      loginData.email,
+                      loginData.password
+                    );
+                  }}
+                >
+                  Log in
+                </button>
+              )}
             </form>
             <div
               style={{
@@ -132,7 +153,6 @@ export const Login = () => {
             Don't have an account?{" "}
             <a
               style={{
-                curser: "pointer",
                 color: "black",
               }}
               onClick={() => {
@@ -155,7 +175,7 @@ export const Login = () => {
           background: "#00000063",
           color: "white",
           padding: "3px 15px",
-          fontSize: "5px",
+          fontSize: "8px",
         }}
       >
         For Inquiry and Balance Withdrawal Contact : 86 69 64 69 69 / 86 69 65
