@@ -1,6 +1,6 @@
 .user-simple-profile {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .navbar-div {
   background: #cdc6eb;

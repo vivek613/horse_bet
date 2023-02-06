@@ -8,7 +8,7 @@ import { Context } from "../../../App";
 import { getCookie } from "../../../Hook/Cookies";
 import ReactLoading from "react-loading";
 
-export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
+export const UserBetModal = ({ walletModal, setWalletModal }) => {
   const {
     winPlc,
     setWinPlc,
@@ -26,6 +26,16 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
   const [userData, setUserData] = useState([]);
   const [showValue, setShowValue] = useState(false);
   const [betLoading, setbetLoading] = useState(false);
+  const [forProfitAdminData, setforProfitAdminData] = useState();
+
+  useEffect(() => {
+    db.collection("users")
+      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .onSnapshot((snapshot) => {
+        setforProfitAdminData(snapshot.data());
+      });
+  }, []);
+
   useEffect(() => {
     const uid = getCookie("Uid");
     db.collection("participant")
@@ -42,18 +52,17 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
       });
     db.collection("users")
       .doc(uid)
-
       .onSnapshot((res) => {
         setUserData(res.data());
       });
   }, [user]);
+
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
-      // window.location.reload(true);
-
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
     });
   }, []);
+
   const handleSubmit = () => {
     setbetLoading(true);
     if (Number(betAmount) < Number(userData.amount)) {
@@ -70,8 +79,8 @@ export const UserBetModal = ({ walletModal, setWalletModal, adminData }) => {
           db.collection("users")
             .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
             .update({
-              ...adminData,
-              amount: Number(adminData.amount) + Number(betAmount),
+              ...forProfitAdminData,
+              amount: Number(forProfitAdminData?.amount) + Number(betAmount),
             })
             .then(function () {});
         });

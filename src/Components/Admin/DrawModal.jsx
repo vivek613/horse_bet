@@ -1,23 +1,28 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import "./AdminDashboard.css";
 import { Context } from "../../App";
 import { db } from "../../config/firebase";
+import ReactLoading from "react-loading";
 
 const DrawModal = (props) => {
-  const {
-    raceIndexNum,
-    setRaceIndexNums,
-    setIndiaRace,
-    betData,
-    setBetData,
-    amountData,
-    setAmountData,
-  } = useContext(Context);
+  const { betData, amountData } = useContext(Context);
+  const [adminDataForAmount, setadminDataForAmount] = useState();
+  const [withdrawLoading, setWithdrawLoading] = useState(false);
+
+  useEffect(() => {
+    db.collection("users")
+      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .onSnapshot((snapshot) => {
+        setadminDataForAmount(snapshot.data());
+      });
+  }, []);
+
   const handleChange = async (event) => {
     if (event.target.checked) {
+      setWithdrawLoading(true);
       db.collection("participant")
         .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
         .set({
@@ -37,6 +42,17 @@ const DrawModal = (props) => {
         })
         .then(async (dd) => {
           db.collection("users")
+            .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+            .update({
+              ...adminDataForAmount,
+              amount:
+                Number(adminDataForAmount?.amount) -
+                Number(props?.updateData?.data?.user_amount),
+            })
+            .then(function () {
+              setWithdrawLoading(false);
+            });
+          db.collection("users")
             .doc(props?.updateData?.data?.user_id)
             .update({
               ...amountData,
@@ -50,6 +66,7 @@ const DrawModal = (props) => {
         });
     }
   };
+
   return (
     <Modal
       {...props}
@@ -70,21 +87,30 @@ const DrawModal = (props) => {
         >
           <Form.Group className="status-form-div" controlId="formBasicPassword">
             <Form.Label> Withdraw Status</Form.Label>
-            <input
-              style={{
-                height: "40px",
-                width: "26px",
-              }}
-              type="checkbox"
-              disabled={props?.updateData?.data?.withdraw}
-              checked={props?.updateData?.data?.withdraw}
-              id="withdraw"
-              name="withdraw"
-              value="Bike"
-              onChange={(event) => {
-                handleChange(event);
-              }}
-            ></input>
+            {withdrawLoading ? (
+              <ReactLoading
+                type={"spin"}
+                color={"#000000"}
+                height={30}
+                width={30}
+              />
+            ) : (
+              <input
+                style={{
+                  height: "40px",
+                  width: "26px",
+                }}
+                type="checkbox"
+                disabled={props?.updateData?.data?.withdraw}
+                checked={props?.updateData?.data?.withdraw}
+                id="withdraw"
+                name="withdraw"
+                value="Bike"
+                onChange={(event) => {
+                  handleChange(event);
+                }}
+              ></input>
+            )}
           </Form.Group>
 
           <Button variant="secondary" onClick={props.onHide}>

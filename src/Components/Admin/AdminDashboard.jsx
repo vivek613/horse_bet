@@ -18,11 +18,8 @@ import { toast } from "react-hot-toast";
 import ReactLoading from "react-loading";
 import { DeleteModel } from "./DeleteModel";
 
-// Be sure to include styles at some point, probably during your bootstraping
-
 export const AdminDashboard = () => {
   const auth = getAuth();
-
   const [user, loading, error] = useAuthState(auth);
   const {
     setHorseData,
@@ -219,44 +216,22 @@ export const AdminDashboard = () => {
                         ?.map((item, index) => {
                           return (
                             <>
-                              {oddData?.runners.length < 8 &&
-                              (index === 1 || index === 0) ? (
-                                <div className={styles["jersey-div"]}>
-                                  <span className={styles["horce-num"]}>
-                                    {index + 1}
-                                    <sup>
-                                      {index === 0
-                                        ? "st"
-                                        : index === 1
-                                        ? "nd"
-                                        : "rd"}
-                                    </sup>
-                                  </span>
+                              <div className={styles["jersey-div"]}>
+                                <span className={styles["horce-num"]}>
+                                  {index + 1}
+                                  <sup>
+                                    {index === 0
+                                      ? "st"
+                                      : index === 1
+                                      ? "nd"
+                                      : "rd"}
+                                  </sup>
+                                </span>
 
-                                  <small className={styles["draw-num"]}>
-                                    {item}
-                                  </small>
-                                </div>
-                              ) : (
-                                oddData?.runners.length >= 8 && (
-                                  <div className={styles["jersey-div"]}>
-                                    <span className={styles["horce-num"]}>
-                                      {index + 1}
-                                      <sup>
-                                        {index === 0
-                                          ? "st"
-                                          : index === 1
-                                          ? "nd"
-                                          : "rd"}
-                                      </sup>
-                                    </span>
-
-                                    <small className={styles["draw-num"]}>
-                                      {item}
-                                    </small>
-                                  </div>
-                                )
-                              )}
+                                <small className={styles["draw-num"]}>
+                                  {item}
+                                </small>
+                              </div>
                             </>
                           );
                         })}

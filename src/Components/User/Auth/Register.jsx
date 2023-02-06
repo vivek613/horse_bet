@@ -159,13 +159,13 @@ export const Register = () => {
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "flex-end",
+          justifyContent: "flex-start",
           bottom: "-15px",
           position: "absolute",
           width: "100%",
           background: "#00000063",
           color: "white",
-          padding: "3px 15px",
+          padding: "3px 5px",
           fontSize: "8px",
         }}
       >

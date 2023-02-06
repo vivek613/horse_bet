@@ -43,7 +43,6 @@ export const Dashboard = () => {
   });
   const [walletModal, setWalletModal] = useState(false);
 
-  const [adminData, setAdminData] = useState();
   const [resultData, setResultData] = useState([]);
   const [ind, setInd] = useState();
   const [stateName, setStateName] = useState("");
@@ -61,14 +60,6 @@ export const Dashboard = () => {
       );
     });
   }, [ind]);
-  useEffect(() => {
-    db.collection("users")
-      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
-      .get()
-      .then((res) => {
-        setAdminData(res.data());
-      });
-  }, [user]);
 
   useEffect(() => {
     if (getCookie("access_token")) {
@@ -140,7 +131,7 @@ export const Dashboard = () => {
                       : styles["user-simple-card"]
                   }
                   onClick={() => {
-                    handleGetRace(e);
+                    selectedState.raceNum !== index && handleGetRace(e);
                     setInd(index);
                     setRaceIndexNum(index);
                     setSelectedState({
@@ -435,7 +426,6 @@ export const Dashboard = () => {
         setWalletModal={setWalletModal}
         winPlc={winPlc}
         horcesData={horcesData}
-        adminData={adminData}
       />
     </>
   );

@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import "./AdminDashboard.css";
 import { Context } from "../../App";
 import { db } from "../../config/firebase";
+import ReactLoading from "react-loading";
 
 const StatusModel = (props) => {
   const {
@@ -17,8 +18,19 @@ const StatusModel = (props) => {
     setAmountData,
   } = useContext(Context);
   const [dividend, setDividend] = useState(0);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [adminAmountData, setAdminAmountData] = useState();
+  useEffect(() => {
+    db.collection("users")
+      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .onSnapshot((snapshot) => {
+        setAdminAmountData(snapshot.data());
+      });
+  }, []);
+
   const handleChange = async (event) => {
     if (event.target.checked) {
+      setPaymentLoading(true);
       db.collection("participant")
         .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
         .set({
@@ -37,6 +49,20 @@ const StatusModel = (props) => {
           }),
         })
         .then(async (dd) => {
+          db.collection("users")
+            .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+            .update({
+              ...adminAmountData,
+              amount:
+                Number(adminAmountData?.amount) -
+                (Number(props?.updateData?.data?.user_amount) *
+                  (Number(props?.updateData?.data?.value) -
+                    (Number(props?.updateData?.data?.value) * dividend) / 100) +
+                  Number(props?.updateData?.data?.user_amount)),
+            })
+            .then(function () {
+              setPaymentLoading(false);
+            });
           db.collection("users")
             .doc(props?.updateData?.data?.user_id)
             .update({
@@ -106,25 +132,34 @@ const StatusModel = (props) => {
               controlId="formBasicPassword"
             >
               <Form.Label>Status :</Form.Label>
-              <input
-                style={{
-                  height: "26px",
-                  width: "26px",
-                }}
-                type="checkbox"
-                disabled={
-                  props?.updateData?.data?.status === "enabled" ? true : false
-                }
-                checked={
-                  props?.updateData?.data?.status === "enabled" ? true : false
-                }
-                id="vehicle1"
-                name="vehicle1"
-                value="Bike"
-                onChange={(event) => {
-                  handleChange(event);
-                }}
-              ></input>
+              {paymentLoading ? (
+                <ReactLoading
+                  type={"spin"}
+                  color={"#000000"}
+                  height={30}
+                  width={30}
+                />
+              ) : (
+                <input
+                  style={{
+                    height: "26px",
+                    width: "26px",
+                  }}
+                  type="checkbox"
+                  disabled={
+                    props?.updateData?.data?.status === "enabled" ? true : false
+                  }
+                  checked={
+                    props?.updateData?.data?.status === "enabled" ? true : false
+                  }
+                  id="vehicle1"
+                  name="vehicle1"
+                  value="Bike"
+                  onChange={(event) => {
+                    handleChange(event);
+                  }}
+                ></input>
+              )}
             </Form.Group>
           </div>
 
