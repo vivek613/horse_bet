@@ -190,7 +190,7 @@ export const Dashboard = () => {
                         ? "completed"
                         : participants?.status.toLowerCase() === "stp"
                         ? "Stop"
-                        : "oppening"}
+                        : "Opening"}
                     </span>
                   </Card.Body>
                   {participants?.status === "DRL" && (

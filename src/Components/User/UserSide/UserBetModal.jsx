@@ -65,7 +65,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
 
   const handleSubmit = () => {
     setbetLoading(true);
-    if (Number(betAmount) < Number(userData.amount)) {
+    if (Number(betAmount) <= Number(userData.amount)) {
       db.collection("users")
         .doc(user?.uid)
         .update({
