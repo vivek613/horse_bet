@@ -49,6 +49,15 @@ export const Dashboard = () => {
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
+      // setResultData(
+      //   snapshot.docs
+      //     .map((doc) => doc.data())[0]
+      //     .Allrace.filter((item) => {
+      //       if (item.vName === stateName) {
+      //         return item;
+      //       }
+      //     })[ind]
+      // );
       setParticipants(
         snapshot.docs
           .map((doc) => doc.data())[0]
@@ -68,11 +77,8 @@ export const Dashboard = () => {
       navigate("/login");
     }
   }, []);
-
   const handleGetRace = (e) => {
     setParticipants(e);
-    e.status.toLowerCase() === "drl" &&
-      setResultData(e.statusView.split("-").slice(0, -1));
     setWinPlc({
       ...winPlc,
       user_id: user.uid,
@@ -195,28 +201,31 @@ export const Dashboard = () => {
                   </Card.Body>
                   {participants?.status === "DRL" && (
                     <Card.Body className={styles["results-div"]}>
-                      {resultData?.map((item, index) => {
-                        return (
-                          <>
-                            <div className={styles["jersey-div"]}>
-                              <span className={styles["horce-num"]}>
-                                {index + 1}
-                                <sup>
-                                  {index === 0
-                                    ? "st"
-                                    : index === 1
-                                    ? "nd"
-                                    : "rd"}
-                                </sup>
-                              </span>
+                      {participants?.statusView
+                        ?.split("-")
+                        .slice(0, -1)
+                        ?.map((item, index) => {
+                          return (
+                            <>
+                              <div className={styles["jersey-div"]}>
+                                <span className={styles["horce-num"]}>
+                                  {index + 1}
+                                  <sup>
+                                    {index === 0
+                                      ? "st"
+                                      : index === 1
+                                      ? "nd"
+                                      : "rd"}
+                                  </sup>
+                                </span>
 
-                              <small className={styles["draw-num"]}>
-                                {item}
-                              </small>
-                            </div>
-                          </>
-                        );
-                      })}
+                                <small className={styles["draw-num"]}>
+                                  {item}
+                                </small>
+                              </div>
+                            </>
+                          );
+                        })}
                     </Card.Body>
                   )}
                 </Card>

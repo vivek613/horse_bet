@@ -8,22 +8,22 @@ import styles from "../User/UserSide/Dashboard.module.css";
 import { Context } from "../../App";
 import { db } from "../../config/firebase";
 import { FiEdit } from "react-icons/fi";
-import { doc, updateDoc } from "firebase/firestore";
 import StatusModel from "./StatusModel";
 import DrawModal from "./DrawModal";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const BetTable = () => {
   const {
     indiaRace,
     setIndiaRace,
-    userData,
     betData,
     setBetData,
-    raceIndexNum,
     setRaceIndexNum,
-    amountData,
     setAmountData,
   } = useContext(Context);
+  const auth = getAuth();
+  const [user, loading, error] = useAuthState(auth);
   const [selectedState, setSelectedState] = useState(true);
   const [raceWiseBetData, setRaceWiseBetData] = useState();
   const [updateData, setUpdateData] = useState({});
@@ -162,6 +162,7 @@ const BetTable = () => {
               </thead>
               <tbody>
                 {!!raceWiseBetData &&
+                  user?.uid === "eecYvXE0OXOczXQAodjzfjZ89ry2" &&
                   raceWiseBetData
                     ?.filter((e) => e.horce_number.includes(filterHorce))
                     ?.map((e, index) => {

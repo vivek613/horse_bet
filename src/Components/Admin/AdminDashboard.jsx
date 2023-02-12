@@ -22,10 +22,8 @@ export const AdminDashboard = () => {
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
   const {
-    setHorseData,
     indiaRace,
     setIndiaRace,
-    userData,
     setUseData,
     setIndexNum,
     setRaceIndexNum,
@@ -46,7 +44,6 @@ export const AdminDashboard = () => {
         snapshot.docs.map((doc) => doc.data())[0]?.Allrace[raceIndexNum]
       );
     });
-    // doc;
   }, [raceIndexNum]);
   useEffect(() => {
     if (getCookie("access_token")) {
@@ -281,12 +278,9 @@ export const AdminDashboard = () => {
                       ) {
                         array1[raceIndexNum].status = "DRL";
                       }
-
                       db.collection("TimeData")
                         .doc("RaceData")
                         .update({ Allrace: array1 });
-
-                      // setIndiaRace(array1);
                     }}
                   />
                   <span class="slider round"></span>
@@ -308,6 +302,7 @@ export const AdminDashboard = () => {
               </thead>
               <tbody>
                 {!!oddData &&
+                  user?.uid === "eecYvXE0OXOczXQAodjzfjZ89ry2" &&
                   oddData?.runners?.map((e, index) => {
                     return (
                       <tr index={index}>
@@ -328,7 +323,6 @@ export const AdminDashboard = () => {
                             }}
                           />
                         </td>
-                        {/* <td>{`${e.admin} `}</td> */}
                       </tr>
                     );
                   })}

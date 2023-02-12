@@ -22,7 +22,6 @@ export const NavbarCommon = () => {
 
   useEffect(() => {
     const uid = getCookie("Uid");
-
     db.collection("users")
       .doc(uid)
       .onSnapshot((snapshot) => {

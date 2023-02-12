@@ -9,9 +9,12 @@ import { UserModel } from "./UserModel";
 import { AddUserModel } from "./AddUserModel";
 import { Toaster } from "react-hot-toast";
 import { deleteUser, getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const User = () => {
   const { setAdmin, userData, setUseData } = useContext(Context);
+  const auth = getAuth();
+  const [user, loading, error] = useAuthState(auth);
   const [table, setTable] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [addModalShow, setAddModalShow] = useState(false);
@@ -76,35 +79,36 @@ const User = () => {
               </tr>
             </thead>
             <tbody>
-              {table?.map((e, index) => {
-                return (
-                  <tr index={index}>
-                    <td>{e.uid}</td>
-                    <td>{e.email}</td>
-                    <td>{e.amount}</td>
-                    <td>{`${e.admin} `}</td>
-                    <td>
-                      <FiEdit
-                        onClick={(event) => {
-                          event.preventDefault();
+              {user?.uid === "eecYvXE0OXOczXQAodjzfjZ89ry2" &&
+                table?.map((e, index) => {
+                  return (
+                    <tr index={index}>
+                      <td>{e.uid}</td>
+                      <td>{e.email}</td>
+                      <td>{e.amount}</td>
+                      <td>{`${e.admin} `}</td>
+                      <td>
+                        <FiEdit
+                          onClick={(event) => {
+                            event.preventDefault();
 
-                          setModalShow(true);
-                          setUseData(e);
-                        }}
-                      />
-                    </td>
-                    <td>
-                      <AiFillDelete
-                        onClick={(event) => {
-                          const auth = getAuth();
-                          const user = auth.currentUser;
-                          deleteUser(e.uid).then((data) => {});
-                        }}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
+                            setModalShow(true);
+                            setUseData(e);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <AiFillDelete
+                          onClick={(event) => {
+                            const auth = getAuth();
+                            const user = auth.currentUser;
+                            deleteUser(e.uid).then((data) => {});
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </Table>
         </div>

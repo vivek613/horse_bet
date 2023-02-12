@@ -6,21 +6,10 @@ import { Context } from "../../App";
 import { db } from "../../config/firebase";
 
 const RaceModel = (props) => {
-  const {
-    userData,
-    setUseData,
-    indexNum,
-    indiaRace,
-    raceIndexNum,
-    setRaceIndexNum,
-    setIndiaRace,
-
-    setParticipants,
-  } = useContext(Context);
+  const { indexNum, indiaRace, raceIndexNum, setIndiaRace, setParticipants } =
+    useContext(Context);
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
-      // window.location.reload(true);
-
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
       setParticipants(
         snapshot.docs.map((doc) => doc.data())[0].Allrace[raceIndexNum]?.runners
@@ -30,13 +19,6 @@ const RaceModel = (props) => {
 
   const handleSubmit = async (user) => {
     db.collection("TimeData").doc("RaceData").update({ Allrace: indiaRace });
-    setRaceIndexNum(0);
-    // db.collection("users")
-    //   .doc(userData.uid)
-    //   .update(userData)
-    //   .then(function () {});
-    // e.preventDefault();
-    // AddDataToFirebase(formData);
     props.onHide();
   };
 
