@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { NavbarCommon } from "../../Navbar";
 import styles from "./Dashboard.module.css";
-import { auth, db } from "../../../config/firebase";
+import { db } from "../../../config/firebase";
 import { useNavigate } from "react-router";
 import { getCookie } from "../../../Hook/Cookies";
 import { toast, Toaster } from "react-hot-toast";
@@ -16,7 +16,6 @@ export const Dashboard = () => {
   const {
     indiaRace,
     setIndiaRace,
-    raceIndexNum,
     setRaceIndexNum,
     winPlc,
     setWinPlc,
@@ -43,21 +42,11 @@ export const Dashboard = () => {
   });
   const [walletModal, setWalletModal] = useState(false);
 
-  const [resultData, setResultData] = useState([]);
   const [ind, setInd] = useState();
   const [stateName, setStateName] = useState("");
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
-      // setResultData(
-      //   snapshot.docs
-      //     .map((doc) => doc.data())[0]
-      //     .Allrace.filter((item) => {
-      //       if (item.vName === stateName) {
-      //         return item;
-      //       }
-      //     })[ind]
-      // );
       setParticipants(
         snapshot.docs
           .map((doc) => doc.data())[0]

@@ -49,24 +49,26 @@ const User = () => {
             margin: "10px 10px 10px 72px",
           }}
         >
-          <button
-            onClick={() => {
-              setAddModalShow(true);
-            }}
-            style={{
-              margin: "10px",
-              height: "36px",
-              padding: "0px 10px",
-              outline: "none",
-              border: "1px solid black",
-              background: "#cdc6eb",
-              color: "black",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            Add User
-          </button>
+          {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
+            <button
+              onClick={() => {
+                setAddModalShow(true);
+              }}
+              style={{
+                margin: "10px",
+                height: "36px",
+                padding: "0px 10px",
+                outline: "none",
+                border: "1px solid black",
+                background: "#cdc6eb",
+                color: "black",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Add User
+            </button>
+          )}
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -79,7 +81,7 @@ const User = () => {
               </tr>
             </thead>
             <tbody>
-              {user?.uid === "eecYvXE0OXOczXQAodjzfjZ89ry2" &&
+              {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
                 table?.map((e, index) => {
                   return (
                     <tr index={index}>
@@ -91,7 +93,6 @@ const User = () => {
                         <FiEdit
                           onClick={(event) => {
                             event.preventDefault();
-
                             setModalShow(true);
                             setUseData(e);
                           }}
@@ -100,9 +101,7 @@ const User = () => {
                       <td>
                         <AiFillDelete
                           onClick={(event) => {
-                            const auth = getAuth();
-                            const user = auth.currentUser;
-                            deleteUser(e.uid).then((data) => {});
+                            db.collection("users").doc(e.uid).delete();
                           }}
                         />
                       </td>

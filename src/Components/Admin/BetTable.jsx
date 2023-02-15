@@ -35,7 +35,7 @@ const BetTable = () => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
     });
     db.collection("participant")
-      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setBetData(snapshot.data()?.data);
         setRaceWiseBetData(
@@ -162,7 +162,7 @@ const BetTable = () => {
               </thead>
               <tbody>
                 {!!raceWiseBetData &&
-                  user?.uid === "eecYvXE0OXOczXQAodjzfjZ89ry2" &&
+                  user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
                   raceWiseBetData
                     ?.filter((e) => e.horce_number.includes(filterHorce))
                     ?.map((e, index) => {

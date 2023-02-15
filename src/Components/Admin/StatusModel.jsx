@@ -22,7 +22,7 @@ const StatusModel = (props) => {
   const [adminAmountData, setAdminAmountData] = useState();
   useEffect(() => {
     db.collection("users")
-      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setAdminAmountData(snapshot.data());
       });
@@ -32,7 +32,7 @@ const StatusModel = (props) => {
     if (event.target.checked) {
       setPaymentLoading(true);
       db.collection("participant")
-        .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
           data: betData.map((data, index) => {
             if (
@@ -50,7 +50,7 @@ const StatusModel = (props) => {
         })
         .then(async (dd) => {
           db.collection("users")
-            .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
             .update({
               ...adminAmountData,
               amount:

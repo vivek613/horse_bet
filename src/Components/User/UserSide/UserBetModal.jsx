@@ -30,7 +30,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
 
   useEffect(() => {
     db.collection("users")
-      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setforProfitAdminData(snapshot.data());
       });
@@ -39,7 +39,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
   useEffect(() => {
     const uid = getCookie("Uid");
     db.collection("participant")
-      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setParticipant(snapshot.data()?.data);
       });
@@ -77,7 +77,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
           setWalletModal(false);
           setBetAmount(0);
           db.collection("users")
-            .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
             .update({
               ...forProfitAdminData,
               amount: Number(forProfitAdminData?.amount) + Number(betAmount),
@@ -85,7 +85,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
             .then(function () {});
         });
       db.collection("participant")
-        .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
           data: [...participant, winPlc],
         });

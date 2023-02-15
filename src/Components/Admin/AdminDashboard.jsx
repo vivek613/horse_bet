@@ -47,7 +47,7 @@ export const AdminDashboard = () => {
   }, [raceIndexNum]);
   useEffect(() => {
     if (getCookie("access_token")) {
-      navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`);
+      navigate(`/user/admin/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
     } else {
       navigate("/login");
     }
@@ -102,61 +102,63 @@ export const AdminDashboard = () => {
       <div>
         <Sidebar />
         <div className="user-data-tabel">
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              alignItems: "center",
-              height: "50px",
-              marginLeft: "15px",
-            }}
-          >
-            <p
+          {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
+            <div
               style={{
-                marginTop: "10px",
-                color: "black",
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+                height: "50px",
+                marginLeft: "15px",
               }}
             >
-              Indian Race data
-            </p>
-            <Button
-              style={{
-                background: "#cdc6eb",
-                color: "black",
-                border: "1px solid black",
-              }}
-              onClick={handleRefreshAPi}
-            >
-              {loadingg ? (
-                <ReactLoading
-                  type={"spin"}
-                  color={"#000000"}
-                  height={30}
-                  width={30}
-                />
-              ) : (
-                "Refresh"
-              )}
-            </Button>
-            <p
-              style={{
-                marginTop: "10px",
-                color: "black",
-              }}
-            >
-              Bet Data Delete
-            </p>
-            <Button
-              style={{
-                background: "#cdc6eb",
-                color: "black",
-                border: "1px solid black",
-              }}
-              onClick={handleBetDelete}
-            >
-              Delete
-            </Button>
-          </div>
+              <p
+                style={{
+                  marginTop: "10px",
+                  color: "black",
+                }}
+              >
+                Indian Race data
+              </p>
+              <Button
+                style={{
+                  background: "#cdc6eb",
+                  color: "black",
+                  border: "1px solid black",
+                }}
+                onClick={handleRefreshAPi}
+              >
+                {loadingg ? (
+                  <ReactLoading
+                    type={"spin"}
+                    color={"#000000"}
+                    height={30}
+                    width={30}
+                  />
+                ) : (
+                  "Refresh"
+                )}
+              </Button>
+              <p
+                style={{
+                  marginTop: "10px",
+                  color: "black",
+                }}
+              >
+                Bet Data Delete
+              </p>
+              <Button
+                style={{
+                  background: "#cdc6eb",
+                  color: "black",
+                  border: "1px solid black",
+                }}
+                onClick={handleBetDelete}
+              >
+                Delete
+              </Button>
+            </div>
+          )}
           <div className={styles["user-card-main"]}>
             {indiaRace?.map((e, index) => {
               return (
@@ -236,56 +238,60 @@ export const AdminDashboard = () => {
                   </Card>
                 )}
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "20px",
-                  height: "50px",
-                  margin: "10px 0px",
-                  alignItems: "center",
-                }}
-              >
-                <p
+              {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
+                <div
                   style={{
-                    margin: "0px",
-                    padding: "0px",
-                    color: "red",
-                    fontSize: "20px",
-                    fontWeight: "600",
+                    display: "flex",
+                    gap: "20px",
+                    height: "50px",
+                    margin: "10px 0px",
+                    alignItems: "center",
                   }}
                 >
-                  Stop Bet :{" "}
-                </p>
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    checked={
-                      oddData?.status?.toLowerCase() === "drl" ||
-                      oddData?.status?.toLowerCase() === "stp"
-                        ? true
-                        : false
-                    }
-                    onChange={(e) => {
-                      const array1 = [...indiaRace];
-                      if (array1[raceIndexNum].status.toLowerCase() === "drl") {
-                        array1[raceIndexNum].status = "BST";
-                      } else if (
-                        array1[raceIndexNum].status.toLowerCase() === "bst"
-                      ) {
-                        array1[raceIndexNum].status = "STP";
-                      } else if (
-                        array1[raceIndexNum].status.toLowerCase() === "stp"
-                      ) {
-                        array1[raceIndexNum].status = "DRL";
-                      }
-                      db.collection("TimeData")
-                        .doc("RaceData")
-                        .update({ Allrace: array1 });
+                  <p
+                    style={{
+                      margin: "0px",
+                      padding: "0px",
+                      color: "red",
+                      fontSize: "20px",
+                      fontWeight: "600",
                     }}
-                  />
-                  <span class="slider round"></span>
-                </label>
-              </div>
+                  >
+                    Stop Bet :{" "}
+                  </p>
+                  <label class="switch">
+                    <input
+                      type="checkbox"
+                      checked={
+                        oddData?.status?.toLowerCase() === "drl" ||
+                        oddData?.status?.toLowerCase() === "stp"
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        const array1 = [...indiaRace];
+                        if (
+                          array1[raceIndexNum].status.toLowerCase() === "drl"
+                        ) {
+                          array1[raceIndexNum].status = "BST";
+                        } else if (
+                          array1[raceIndexNum].status.toLowerCase() === "bst"
+                        ) {
+                          array1[raceIndexNum].status = "STP";
+                        } else if (
+                          array1[raceIndexNum].status.toLowerCase() === "stp"
+                        ) {
+                          array1[raceIndexNum].status = "DRL";
+                        }
+                        db.collection("TimeData")
+                          .doc("RaceData")
+                          .update({ Allrace: array1 });
+                      }}
+                    />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              )}
             </div>
             <Table bordered hover>
               <thead>
@@ -302,7 +308,7 @@ export const AdminDashboard = () => {
               </thead>
               <tbody>
                 {!!oddData &&
-                  user?.uid === "eecYvXE0OXOczXQAodjzfjZ89ry2" &&
+                  user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
                   oddData?.runners?.map((e, index) => {
                     return (
                       <tr index={index}>

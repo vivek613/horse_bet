@@ -35,8 +35,8 @@ export const Login = () => {
             .get()
             .then((res) => {
               setloginLoading(false);
-              if (res.data().uid === "eecYvXE0OXOczXQAodjzfjZ89ry2") {
-                navigate(`/user/admin/:eecYvXE0OXOczXQAodjzfjZ89ry2`);
+              if (res.data().uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3") {
+                navigate(`/user/admin/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
               } else {
                 navigate(`/dashboard`);
               }

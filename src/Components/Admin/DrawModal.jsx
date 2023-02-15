@@ -14,7 +14,7 @@ const DrawModal = (props) => {
 
   useEffect(() => {
     db.collection("users")
-      .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setadminDataForAmount(snapshot.data());
       });
@@ -24,7 +24,7 @@ const DrawModal = (props) => {
     if (event.target.checked) {
       setWithdrawLoading(true);
       db.collection("participant")
-        .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
           data: betData.map((data, index) => {
             if (
@@ -42,7 +42,7 @@ const DrawModal = (props) => {
         })
         .then(async (dd) => {
           db.collection("users")
-            .doc("eecYvXE0OXOczXQAodjzfjZ89ry2")
+            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
             .update({
               ...adminDataForAmount,
               amount:

@@ -2,16 +2,12 @@ import React, { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-
-import { doc, updateDoc } from "@firebase/firestore";
 import { db } from "../../config/firebase";
 import { Context } from "../../App";
 
 export const UserModel = (props) => {
-  const { setAdmin, userData, setUseData } = useContext(Context);
+  const { userData } = useContext(Context);
   const [userAddAMount, setUserAddAMount] = useState(0);
-
-  const [formData, setFormData] = useState(userData);
 
   const handleSubmit = async (user) => {
     db.collection("users")
