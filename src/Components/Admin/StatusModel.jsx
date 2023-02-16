@@ -8,15 +8,7 @@ import { db } from "../../config/firebase";
 import ReactLoading from "react-loading";
 
 const StatusModel = (props) => {
-  const {
-    raceIndexNum,
-    setRaceIndexNums,
-    setIndiaRace,
-    betData,
-    setBetData,
-    amountData,
-    setAmountData,
-  } = useContext(Context);
+  const { betData, amountData } = useContext(Context);
   const [dividend, setDividend] = useState(0);
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [adminAmountData, setAdminAmountData] = useState();
@@ -75,6 +67,7 @@ const StatusModel = (props) => {
                   Number(props?.updateData?.data?.user_amount)),
             })
             .then(() => {
+              setDividend(0);
               props.onHide();
             });
         });
@@ -102,9 +95,6 @@ const StatusModel = (props) => {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Dividend ( IN %)</Form.Label>
             <Form.Control
-              // disabled={
-              //   props?.updateData?.data.status === "enabled" ? true : false
-              // }
               type="number"
               name="dividend"
               required

@@ -8,16 +8,22 @@ import { AiFillDelete } from "react-icons/ai";
 import { UserModel } from "./UserModel";
 import { AddUserModel } from "./AddUserModel";
 import { Toaster } from "react-hot-toast";
-import { deleteUser, getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { DeleteUserModal } from "./DeleteUserModal";
 
 const User = () => {
-  const { setAdmin, userData, setUseData } = useContext(Context);
+  const { userData, setUseData } = useContext(Context);
   const auth = getAuth();
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const [table, setTable] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [addModalShow, setAddModalShow] = useState(false);
+  const [deleteUserShow, setdeleteUserShow] = useState(false);
+  const [deleteData, setdeleteData] = useState({
+    userId: "",
+    userEmail: "",
+  });
 
   useEffect(() => {
     db.collection("users").onSnapshot((snapshot) => {
@@ -100,8 +106,12 @@ const User = () => {
                       </td>
                       <td>
                         <AiFillDelete
-                          onClick={(event) => {
-                            db.collection("users").doc(e.uid).delete();
+                          onClick={() => {
+                            setdeleteData({
+                              userId: e.uid,
+                              userEmail: e.email,
+                            });
+                            setdeleteUserShow(true);
                           }}
                         />
                       </td>
@@ -119,6 +129,11 @@ const User = () => {
         <AddUserModel
           show={addModalShow}
           onHide={() => setAddModalShow(false)}
+        />
+        <DeleteUserModal
+          show={deleteUserShow}
+          onHide={() => setdeleteUserShow(false)}
+          deleteData={deleteData}
         />
       </div>
     </>
