@@ -28,7 +28,7 @@ export const AddUserModel = (props) => {
         db.collection("users").doc(response._tokenResponse.localId).set({
           uid: response._tokenResponse.localId,
           email: addUser.email,
-          password: addUser.password,
+          // password: addUser.password,
           admin: addUser.admin,
           amount: "0",
         });

@@ -46,6 +46,7 @@ export const Dashboard = () => {
   const [stateName, setStateName] = useState("");
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
+      setWalletModal(false);
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
       setParticipants(
         snapshot.docs
@@ -66,18 +67,9 @@ export const Dashboard = () => {
       navigate("/login");
     }
   }, []);
+
   const handleGetRace = (e) => {
     setParticipants(e);
-    setWinPlc({
-      ...winPlc,
-      user_id: user.uid,
-      email: user.email,
-      race_number: e.raceNumber,
-      race_time: e.raceTime,
-      venue: e.vName,
-      status: "disabled",
-      withdraw: false,
-    });
   };
 
   return (
@@ -127,6 +119,16 @@ export const Dashboard = () => {
                   }
                   onClick={() => {
                     selectedState.raceNum !== index && handleGetRace(e);
+                    setWinPlc({
+                      ...winPlc,
+                      user_id: user.uid,
+                      email: user.email,
+                      race_number: e.raceNumber,
+                      race_time: e.raceTime,
+                      venue: e.vName,
+                      status: "disabled",
+                      withdraw: false,
+                    });
                     setInd(index);
                     setRaceIndexNum(index);
                     setSelectedState({
@@ -345,7 +347,8 @@ export const Dashboard = () => {
                                     value: e.odds.FOWIN,
                                     jockey_name: e.jockey.name,
                                     horce_number: e.position,
-                                    time: Math.round(Date.now() / 1000),
+                                    time: new Date().getTime(),
+                                    // time: Math.round(Date.now() / 1000),
                                   });
                                   setWalletModal(true);
                                 }}
@@ -379,7 +382,8 @@ export const Dashboard = () => {
                                     value: e.odds.FOPLC,
                                     jockey_name: e.jockey.name,
                                     horce_number: e.position,
-                                    time: Math.round(Date.now() / 1000),
+                                    time: new Date().getTime(),
+                                    // time: Math.round(Date.now() / 1000),
                                   });
                                   setWalletModal(true);
                                 }}
@@ -419,12 +423,14 @@ export const Dashboard = () => {
           </>
         )}
       </div>
-      <UserBetModal
-        walletModal={walletModal}
-        setWalletModal={setWalletModal}
-        winPlc={winPlc}
-        horcesData={horcesData}
-      />
+      {participants?.status?.toLowerCase() === "bst" && (
+        <UserBetModal
+          walletModal={walletModal}
+          setWalletModal={setWalletModal}
+          winPlc={winPlc}
+          horcesData={horcesData}
+        />
+      )}
     </>
   );
 };

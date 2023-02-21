@@ -10,13 +10,27 @@ export const UserModel = (props) => {
   const [userAddAMount, setUserAddAMount] = useState(0);
 
   const handleSubmit = async (user) => {
-    db.collection("users")
-      .doc(userData.uid)
-      .update({
-        ...userData,
-        amount: Number(userData.amount) + Number(userAddAMount),
-      })
-      .then(function () {});
+    if (userData?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3") {
+      db.collection("users")
+        .doc(userData.uid)
+        .update({
+          ...userData,
+          sc:
+            Number(userData.amount) + Number(userAddAMount) === 0
+              ? 0
+              : userData?.sc,
+          amount: Number(userData.amount) + Number(userAddAMount),
+        })
+        .then(function () {});
+    } else {
+      db.collection("users")
+        .doc(userData.uid)
+        .update({
+          ...userData,
+          amount: Number(userData.amount) + Number(userAddAMount),
+        })
+        .then(function () {});
+    }
     props.onHide();
   };
 

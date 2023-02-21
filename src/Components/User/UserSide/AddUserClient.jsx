@@ -43,7 +43,7 @@ const AddUserClient = () => {
         db.collection("users").doc(response._tokenResponse.localId).set({
           uid: response._tokenResponse.localId,
           email: newUser.email,
-          password: newUser.password,
+          // password: newUser.password,
           admin: newUser.admin,
           amount: newUser.amount,
         });

@@ -34,7 +34,6 @@ export const Register = () => {
           db.collection("users").doc(user.uid).set({
             uid: user.uid,
             email,
-
             admin: false,
             amount: "0",
           });

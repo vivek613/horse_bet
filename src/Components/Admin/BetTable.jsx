@@ -29,7 +29,7 @@ const BetTable = () => {
   const [updateData, setUpdateData] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [drawModalShow, setDrawModalShow] = useState(false);
-  const [filterHorce, setFilterHorce] = useState("");
+  const [filterHorce, setFilterHorce] = useState();
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
@@ -82,6 +82,7 @@ const BetTable = () => {
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       // handleGetRace(e);
+                      setFilterHorce();
                       setSelectedState({
                         time: e.raceTime,
                         venue: e.vName,
@@ -97,7 +98,6 @@ const BetTable = () => {
                           }
                         })
                       );
-
                       setRaceIndexNum(index);
                     }}
                   >
@@ -130,8 +130,10 @@ const BetTable = () => {
             <Form>
               <Form.Group className="mb-3">
                 <Form.Control
-                  type="text"
+                  type="number"
+                  min={1}
                   name="horce_number"
+                  value={filterHorce}
                   placeholder="Enter Horce Number"
                   onChange={(e) => {
                     setFilterHorce(e.target.value);
@@ -149,6 +151,7 @@ const BetTable = () => {
                 <tr>
                   <th>Email ID</th>
                   <th>Jockey</th>
+                  <th>B.Time</th>
                   <th>Horce num</th>
                   <th>Odds</th>
                   <th>Race No</th>
@@ -162,14 +165,76 @@ const BetTable = () => {
               </thead>
               <tbody>
                 {!!raceWiseBetData &&
-                  user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
-                  raceWiseBetData
-                    ?.filter((e) => e.horce_number.includes(filterHorce))
-                    ?.map((e, index) => {
+                user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
+                raceWiseBetData &&
+                filterHorce
+                  ? raceWiseBetData
+                      ?.filter((e) => e.horce_number === filterHorce)
+                      ?.map((e, index) => {
+                        return (
+                          <tr index={index}>
+                            <td>{e.email}</td>
+                            <td>{e.jockey_name}</td>
+                            <td>{`${new Date(e.time).getHours()}:${new Date(
+                              e.time
+                            ).getMinutes()}`}</td>
+                            <td>{e.horce_number}</td>
+                            <td>{e.type}</td>
+                            <td>{e.race_number}</td>
+                            <td>{e.potential_amount}</td>
+                            <td>{e.venue}</td>
+                            <td>{e.user_amount}</td>
+                            <td>{e.status}</td>
+                            <td>
+                              <FiEdit
+                                onClick={(event) => {
+                                  event.preventDefault();
+
+                                  setUpdateData({
+                                    data: e,
+                                  });
+                                  db.collection("users")
+                                    .doc(e.user_id)
+                                    .onSnapshot((snapshot) => {
+                                      setAmountData(snapshot.data());
+                                    });
+
+                                  setModalShow(true);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <FiEdit
+                                onClick={(event) => {
+                                  event.preventDefault();
+
+                                  // setUpdateData(e);
+                                  setUpdateData({
+                                    data: e,
+                                  });
+                                  db.collection("users")
+                                    .doc(e.user_id)
+                                    .onSnapshot((snapshot) => {
+                                      setAmountData(snapshot.data());
+                                    });
+
+                                  setDrawModalShow(true);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })
+                  : !!raceWiseBetData &&
+                    user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
+                    raceWiseBetData?.map((e, index) => {
                       return (
                         <tr index={index}>
                           <td>{e.email}</td>
                           <td>{e.jockey_name}</td>
+                          <td>{`${new Date(e.time).getHours()}:${new Date(
+                            e.time
+                          ).getMinutes()}`}</td>
                           <td>{e.horce_number}</td>
                           <td>{e.type}</td>
                           <td>{e.race_number}</td>

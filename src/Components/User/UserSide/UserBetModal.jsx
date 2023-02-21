@@ -70,7 +70,10 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
         .doc(user?.uid)
         .update({
           ...userData,
-          amount: Number(userData.amount) - Number(betAmount),
+          amount:
+            Number(userData.amount) -
+            Number(betAmount) -
+            (Number(betAmount) * 10) / 100,
         })
         .then(function () {
           setbetLoading(false);
@@ -80,7 +83,12 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
             .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
             .update({
               ...forProfitAdminData,
-              amount: Number(forProfitAdminData?.amount) + Number(betAmount),
+              sc:
+                Number(forProfitAdminData?.sc) + (Number(betAmount) * 10) / 100,
+              amount:
+                Number(forProfitAdminData?.amount) +
+                Number(betAmount) +
+                (Number(betAmount) * 10) / 100,
             })
             .then(function () {});
         });
@@ -114,13 +122,11 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
 
             <div className={styles["wallet-calc"]}>
               <p>
-                Odds - {winPlc.type} :
-                {winPlc.type === "WIN"
-                  ? indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOWIN
-                  : indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOPLC}
+                Odds - {winPlc.type} : {winPlc.value}
               </p>
 
-              {Number(betAmount) <= Number(userData?.amount) ? (
+              {Number(betAmount) + (Number(betAmount) * 10) / 100 <=
+              Number(userData?.amount) ? (
                 <p>Your Bet Amount : {betAmount}</p>
               ) : (
                 <p style={{ color: "red" }}>
@@ -143,7 +149,6 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                       setShowValue(true);
                     } else {
                       setShowValue(false);
-
                       setWinPlc({
                         ...winPlc,
                         user_amount: e.target.value,
@@ -171,6 +176,10 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
               )}
               <hr style={{ color: "#866afb" }} />
               <div className={styles["wallet-calc"]}>
+                <p>Sc</p>
+                <p>{(Number(betAmount) * 10) / 100}</p>
+              </div>
+              <div className={styles["wallet-calc"]}>
                 <p>Potential Amount</p>
                 <p>
                   +
@@ -188,7 +197,8 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                 ) : (
                   <Button
                     disabled={
-                      Number(betAmount) <= Number(userData?.amount) &&
+                      Number(betAmount) + (Number(betAmount) * 10) / 100 <=
+                        Number(userData?.amount) &&
                       betAmount >= 100 &&
                       betAmount <= 25000
                         ? false

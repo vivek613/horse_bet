@@ -121,6 +121,20 @@ const MyBet = () => {
                     </p>
                     <p>Potential Amount: {item.potential_amount} </p>
                   </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
+                    <p>
+                      Bet Time :-{" "}
+                      {`${new Date(item.time).getHours()}:${new Date(
+                        item.time
+                      ).getMinutes()}`}
+                    </p>
+                  </div>
                 </div>
               </Card.Body>
             </Card>

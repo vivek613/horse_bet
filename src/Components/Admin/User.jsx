@@ -47,8 +47,6 @@ const User = () => {
         >
           User
         </h3>
-        <div></div>
-
         <div
           className="table-container"
           style={{
@@ -56,24 +54,37 @@ const User = () => {
           }}
         >
           {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
-            <button
-              onClick={() => {
-                setAddModalShow(true);
-              }}
+            <div
               style={{
-                margin: "10px",
-                height: "36px",
-                padding: "0px 10px",
-                outline: "none",
-                border: "1px solid black",
-                background: "#cdc6eb",
-                color: "black",
-                borderRadius: "5px",
-                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                justifyContent: "space-between",
               }}
             >
-              Add User
-            </button>
+              <p style={{ margin: "0px" }}>
+                Daily Service Charge :{" "}
+                {table?.find((e) => e.uid == user?.uid)?.sc}
+              </p>
+              <button
+                onClick={() => {
+                  setAddModalShow(true);
+                }}
+                style={{
+                  margin: "10px",
+                  height: "36px",
+                  padding: "0px 10px",
+                  outline: "none",
+                  border: "1px solid black",
+                  background: "#cdc6eb",
+                  color: "black",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Add User
+              </button>
+            </div>
           )}
           <Table striped bordered hover>
             <thead>
@@ -94,7 +105,7 @@ const User = () => {
                       <td>{e.uid}</td>
                       <td>{e.email}</td>
                       <td>{e.amount}</td>
-                      <td>{`${e.admin} `}</td>
+                      <td>{`${e.admin}`}</td>
                       <td>
                         <FiEdit
                           onClick={(event) => {
