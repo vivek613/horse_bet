@@ -11,9 +11,9 @@ import { getCookie } from "../../../Hook/Cookies";
 
 const MyBet = () => {
   const navigate = useNavigate();
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
-  const { winPlc, setWinPlc, userBet, setUserBet } = useContext(Context);
+  const { userBet, setUserBet } = useContext(Context);
   useEffect(() => {
     const uid = getCookie("Uid");
     db.collection("participant")

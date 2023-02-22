@@ -11,7 +11,6 @@ const DrawModal = (props) => {
   const { betData, amountData } = useContext(Context);
   const [adminDataForAmount, setadminDataForAmount] = useState();
   const [withdrawLoading, setWithdrawLoading] = useState(false);
-  console.log("DRAW", props?.updateData?.data?.status);
 
   useEffect(() => {
     db.collection("users")

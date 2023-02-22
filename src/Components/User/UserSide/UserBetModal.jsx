@@ -9,18 +9,10 @@ import { getCookie } from "../../../Hook/Cookies";
 import ReactLoading from "react-loading";
 
 export const UserBetModal = ({ walletModal, setWalletModal }) => {
-  const {
-    winPlc,
-    setWinPlc,
-    userBet,
-    setUserBet,
-    raceIndexNum,
-    indexNum,
-    indiaRace,
-    setIndiaRace,
-  } = useContext(Context);
+  const { winPlc, setWinPlc, userBet, setUserBet, setIndiaRace } =
+    useContext(Context);
   const auth = getAuth();
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const [participant, setParticipant] = useState([]);
   const [betAmount, setBetAmount] = useState(0);
   const [userData, setUserData] = useState([]);
