@@ -85,10 +85,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
               ...forProfitAdminData,
               sc:
                 Number(forProfitAdminData?.sc) + (Number(betAmount) * 10) / 100,
-              amount:
-                Number(forProfitAdminData?.amount) +
-                Number(betAmount) +
-                (Number(betAmount) * 10) / 100,
+              amount: Number(forProfitAdminData?.amount) + Number(betAmount),
             })
             .then(function () {});
         });
@@ -176,11 +173,11 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
               )}
               <hr style={{ color: "#866afb" }} />
               <div className={styles["wallet-calc"]}>
-                <p>Sc</p>
+                <p>BWP :</p>
                 <p>{(Number(betAmount) * 10) / 100}</p>
               </div>
               <div className={styles["wallet-calc"]}>
-                <p>Potential Amount</p>
+                <p>Potential Amount :</p>
                 <p>
                   +
                   {Number(betAmount) * Number(winPlc.value) + Number(betAmount)}

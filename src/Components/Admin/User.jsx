@@ -63,7 +63,7 @@ const User = () => {
               }}
             >
               <p style={{ margin: "0px" }}>
-                Daily Service Charge :{" "}
+                BWP Daily Service Charge :{" "}
                 {table?.find((e) => e.uid == user?.uid)?.sc}
               </p>
               <button

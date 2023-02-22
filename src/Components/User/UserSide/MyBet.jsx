@@ -66,17 +66,19 @@ const MyBet = () => {
                       margin: "0 0 10px 0",
                     }}
                   >
-                    <div
-                      style={{
-                        backgroundColor: "#39e75f",
-                        width: "53px",
-                        color: "black",
-                        borderRadius: "5px",
-                        textAlign: "center",
-                      }}
-                    >
-                      {item?.status === "enabled" && "Win"}
-                    </div>
+                    {item?.status === "enabled" && (
+                      <div
+                        style={{
+                          backgroundColor: item.withdraw ? "gray" : "#39e75f",
+                          width: item.withdraw ? "110px" : "53px",
+                          color: "black",
+                          borderRadius: "5px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {item?.withdraw ? "Withdrawn" : "Win"}
+                      </div>
+                    )}
                   </div>
                   <div
                     style={{

@@ -12,6 +12,10 @@ const StatusModel = (props) => {
   const [dividend, setDividend] = useState(0);
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [adminAmountData, setAdminAmountData] = useState();
+  console.log(
+    "props?.updateData?.data?.status",
+    props?.updateData?.data?.status
+  );
   useEffect(() => {
     db.collection("users")
       .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
@@ -35,7 +39,7 @@ const StatusModel = (props) => {
               props?.updateData?.data?.venue === data.venue
             ) {
               data.status = "enabled";
-              data.withdraw = true;
+              data.withdraw = false;
             }
             return data;
           }),

@@ -11,6 +11,7 @@ const DrawModal = (props) => {
   const { betData, amountData } = useContext(Context);
   const [adminDataForAmount, setadminDataForAmount] = useState();
   const [withdrawLoading, setWithdrawLoading] = useState(false);
+  console.log("DRAW", props?.updateData?.data?.status);
 
   useEffect(() => {
     db.collection("users")
@@ -45,6 +46,9 @@ const DrawModal = (props) => {
             .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
             .update({
               ...adminDataForAmount,
+              sc:
+                Number(adminDataForAmount?.sc) -
+                (Number(props?.updateData?.data?.user_amount) * 10) / 100,
               amount:
                 Number(adminDataForAmount?.amount) -
                 Number(props?.updateData?.data?.user_amount),
@@ -58,7 +62,8 @@ const DrawModal = (props) => {
               ...amountData,
               amount:
                 Number(amountData.amount) +
-                Number(props?.updateData?.data?.user_amount),
+                Number(props?.updateData?.data?.user_amount) +
+                (Number(props?.updateData?.data?.user_amount) * 10) / 100,
             })
             .then(() => {
               props.onHide();
@@ -101,8 +106,12 @@ const DrawModal = (props) => {
                   width: "26px",
                 }}
                 type="checkbox"
-                disabled={props?.updateData?.data?.withdraw}
-                checked={props?.updateData?.data?.withdraw}
+                disabled={
+                  props?.updateData?.data?.status === "enabled" ? true : false
+                }
+                checked={
+                  props?.updateData?.data?.status === "enabled" ? true : false
+                }
                 id="withdraw"
                 name="withdraw"
                 value="Bike"
