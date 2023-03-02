@@ -14,7 +14,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
   const auth = getAuth();
   const [user] = useAuthState(auth);
   const [participant, setParticipant] = useState([]);
-  const [betAmount, setBetAmount] = useState(0);
+  const [betAmount, setBetAmount] = useState();
   const [userData, setUserData] = useState([]);
   const [showValue, setShowValue] = useState(false);
   const [betLoading, setbetLoading] = useState(false);
@@ -164,17 +164,22 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                 ""
               )}
               <hr style={{ color: "#866afb" }} />
-              <div className={styles["wallet-calc"]}>
-                <p>BWP :</p>
-                <p>{(Number(betAmount) * 10) / 100}</p>
-              </div>
-              <div className={styles["wallet-calc"]}>
-                <p>Potential Amount :</p>
-                <p>
-                  +
-                  {Number(betAmount) * Number(winPlc.value) + Number(betAmount)}
-                </p>
-              </div>
+              {betAmount > 0 && (
+                <>
+                  <div className={styles["wallet-calc"]}>
+                    <p>BWP :</p>
+                    <p>{(Number(betAmount) * 10) / 100}</p>
+                  </div>
+                  <div className={styles["wallet-calc"]}>
+                    <p>Potential Amount :</p>
+                    <p>
+                      +
+                      {Number(betAmount) * Number(winPlc.value) +
+                        Number(betAmount)}
+                    </p>
+                  </div>
+                </>
+              )}
               <div className={styles["wallet-button-wrapper"]}>
                 {betLoading ? (
                   <ReactLoading
@@ -184,22 +189,24 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                     width={30}
                   />
                 ) : (
-                  <Button
-                    disabled={
-                      Number(betAmount) + (Number(betAmount) * 10) / 100 <=
-                        Number(userData?.amount) &&
-                      betAmount >= 100 &&
-                      betAmount <= 25000
-                        ? false
-                        : true
-                    }
-                    variant="primary"
-                    onClick={() => {
-                      handleSubmit();
-                    }}
-                  >
-                    Confirm
-                  </Button>
+                  betAmount > 0 && (
+                    <Button
+                      disabled={
+                        Number(betAmount) + (Number(betAmount) * 10) / 100 <=
+                          Number(userData?.amount) &&
+                        betAmount >= 100 &&
+                        betAmount <= 25000
+                          ? false
+                          : true
+                      }
+                      variant="primary"
+                      onClick={() => {
+                        handleSubmit();
+                      }}
+                    >
+                      Confirm
+                    </Button>
+                  )
                 )}
                 <Button
                   variant="primary"
