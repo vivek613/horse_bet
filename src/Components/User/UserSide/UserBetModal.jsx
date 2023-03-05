@@ -70,7 +70,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
         .then(function () {
           setbetLoading(false);
           setWalletModal(false);
-          setBetAmount(0);
+          setBetAmount();
           db.collection("users")
             .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
             .update({
@@ -118,9 +118,13 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
               Number(userData?.amount) ? (
                 <p>Your Bet Amount : {betAmount}</p>
               ) : (
-                <p style={{ color: "red" }}>
-                  Sorry, You have not enough balance
-                </p>
+                <>
+                  {Number(betAmount) > 0 && (
+                    <p style={{ color: "red" }}>
+                      Sorry, You have not enough balance
+                    </p>
+                  )}
+                </>
               )}
             </div>
             <Form style={{ width: "100%" }}>
@@ -216,7 +220,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                     outline: "1px solid black",
                   }}
                   onClick={() => {
-                    setBetAmount(0);
+                    setBetAmount();
                     setWalletModal(false);
                   }}
                 >
