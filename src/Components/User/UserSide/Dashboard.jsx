@@ -10,6 +10,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
 import { Context } from "../../../App";
 import { UserBetModal } from "./UserBetModal";
+import axios from "axios";
 import { ReactComponent as NoRace } from "../../../Assets/NoRace.svg";
 
 export const Dashboard = () => {
@@ -44,6 +45,11 @@ export const Dashboard = () => {
 
   const [ind, setInd] = useState();
   const [stateName, setStateName] = useState("");
+  const [allData, setAllData] = useState([]);
+  const [allCountry, setAllCountry] = useState([]);
+  const [countryState, setCountryState] = useState([]);
+  const [stateRace, setStateRace] = useState([]);
+
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setWalletModal(false);
@@ -59,6 +65,32 @@ export const Dashboard = () => {
       );
     });
   }, [ind]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/allDataForCountry")
+      .then((item) => {
+        const country = [
+          ...new Set(
+            item?.data?.data.map((e) => {
+              return e.data.venueCountry;
+            })
+          ),
+        ];
+        const countryStateArray = [
+          ...new Set(
+            item?.data?.data.map((e) => {
+              return e.data.venueName;
+            })
+          ),
+        ];
+        setAllData(item?.data?.data);
+        setAllCountry(country);
+        console.log(item?.data?.data, countryStateArray, country);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     if (getCookie("access_token")) {
@@ -78,6 +110,55 @@ export const Dashboard = () => {
       <Toaster position="top-right" reverseOrder={false} />
       <div className={styles["user-race-data-main"]}>
         <p className={styles["user-race-title"]}>Today's Race</p>
+        <div className={styles["state-array"]}>
+          {allCountry.map((items, index) => {
+            return (
+              <button
+                className={
+                  selectedState.venue === index
+                    ? styles["state-button-user-select"]
+                    : styles["state-button-user"]
+                }
+                onClick={() => {
+                  const array = allData.filter((e) => {
+                    return e.data.venueCountry === items;
+                  });
+                  setCountryState([
+                    ...new Set(
+                      array.map((data) => {
+                        return data.data.venueName;
+                      })
+                    ),
+                  ]);
+                }}
+              >
+                {items}
+              </button>
+            );
+          })}
+        </div>
+        <div className={styles["state-array"]}>
+          {countryState.map((items, index) => {
+            return (
+              <button
+                className={
+                  selectedState.venue === index
+                    ? styles["state-button-user-select"]
+                    : styles["state-button-user"]
+                }
+                onClick={() => {
+                  const array = allData.filter((e) => {
+                    return e.data.venueName === items;
+                  });
+                  console.log(array, "array");
+                  setStateRace(array);
+                }}
+              >
+                {items}
+              </button>
+            );
+          })}
+        </div>
         <div className={styles["state-array"]}>
           {stateHorce.map((items, index) => {
             return (
