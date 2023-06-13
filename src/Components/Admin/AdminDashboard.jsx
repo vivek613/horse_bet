@@ -18,6 +18,13 @@ import { toast } from "react-hot-toast";
 import ReactLoading from "react-loading";
 import { DeleteModel } from "./DeleteModel";
 
+const convertHour = (data) => {
+  const date = new Date(data);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  return hours + ":" + minutes;
+};
 export const AdminDashboard = () => {
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
@@ -37,6 +44,10 @@ export const AdminDashboard = () => {
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
   const [selectedState, setSelectedState] = useState(true);
+  const [allCountry, setAllCountry] = useState([]);
+  const [countryState, setCountryState] = useState([]);
+  const [stateWiseData, setStateWiseData] = useState([]);
+
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
@@ -57,32 +68,49 @@ export const AdminDashboard = () => {
     setLoadingg(true);
     e.preventDefault();
     axios
-      .get("https://node.rwitc.com:3002/data/racecard.json")
+      .get("http://localhost:5000/api/allDataForCountry")
       .then((data) => {
         setLoadingg(false);
+        const country = [
+          ...new Set(
+            data?.data?.data.map((e) => {
+              return e.data.venueCountry;
+            })
+          ),
+        ];
+        const countryStateArray = [
+          ...new Set(
+            data?.data?.data.map((e) => {
+              return e.data.venueName;
+            })
+          ),
+        ];
+        setNewRace(data?.data?.data);
         const array = [];
-        Object.values(data.data.racecard).map((data, index) => {
-          return data.filter((item) => {
-            if (
-              item.vName.toLowerCase() === "mysore" ||
-              item.vName.toLowerCase() === "madras" ||
-              item.vName.toLowerCase() === "mumbai" ||
-              item.vName.toLowerCase() === "hyderabad" ||
-              item.vName.toLowerCase() === "delhi" ||
-              item.vName.toLowerCase() === "calcutta"
-            ) {
-              return array.push(item);
-            }
-          });
-        });
-        setNewRace(array);
+        // Object.values(data.data.racecard).map((data, index) => {
+        //   return data.filter((item) => {
+        //     if (
+        //       item.vName.toLowerCase() === "mysore" ||
+        //       item.vName.toLowerCase() === "madras" ||
+        //       item.vName.toLowerCase() === "mumbai" ||
+        //       item.vName.toLowerCase() === "hyderabad" ||
+        //       item.vName.toLowerCase() === "delhi" ||
+        //       item.vName.toLowerCase() === "calcutta"
+        //     ) {
+        //       return array.push(item);
+        //     }
+        //   });
+        // });
+        // setNewRace(array);
+        console.log(data?.data?.data);
+        setAllCountry(country);
 
-        db.collection("TimeData")
-          .doc("RaceData")
-          .update({ Allrace: array })
-          .then((data) => {
-            toast.success(`update Succesfully `);
-          });
+        // db.collection("TimeData")
+        //   .doc("RaceData")
+        //   .update({ Allrace: array })
+        //   .then((data) => {
+        //     toast.success(`update Succesfully `);
+        //   });
       })
       .catch((error) => {
         setLoadingg(false);
@@ -159,7 +187,89 @@ export const AdminDashboard = () => {
               </Button>
             </div>
           )}
+          <div className={styles["state-array"]}>
+            {allCountry?.map((items, index) => {
+              return (
+                <button
+                  className={
+                    selectedState.venue === index
+                      ? styles["state-button-user-select"]
+                      : styles["state-button-user"]
+                  }
+                  onClick={() => {
+                    const array = newRace.filter((e) => {
+                      return e.data.venueCountry === items;
+                    });
+                    setCountryState([
+                      ...new Set(
+                        array.map((data) => {
+                          return data.data.venueName;
+                        })
+                      ),
+                    ]);
+                    // setStateWiseData([]);
+                    // setParticipants();
+                  }}
+                >
+                  {items || "IND"}
+                </button>
+              );
+            })}
+          </div>
+          <div className={styles["state-array"]}>
+            {countryState.map((items, index) => {
+              return (
+                <button
+                  className={
+                    selectedState.venue === index
+                      ? styles["state-button-user-select"]
+                      : styles["state-button-user"]
+                  }
+                  onClick={() => {
+                    const array = newRace.filter((e) => {
+                      return e.data.venueName === items;
+                    });
+                    console.log(array, "array");
+                    // setStateRace(array);
+                    setStateWiseData(array);
+                  }}
+                >
+                  {items}
+                </button>
+              );
+            })}
+          </div>
           <div className={styles["user-card-main"]}>
+            {stateWiseData?.map((e, index) => {
+              return (
+                <>
+                  <Card
+                    className={
+                      selectedState === e.raceTime
+                        ? styles["user-simple-card-select"]
+                        : styles["user-simple-card"]
+                    }
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      handleGetRace(e);
+                      setRaceIndexNum(index);
+                    }}
+                  >
+                    <Card.Body className={styles["user-card-body"]}>
+                      <Card.Title>{`Race: ${e.data?.raceNumber}`}</Card.Title>
+                      <Card.Text className={styles["user-simple-card-time"]}>
+                        {/* {e.vName} */}
+                      </Card.Text>
+                      <Card.Text className={styles["user-simple-card-hour"]}>
+                        {convertHour(e.startDate)}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </>
+              );
+            })}
+          </div>
+          {/* <div className={styles["user-card-main"]}>
             {indiaRace?.map((e, index) => {
               return (
                 <>
@@ -188,7 +298,7 @@ export const AdminDashboard = () => {
                 </>
               );
             })}
-          </div>
+          </div> */}
 
           <div
             className="table-container"

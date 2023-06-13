@@ -121,3 +121,30 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+.state-array {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  transition: 5s all ease;
+  display: flex;
+  gap: 1px;
+  padding: 15px 15px 15px 15px;
+}
+.state-button-user {
+  background: #cdc6eb;
+  color: #0000008a;
+  border: 1px solid white;
+  padding: 8px;
+  height: 44px;
+  border-radius: 5px;
+}
+.state-button-user-select {
+  border: 3px solid black;
+  background: #cdc6eb;
+  color: #0000008a;
+
+  padding: 8px;
+  height: 44px;
+  border-radius: 5px;
+}

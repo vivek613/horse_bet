@@ -104,6 +104,40 @@ export const Dashboard = () => {
     setParticipants(e);
   };
 
+  const getRaceDataTime = (id) => {
+    axios
+      .get(`http://localhost:5000/api/getTimesOfRacing?id=${id}`)
+      .then((item) => {
+        // const country = [
+        //   ...new Set(
+        //     item?.data?.data.map((e) => {
+        //       return e.data.venueCountry;
+        //     })
+        //   ),
+        // ];
+        // const countryStateArray = [
+        //   ...new Set(
+        //     item?.data?.data.map((e) => {
+        //       return e.data.venueName;
+        //     })
+        //   ),
+        // ];
+        // setAllData(item?.data?.data);
+        // setAllCountry(country);
+        console.log(item?.data?.data);
+        setParticipants(item?.data?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const convertHour = (data) => {
+    const date = new Date(data);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    return hours + ":" + minutes;
+  };
   return (
     <>
       <NavbarCommon />
@@ -130,6 +164,8 @@ export const Dashboard = () => {
                       })
                     ),
                   ]);
+                  setStateWiseData([]);
+                  setParticipants();
                 }}
               >
                 {items}
@@ -152,6 +188,7 @@ export const Dashboard = () => {
                   });
                   console.log(array, "array");
                   setStateRace(array);
+                  setStateWiseData(array);
                 }}
               >
                 {items}
@@ -159,7 +196,7 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        <div className={styles["state-array"]}>
+        {/* <div className={styles["state-array"]}>
           {stateHorce.map((items, index) => {
             return (
               <button
@@ -187,7 +224,7 @@ export const Dashboard = () => {
               </button>
             );
           })}
-        </div>
+        </div> */}
         <div className={styles["user-card-main"]}>
           {stateWiseData.map((e, index) => {
             return (
@@ -199,32 +236,34 @@ export const Dashboard = () => {
                       : styles["user-simple-card"]
                   }
                   onClick={() => {
-                    selectedState.raceNum !== index && handleGetRace(e);
-                    setWinPlc({
-                      ...winPlc,
-                      user_id: user.uid,
-                      email: user.email,
-                      race_number: e.raceNumber,
-                      race_time: e.raceTime,
-                      venue: e.vName,
-                      status: "disabled",
-                      withdraw: false,
-                    });
-                    setInd(index);
-                    setRaceIndexNum(index);
-                    setSelectedState({
-                      ...selectedState,
-                      raceNum: index,
-                    });
+                    getRaceDataTime(e.uid);
+                    // selectedState.raceNum !== index && handleGetRace(e);
+                    // setWinPlc({
+                    //   ...winPlc,
+                    //   user_id: user.uid,
+                    //   email: user.email,
+                    //   race_number: e.raceNumber,
+                    //   race_time: e.raceTime,
+                    //   venue: e.vName,
+                    //   status: "disabled",
+                    //   withdraw: false,
+                    // });
+                    // setInd(index);
+                    // setRaceIndexNum(index);
+                    // setSelectedState({
+                    //   ...selectedState,
+                    //   raceNum: index,
+                    // });
                   }}
                 >
                   <Card.Body className={styles["user-card-body"]}>
-                    <Card.Title>{`Race: ${e.raceNumber}`}</Card.Title>
+                    <Card.Title>{`Race: ${e?.data?.raceNumber}`}</Card.Title>
                     <Card.Text
                       className={styles["user-simple-card-time"]}
                     ></Card.Text>
                     <Card.Text className={styles["user-simple-card-hour"]}>
-                      {e.raceTime}
+                      {/* {new Date(e?.data?.raceTime)} */}
+                      {convertHour(e.startDate)}
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -232,7 +271,7 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        {participants && participants?.runners ? (
+        {participants && participants?.participants ? (
           <>
             <p className={styles["user-race-title"]}>Race Details :</p>
             <Card className={styles["race-details-card"]}>
@@ -240,7 +279,7 @@ export const Dashboard = () => {
                 <div>
                   <Card style={{ height: "100%" }}>
                     <Card.Body>
-                      <Card.Title>{participants?.raceNumber}</Card.Title>
+                      <Card.Title>{participants?.data?.raceNumber}</Card.Title>
                     </Card.Body>
                   </Card>
                 </div>
@@ -250,12 +289,12 @@ export const Dashboard = () => {
                       {participants?.name}
                     </span>
                     <span className={styles["race-details-span"]}>
-                      Distance: {participants?.length}
+                      Distance: {participants?.data?.length}
                     </span>
                     <span
                       style={{
                         background:
-                          participants?.status === "DRL"
+                          participants?.status === "COMPLETE"
                             ? "#f44336"
                             : participants?.status === "STP"
                             ? "#f44336"
@@ -264,46 +303,43 @@ export const Dashboard = () => {
                         borderRadius: "7px",
                       }}
                     >
-                      {participants?.status.toLowerCase() === "drl"
+                      {participants?.status.toLowerCase() === "complete"
                         ? "completed"
                         : participants?.status.toLowerCase() === "stp"
                         ? "Stop"
                         : "Opening"}
                     </span>
                   </Card.Body>
-                  {participants?.status === "DRL" && (
+                  {participants?.status === "COMPLETE" && (
                     <Card.Body className={styles["results-div"]}>
-                      {participants?.statusView
-                        ?.split("-")
-                        .slice(0, -1)
-                        ?.map((item, index) => {
-                          return (
-                            <>
-                              <div className={styles["jersey-div"]}>
-                                <span className={styles["horce-num"]}>
-                                  {index + 1}
-                                  <sup>
-                                    {index === 0
-                                      ? "st"
-                                      : index === 1
-                                      ? "nd"
-                                      : "rd"}
-                                  </sup>
-                                </span>
+                      {participants?.standings?.map((item, index) => {
+                        return (
+                          <>
+                            <div className={styles["jersey-div"]}>
+                              <span className={styles["horce-num"]}>
+                                {index + 1}
+                                <sup>
+                                  {index === 0
+                                    ? "st"
+                                    : index === 1
+                                    ? "nd"
+                                    : "rd"}
+                                </sup>
+                              </span>
 
-                                <small className={styles["draw-num"]}>
-                                  {item}
-                                </small>
-                              </div>
-                            </>
-                          );
-                        })}
+                              <small className={styles["draw-num"]}>
+                                {item[0]}
+                              </small>
+                            </div>
+                          </>
+                        );
+                      })}
                     </Card.Body>
                   )}
                 </Card>
               </Card.Body>
             </Card>
-            {participants?.runners && (
+            {participants?.participants && (
               <Card style={{ marginLeft: "8px", border: "none" }}>
                 <Card.Body
                   style={{ padding: "0px", width: "calc(100% - 2px)" }}
@@ -333,7 +369,7 @@ export const Dashboard = () => {
               </Card>
             )}
             <div className={styles["user-horce-card"]}>
-              {participants?.runners?.map((e, index) => {
+              {participants?.participants?.map((e, index) => {
                 return (
                   <>
                     <Card style={{ width: "calc(100% - 2px)" }}>
@@ -347,26 +383,26 @@ export const Dashboard = () => {
                             }}
                           >
                             <span className={styles["horce-num"]}>
-                              {e.position}
+                              {e.data.horceNumber}
                             </span>
                             <img
                               className={styles["jersey-image"]}
-                              src={e.jerseyUrl}
+                              src={e.data.jerseyUrl}
                             ></img>
                             <small
                               className={styles["draw-num"]}
-                            >{`(${e.drawNumber})`}</small>
+                            >{`(${e.data.cageNumber})`}</small>
                           </div>
                           <div className={styles["details-div"]}>
                             <div className={styles["horce-card-prs-name"]}>
-                              {e.name}
+                              {e.participant.name}
                             </div>
                             <div
                               style={{
                                 fontSize: "15px",
                               }}
                             >
-                              Wt = {e.weight} , draw : #{e.drawNumber}
+                              Wt = {e.data.weight} , draw : #{e.data.cageNumber}
                             </div>
                             <div
                               class="text-red-9"
@@ -381,12 +417,12 @@ export const Dashboard = () => {
                                 <span className={styles["jockey-icons"]}>
                                   J
                                 </span>{" "}
-                                {e.jockey.name}
+                                {e.data.jockey}
                               </span>
 
                               <span className={styles["trainer-details"]}>
                                 <span class={styles["trainer-icons"]}>T</span>
-                                {e.trainer.name}
+                                {e.data.trainer}
                               </span>
                             </div>
                           </div>
@@ -398,78 +434,113 @@ export const Dashboard = () => {
                             right: "0",
                           }}
                         >
-                          {participants?.status?.toLowerCase() === "bst" && (
+                          {participants?.status?.toLowerCase() !==
+                            "completed" && (
                             <>
                               <button
                                 disabled={
                                   participants?.status?.toLowerCase() ===
-                                    "bst" &&
-                                  Number(e.odds.FOWIN) !== 0 &&
-                                  Number(e.odds.FOWIN) !== 0.0
+                                    "published" &&
+                                  Number(
+                                    participants?.markets[0]?.selections[index]
+                                      .odds?.price
+                                  ) !== 0 &&
+                                  Number(
+                                    participants?.markets[0]?.selections[index]
+                                      .odds?.price
+                                  ) !== 0.0
                                     ? false
                                     : true
                                 }
                                 style={{
                                   cursor:
                                     participants?.status?.toLowerCase() ===
-                                      "bst" &&
-                                    Number(e.odds.FOWIN) !== 0 &&
-                                    Number(e.odds.FOWIN) !== 0.0
+                                      "published" &&
+                                    Number(
+                                      participants?.markets[0]?.selections[
+                                        index
+                                      ].odds?.price
+                                    ) !== 0 &&
+                                    Number(
+                                      participants?.markets[0]?.selections[
+                                        index
+                                      ].odds?.price
+                                    ) !== 0.0
                                       ? "pointer"
                                       : "not-allowed",
                                 }}
                                 className={styles["odds-button"]}
                                 onClick={() => {
-                                  setIndexNum(index);
-                                  setHorcesData(e);
-                                  setWinPlc({
-                                    ...winPlc,
-                                    type: "WIN",
-                                    value: e.odds.FOWIN,
-                                    jockey_name: e.jockey.name,
-                                    horce_number: e.position,
-                                    time: new Date().getTime(),
-                                    // time: Math.round(Date.now() / 1000),
-                                  });
-                                  setWalletModal(true);
+                                  // setIndexNum(index);
+                                  // setHorcesData(e);
+                                  // setWinPlc({
+                                  //   ...winPlc,
+                                  //   type: "WIN",
+                                  //   value: e.odds.FOWIN,
+                                  //   jockey_name: e.jockey.name,
+                                  //   horce_number: e.position,
+                                  //   time: new Date().getTime(),
+                                  //   // time: Math.round(Date.now() / 1000),
+                                  // });
+                                  // setWalletModal(true);
                                 }}
                               >
-                                {e.odds.FOWIN}
+                                {
+                                  participants?.markets[0]?.selections[index]
+                                    .odds?.price
+                                }
                               </button>
                               <button
                                 disabled={
                                   participants?.status?.toLowerCase() ===
-                                    "bst" &&
-                                  Number(e.odds.FOPLC) !== 0 &&
-                                  Number(e.odds.FOPLC) !== 0.0
+                                    "published" &&
+                                  Number(
+                                    participants?.markets[0]?.selections[index]
+                                      .odds?.price
+                                  ) !== 0 &&
+                                  Number(
+                                    participants?.markets[0]?.selections[index]
+                                      .odds?.price
+                                  ) !== 0.0
                                     ? false
                                     : true
                                 }
                                 style={{
                                   cursor:
                                     participants?.status?.toLowerCase() ===
-                                      "bst" &&
-                                    Number(e.odds.FOPLC) !== 0 &&
-                                    Number(e.odds.FOPLC) !== 0.0
+                                      "published" &&
+                                    Number(
+                                      participants?.markets[1]?.selections[
+                                        index
+                                      ].odds?.price
+                                    ) !== 0 &&
+                                    Number(
+                                      participants?.markets[1]?.selections[
+                                        index
+                                      ].odds?.price
+                                    ) !== 0.0
                                       ? "pointer"
                                       : "not-allowed",
                                 }}
                                 className={styles["bet-button"]}
                                 onClick={() => {
-                                  setHorcesData(e);
-                                  setWinPlc({
-                                    ...winPlc,
-                                    type: "PLC",
-                                    value: e.odds.FOPLC,
-                                    jockey_name: e.jockey.name,
-                                    horce_number: e.position,
-                                    time: new Date().getTime(),
-                                    // time: Math.round(Date.now() / 1000),
-                                  });
-                                  setWalletModal(true);
+                                  // setHorcesData(e);
+                                  // setWinPlc({
+                                  //   ...winPlc,
+                                  //   type: "PLC",
+                                  //   value: e.odds.FOPLC,
+                                  //   jockey_name: e.jockey.name,
+                                  //   horce_number: e.position,
+                                  //   time: new Date().getTime(),
+                                  //   // time: Math.round(Date.now() / 1000),
+                                  // });
+                                  // setWalletModal(true);
                                 }}
                               >
-                                {e.odds.FOPLC}
+                                {
+                                  participants?.markets[1]?.selections[index]
+                                    .odds?.price
+                                }
                               </button>
                             </>
                           )}
