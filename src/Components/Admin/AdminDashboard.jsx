@@ -51,9 +51,9 @@ export const AdminDashboard = () => {
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
-      setOddData(
-        snapshot.docs.map((doc) => doc.data())[0]?.Allrace[raceIndexNum]
-      );
+      // setOddData(
+      //   snapshot.docs.map((doc) => doc.data())[0]?.Allrace[raceIndexNum]
+      // );
     });
   }, [raceIndexNum]);
   useEffect(() => {
@@ -78,48 +78,61 @@ export const AdminDashboard = () => {
             })
           ),
         ];
-        const countryStateArray = [
-          ...new Set(
-            data?.data?.data.map((e) => {
-              return e.data.venueName;
-            })
-          ),
-        ];
+
         setNewRace(data?.data?.data);
         const array = [];
-        // Object.values(data.data.racecard).map((data, index) => {
-        //   return data.filter((item) => {
-        //     if (
-        //       item.vName.toLowerCase() === "mysore" ||
-        //       item.vName.toLowerCase() === "madras" ||
-        //       item.vName.toLowerCase() === "mumbai" ||
-        //       item.vName.toLowerCase() === "hyderabad" ||
-        //       item.vName.toLowerCase() === "delhi" ||
-        //       item.vName.toLowerCase() === "calcutta"
-        //     ) {
-        //       return array.push(item);
-        //     }
-        //   });
-        // });
-        // setNewRace(array);
-        console.log(data?.data?.data);
+
         setAllCountry(country);
 
-        // db.collection("TimeData")
-        //   .doc("RaceData")
-        //   .update({ Allrace: array })
-        //   .then((data) => {
-        //     toast.success(`update Succesfully `);
-        //   });
+        db.collection("TimeData")
+          .doc("RaceData")
+          .update({ Allrace: data?.data?.data })
+          .then((data) => {
+            toast.success(`update Succesfully `);
+          });
       })
       .catch((error) => {
         setLoadingg(false);
       });
   };
 
+  async function fetchData(uid) {
+    try {
+      await axios
+        .get(`http://localhost:5000/api/getTimesOfRacing?id=${uid}`)
+        .then((res) => {
+          // console.log(res?.data?.data);
+          db.collection("RaceData").doc(uid).set(res?.data?.data);
+        })
+        .catch((e) => {});
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function makeApiCalls(uids) {
+    for (let i = 0; i < uids.length; i++) {
+      await fetchData(uids[i]);
+    }
+  }
+  useEffect(() => {
+    makeApiCalls(
+      newRace.map((e) => {
+        return e.uid;
+      })
+    );
+  }, [newRace]);
+
   const handleGetRace = async (e) => {
-    setSelectedState(e.raceTime);
-    setOddData(e);
+    // setSelectedState(e.raceTime);
+    db.collection("RaceData")
+      .doc(e.uid)
+      .onSnapshot((snapshot) => {
+        if (snapshot.data()) {
+          setOddData(snapshot.data());
+        }
+      });
+    // setOddData(e);
   };
   const handleBetDelete = () => {
     setDeleteModalShow(true);
@@ -192,13 +205,13 @@ export const AdminDashboard = () => {
               return (
                 <button
                   className={
-                    selectedState.venue === index
+                    selectedState?.venue === index
                       ? styles["state-button-user-select"]
                       : styles["state-button-user"]
                   }
                   onClick={() => {
                     const array = newRace.filter((e) => {
-                      return e.data.venueCountry === items;
+                      return e.data?.venueCountry === items;
                     });
                     setCountryState([
                       ...new Set(
@@ -221,7 +234,7 @@ export const AdminDashboard = () => {
               return (
                 <button
                   className={
-                    selectedState.venue === index
+                    selectedState?.venue === index
                       ? styles["state-button-user-select"]
                       : styles["state-button-user"]
                   }
@@ -229,7 +242,6 @@ export const AdminDashboard = () => {
                     const array = newRace.filter((e) => {
                       return e.data.venueName === items;
                     });
-                    console.log(array, "array");
                     // setStateRace(array);
                     setStateWiseData(array);
                   }}
@@ -245,14 +257,15 @@ export const AdminDashboard = () => {
                 <>
                   <Card
                     className={
-                      selectedState === e.raceTime
+                      selectedState === e?.raceTime
                         ? styles["user-simple-card-select"]
                         : styles["user-simple-card"]
                     }
                     style={{ cursor: "pointer" }}
                     onClick={() => {
+                      console.log(e);
                       handleGetRace(e);
-                      setRaceIndexNum(index);
+                      // setRaceIndexNum(index);
                     }}
                   >
                     <Card.Body className={styles["user-card-body"]}>
@@ -269,36 +282,6 @@ export const AdminDashboard = () => {
               );
             })}
           </div>
-          {/* <div className={styles["user-card-main"]}>
-            {indiaRace?.map((e, index) => {
-              return (
-                <>
-                  <Card
-                    className={
-                      selectedState === e.raceTime
-                        ? styles["user-simple-card-select"]
-                        : styles["user-simple-card"]
-                    }
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      handleGetRace(e);
-                      setRaceIndexNum(index);
-                    }}
-                  >
-                    <Card.Body className={styles["user-card-body"]}>
-                      <Card.Title>{`Race: ${e.raceNumber}`}</Card.Title>
-                      <Card.Text className={styles["user-simple-card-time"]}>
-                        {e.vName}
-                      </Card.Text>
-                      <Card.Text className={styles["user-simple-card-hour"]}>
-                        {e.raceTime}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </>
-              );
-            })}
-          </div> */}
 
           <div
             className="table-container"
@@ -319,7 +302,7 @@ export const AdminDashboard = () => {
                 {oddData?.status === "DRL" && (
                   <Card>
                     <Card.Body className={styles["results-div"]}>
-                      {oddData?.statusView
+                      {/* {oddData?.statusView
                         ?.split("-")
                         .slice(0, -1)
                         ?.map((item, index) => {
@@ -343,7 +326,7 @@ export const AdminDashboard = () => {
                               </div>
                             </>
                           );
-                        })}
+                        })} */}
                     </Card.Body>
                   </Card>
                 )}
@@ -372,12 +355,12 @@ export const AdminDashboard = () => {
                   <label class="switch">
                     <input
                       type="checkbox"
-                      checked={
-                        oddData?.status?.toLowerCase() === "drl" ||
-                        oddData?.status?.toLowerCase() === "stp"
-                          ? true
-                          : false
-                      }
+                      // checked={
+                      //   oddData?.status?.toLowerCase() === "drl" ||
+                      //   oddData?.status?.toLowerCase() === "stp"
+                      //     ? true
+                      //     : false
+                      // }
                       onChange={(e) => {
                         const array1 = [...indiaRace];
                         if (
@@ -419,21 +402,25 @@ export const AdminDashboard = () => {
               <tbody>
                 {!!oddData &&
                   user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
-                  oddData?.runners?.map((e, index) => {
+                  oddData?.participants?.map((e, index) => {
                     return (
                       <tr index={index}>
-                        <td>{e.position}</td>
-                        <td>{e.name}</td>
+                        <td>{e.data.horseNumber}</td>
+                        <td>{e.participant.name}</td>
 
-                        <td>{e.jockey.name}</td>
-                        <td>{e.trainer.name}</td>
-                        <td>{e.odds.FOWIN}</td>
-                        <td>{e.odds.FOPLC}</td>
+                        <td>{e.data.jockey}</td>
+                        <td>{e.data.trainer}</td>
+                        <td>
+                          {oddData?.markets[0]?.selections[index].odds?.price}
+                        </td>
+                        <td>
+                          {oddData?.markets[1]?.selections[index].odds?.price}
+                        </td>
                         <td>
                           <FiEdit
                             onClick={(event) => {
                               event.preventDefault();
-                              setModalShow(true);
+                              // setModalShow(true);
                               setUseData(e);
                               setIndexNum(index);
                             }}
@@ -448,8 +435,8 @@ export const AdminDashboard = () => {
         </div>
       </div>
       <RaceModel
-        show={modalShow}
-        data={oddData}
+        // show={modalShow}
+        // data={oddData}
         onHide={() => setModalShow(false)}
       />
       <DeleteModel

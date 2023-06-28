@@ -21,10 +21,11 @@ const BetTable = () => {
     setBetData,
     setRaceIndexNum,
     setAmountData,
+    convertHour,
   } = useContext(Context);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
-  const [selectedState, setSelectedState] = useState(true);
+  const [selectedState, setSelectedState] = useState({});
   const [raceWiseBetData, setRaceWiseBetData] = useState();
   const [updateData, setUpdateData] = useState({});
   const [modalShow, setModalShow] = useState(false);
@@ -38,6 +39,19 @@ const BetTable = () => {
       .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setBetData(snapshot.data()?.data);
+        console.log(
+          "all",
+          snapshot.data()?.data,
+          selectedState,
+          snapshot.data()?.data.filter((item) => {
+            if (
+              item.venue === selectedState.venue &&
+              item.race_number === selectedState.num
+            ) {
+              return item;
+            }
+          })
+        );
         setRaceWiseBetData(
           snapshot.data()?.data.filter((item) => {
             if (
@@ -52,7 +66,7 @@ const BetTable = () => {
 
     // doc;
   }, [selectedState]);
-
+  console.log("race", indiaRace);
   return (
     <>
       <div>
@@ -75,7 +89,7 @@ const BetTable = () => {
                 <>
                   <Card
                     className={
-                      selectedState.time === e.raceTime
+                      selectedState.time === convertHour(e.startDate)
                         ? styles["user-simple-card-select"]
                         : styles["user-simple-card"]
                     }
@@ -84,15 +98,15 @@ const BetTable = () => {
                       // handleGetRace(e);
                       setFilterHorce();
                       setSelectedState({
-                        time: e.raceTime,
-                        venue: e.vName,
-                        num: e.raceNumber,
+                        time: convertHour(e.startDate),
+                        venue: e.data.venueName,
+                        num: e.data.raceNumber,
                       });
                       setRaceWiseBetData(
                         betData.filter((item) => {
                           if (
-                            item.venue === e.vName &&
-                            item.race_number === e.raceNumber
+                            item.venue === e.data.venueName &&
+                            item.race_number === e.data.raceNumber
                           ) {
                             return item;
                           }
@@ -102,12 +116,12 @@ const BetTable = () => {
                     }}
                   >
                     <Card.Body className={styles["user-card-body"]}>
-                      <Card.Title>{`Race: ${e.raceNumber}`}</Card.Title>
+                      <Card.Title>{`Race: ${e.data.raceNumber}`}</Card.Title>
                       <Card.Text className={styles["user-simple-card-time"]}>
-                        {e.vName}
+                        {e.data?.venueName}
                       </Card.Text>
                       <Card.Text className={styles["user-simple-card-hour"]}>
-                        {e.raceTime}
+                        {convertHour(e.startDate)}
                       </Card.Text>
                     </Card.Body>
                   </Card>
@@ -142,6 +156,7 @@ const BetTable = () => {
               </Form.Group>
             </Form>
           </div>
+          {console.log("all bet", raceWiseBetData)}
           <div
             className="table-container"
             style={{ margin: "20px 55px 20px -10px" }}

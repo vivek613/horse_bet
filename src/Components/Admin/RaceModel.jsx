@@ -18,10 +18,9 @@ const RaceModel = (props) => {
   }, []);
 
   const handleSubmit = async (user) => {
-    db.collection("TimeData").doc("RaceData").update({ Allrace: indiaRace });
+    db.collection("RaceData").doc(props.data.uid).update(props.data);
     props.onHide();
   };
-
   return (
     <Modal
       {...props}
@@ -49,14 +48,21 @@ const RaceModel = (props) => {
               required
               placeholder="Enter prize"
               defaultValue={
-                indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOWIN
+                props?.data?.markets[0]?.selections[indexNum]?.odds?.price
               }
-              value={indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOWIN}
+              value={props?.data?.markets[0]?.selections[indexNum]?.odds?.price}
               onChange={(e) => {
                 // setUseData({ ...userData, amount: e.target.value });
-                const array1 = [...indiaRace];
-                array1[raceIndexNum].runners[indexNum].odds.FOWIN =
-                  e.target.value;
+                // const array1 = [...indiaRace];
+                // array1[raceIndexNum].runners[indexNum].odds.FOWIN =
+                //   e.target.value;
+                const array1 = [...props?.data?.markets];
+                array1[0].selections[indexNum].odds.price = e.target.value;
+                const array2 = {
+                  ...props?.data,
+                  markets: array1,
+                };
+
                 setIndiaRace(array1);
               }}
             />
@@ -69,14 +75,22 @@ const RaceModel = (props) => {
               required
               placeholder="Enter prize"
               defaultValue={
-                indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOPLC
+                props?.data?.markets[1]?.selections[indexNum]?.odds?.price
               }
-              value={indiaRace[raceIndexNum]?.runners[indexNum]?.odds.FOPLC}
+              value={props?.data?.markets[1]?.selections[indexNum]?.odds?.price}
               onChange={(e) => {
-                const array1 = [...indiaRace];
-                array1[raceIndexNum].runners[indexNum].odds.FOPLC =
-                  e.target.value;
+                const array1 = [...props?.data?.markets];
+                array1[1].selections[indexNum].odds.price = e.target.value;
+                const array2 = {
+                  ...props?.data,
+                  markets: array1,
+                };
                 setIndiaRace(array1);
+
+                // const array1 = [...indiaRace];
+                // array1[raceIndexNum].runners[indexNum].odds.FOPLC =
+                //   e.target.value;
+                // setIndiaRace(array1);
               }}
             />
           </Form.Group>

@@ -17,7 +17,13 @@ export const useContext = () => {
   const [userBet, setUserBet] = useState([]);
   const [admin, setAdmin] = useState({});
   const [participants, setParticipants] = useState();
+  const convertHour = (data) => {
+    const date = new Date(data);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
 
+    return hours + ":" + minutes;
+  };
   return {
     hosreData,
     setHorseData,
@@ -43,5 +49,6 @@ export const useContext = () => {
     setAddUser,
     participants,
     setParticipants,
+    convertHour,
   };
 };

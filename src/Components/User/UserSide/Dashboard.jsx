@@ -23,16 +23,10 @@ export const Dashboard = () => {
     participants,
     setParticipants,
     setIndexNum,
+    convertHour,
   } = useContext(Context);
   const navigate = useNavigate();
-  const [stateHorce, setStateHorce] = useState([
-    "Madras",
-    "Mumbai",
-    "Delhi",
-    "Calcutta",
-    "Hyderabad",
-    "Mysore",
-  ]);
+
   const [horcesData, setHorcesData] = useState({});
   const [stateWiseData, setStateWiseData] = useState([]);
   const auth = getAuth();
@@ -53,44 +47,17 @@ export const Dashboard = () => {
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setWalletModal(false);
-      setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
-      setParticipants(
-        snapshot.docs
-          .map((doc) => doc.data())[0]
-          .Allrace.filter((item) => {
-            if (item.vName === stateName) {
-              return item;
-            }
-          })[ind]
-      );
+      const all_race = snapshot.docs.map((doc) => doc.data())[0].Allrace;
+      setAllData(all_race);
+      setAllCountry([
+        ...new Set(
+          all_race.map((e) => {
+            return e.data.venueCountry;
+          })
+        ),
+      ]);
     });
   }, [ind]);
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/allDataForCountry")
-      .then((item) => {
-        const country = [
-          ...new Set(
-            item?.data?.data.map((e) => {
-              return e.data.venueCountry;
-            })
-          ),
-        ];
-        const countryStateArray = [
-          ...new Set(
-            item?.data?.data.map((e) => {
-              return e.data.venueName;
-            })
-          ),
-        ];
-        setAllData(item?.data?.data);
-        setAllCountry(country);
-        console.log(item?.data?.data, countryStateArray, country);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   useEffect(() => {
     if (getCookie("access_token")) {
@@ -105,39 +72,15 @@ export const Dashboard = () => {
   };
 
   const getRaceDataTime = (id) => {
-    axios
-      .get(`http://localhost:5000/api/getTimesOfRacing?id=${id}`)
-      .then((item) => {
-        // const country = [
-        //   ...new Set(
-        //     item?.data?.data.map((e) => {
-        //       return e.data.venueCountry;
-        //     })
-        //   ),
-        // ];
-        // const countryStateArray = [
-        //   ...new Set(
-        //     item?.data?.data.map((e) => {
-        //       return e.data.venueName;
-        //     })
-        //   ),
-        // ];
-        // setAllData(item?.data?.data);
-        // setAllCountry(country);
-        console.log(item?.data?.data);
-        setParticipants(item?.data?.data);
-      })
-      .catch((err) => {
-        console.log(err);
+    db.collection("RaceData")
+      .doc(id)
+      .onSnapshot((snapshot) => {
+        if (snapshot.data()) {
+          setParticipants(snapshot.data());
+        }
       });
   };
-  const convertHour = (data) => {
-    const date = new Date(data);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
 
-    return hours + ":" + minutes;
-  };
   return (
     <>
       <NavbarCommon />
@@ -186,7 +129,6 @@ export const Dashboard = () => {
                   const array = allData.filter((e) => {
                     return e.data.venueName === items;
                   });
-                  console.log(array, "array");
                   setStateRace(array);
                   setStateWiseData(array);
                 }}
@@ -237,23 +179,23 @@ export const Dashboard = () => {
                   }
                   onClick={() => {
                     getRaceDataTime(e.uid);
-                    // selectedState.raceNum !== index && handleGetRace(e);
-                    // setWinPlc({
-                    //   ...winPlc,
-                    //   user_id: user.uid,
-                    //   email: user.email,
-                    //   race_number: e.raceNumber,
-                    //   race_time: e.raceTime,
-                    //   venue: e.vName,
-                    //   status: "disabled",
-                    //   withdraw: false,
-                    // });
-                    // setInd(index);
-                    // setRaceIndexNum(index);
-                    // setSelectedState({
-                    //   ...selectedState,
-                    //   raceNum: index,
-                    // });
+                    selectedState.raceNum !== index && handleGetRace(e);
+                    setWinPlc({
+                      ...winPlc,
+                      user_id: user.uid,
+                      email: user.email,
+                      race_number: e.data.raceNumber,
+                      race_time: convertHour(e.startDate),
+                      venue: e.data?.venueName,
+                      status: "disabled",
+                      withdraw: false,
+                    });
+                    setInd(index);
+                    setRaceIndexNum(index);
+                    setSelectedState({
+                      ...selectedState,
+                      raceNum: index,
+                    });
                   }}
                 >
                   <Card.Body className={styles["user-card-body"]}>
@@ -262,7 +204,6 @@ export const Dashboard = () => {
                       className={styles["user-simple-card-time"]}
                     ></Card.Text>
                     <Card.Text className={styles["user-simple-card-hour"]}>
-                      {/* {new Date(e?.data?.raceTime)} */}
                       {convertHour(e.startDate)}
                     </Card.Text>
                   </Card.Body>
@@ -271,6 +212,7 @@ export const Dashboard = () => {
             );
           })}
         </div>
+        {console.log(participants, user)}
         {participants && participants?.participants ? (
           <>
             <p className={styles["user-race-title"]}>Race Details :</p>
@@ -301,6 +243,7 @@ export const Dashboard = () => {
                             : "#1976d2",
                         textAlign: "center",
                         borderRadius: "7px",
+                        padding: "4px",
                       }}
                     >
                       {participants?.status.toLowerCase() === "complete"
@@ -312,28 +255,30 @@ export const Dashboard = () => {
                   </Card.Body>
                   {participants?.status === "COMPLETE" && (
                     <Card.Body className={styles["results-div"]}>
-                      {participants?.standings?.map((item, index) => {
-                        return (
-                          <>
-                            <div className={styles["jersey-div"]}>
-                              <span className={styles["horce-num"]}>
-                                {index + 1}
-                                <sup>
-                                  {index === 0
-                                    ? "st"
-                                    : index === 1
-                                    ? "nd"
-                                    : "rd"}
-                                </sup>
-                              </span>
+                      {Object.values(participants?.result?.standings).map(
+                        (item, index) => {
+                          return (
+                            <>
+                              <div className={styles["jersey-div"]}>
+                                <span className={styles["horce-num"]}>
+                                  {index + 1}
+                                  <sup>
+                                    {index === 0
+                                      ? "st"
+                                      : index === 1
+                                      ? "nd"
+                                      : "rd"}
+                                  </sup>
+                                </span>
 
-                              <small className={styles["draw-num"]}>
-                                {item[0]}
-                              </small>
-                            </div>
-                          </>
-                        );
-                      })}
+                                <small className={styles["draw-num"]}>
+                                  {item[0]}
+                                </small>
+                              </div>
+                            </>
+                          );
+                        }
+                      )}
                     </Card.Body>
                   )}
                 </Card>
@@ -379,11 +324,11 @@ export const Dashboard = () => {
                             className={styles["jersey-div"]}
                             style={{
                               marginRight: "15px",
-                              height: "74px",
+                              height: "83px",
                             }}
                           >
                             <span className={styles["horce-num"]}>
-                              {e.data.horceNumber}
+                              {`(${e.data.horseNumber})`}
                             </span>
                             <img
                               className={styles["jersey-image"]}
@@ -399,10 +344,10 @@ export const Dashboard = () => {
                             </div>
                             <div
                               style={{
-                                fontSize: "15px",
+                                fontSize: "13px",
                               }}
                             >
-                              Wt = {e.data.weight} , draw : #{e.data.cageNumber}
+                              Wt ={e.data.weight},draw :#{e.data.cageNumber}
                             </div>
                             <div
                               class="text-red-9"
@@ -471,18 +416,21 @@ export const Dashboard = () => {
                                 }}
                                 className={styles["odds-button"]}
                                 onClick={() => {
-                                  // setIndexNum(index);
-                                  // setHorcesData(e);
-                                  // setWinPlc({
-                                  //   ...winPlc,
-                                  //   type: "WIN",
-                                  //   value: e.odds.FOWIN,
-                                  //   jockey_name: e.jockey.name,
-                                  //   horce_number: e.position,
-                                  //   time: new Date().getTime(),
-                                  //   // time: Math.round(Date.now() / 1000),
-                                  // });
-                                  // setWalletModal(true);
+                                  setIndexNum(index);
+                                  setHorcesData(e);
+                                  setWinPlc({
+                                    ...winPlc,
+                                    type: "WIN",
+                                    value:
+                                      participants?.markets[0]?.selections[
+                                        index
+                                      ].odds?.price,
+                                    jockey_name: e.data.jockey,
+                                    horce_number: e.data.horseNumber,
+                                    time: new Date().getTime(),
+                                    // time: Math.round(Date.now() / 1000),
+                                  });
+                                  setWalletModal(true);
                                 }}
                               >
                                 {
@@ -524,17 +472,20 @@ export const Dashboard = () => {
                                 }}
                                 className={styles["bet-button"]}
                                 onClick={() => {
-                                  // setHorcesData(e);
-                                  // setWinPlc({
-                                  //   ...winPlc,
-                                  //   type: "PLC",
-                                  //   value: e.odds.FOPLC,
-                                  //   jockey_name: e.jockey.name,
-                                  //   horce_number: e.position,
-                                  //   time: new Date().getTime(),
-                                  //   // time: Math.round(Date.now() / 1000),
-                                  // });
-                                  // setWalletModal(true);
+                                  setHorcesData(e);
+                                  setWinPlc({
+                                    ...winPlc,
+                                    type: "PLC",
+                                    value:
+                                      participants?.markets[1]?.selections[
+                                        index
+                                      ].odds?.price,
+                                    jockey_name: e.data.jockey,
+                                    horce_number: e.data.horseNumber,
+                                    time: new Date().getTime(),
+                                    // time: Math.round(Date.now() / 1000),
+                                  });
+                                  setWalletModal(true);
                                 }}
                               >
                                 {
@@ -575,7 +526,7 @@ export const Dashboard = () => {
           </>
         )}
       </div>
-      {participants?.status?.toLowerCase() === "bst" && (
+      {participants?.status?.toLowerCase() === "published" && (
         <UserBetModal
           walletModal={walletModal}
           setWalletModal={setWalletModal}
