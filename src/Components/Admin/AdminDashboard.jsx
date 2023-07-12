@@ -51,9 +51,19 @@ export const AdminDashboard = () => {
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
+      const all_race = snapshot.docs.map((doc) => doc.data())[0].Allrace;
       // setOddData(
       //   snapshot.docs.map((doc) => doc.data())[0]?.Allrace[raceIndexNum]
       // );
+      const country = [
+        ...new Set(
+          all_race?.map((e) => {
+            return e.data.venueCountry;
+          })
+        ),
+      ];
+      setAllCountry(country);
+      setNewRace(all_race);
     });
   }, [raceIndexNum]);
   useEffect(() => {
@@ -90,6 +100,11 @@ export const AdminDashboard = () => {
           .then((data) => {
             toast.success(`update Succesfully `);
           });
+        makeApiCalls(
+          data?.data?.data.map((e) => {
+            return e.uid;
+          })
+        );
       })
       .catch((error) => {
         setLoadingg(false);
@@ -101,7 +116,6 @@ export const AdminDashboard = () => {
       await axios
         .get(`http://localhost:5000/api/getTimesOfRacing?id=${uid}`)
         .then((res) => {
-          // console.log(res?.data?.data);
           db.collection("RaceData").doc(uid).set(res?.data?.data);
         })
         .catch((e) => {});
@@ -115,13 +129,6 @@ export const AdminDashboard = () => {
       await fetchData(uids[i]);
     }
   }
-  useEffect(() => {
-    makeApiCalls(
-      newRace.map((e) => {
-        return e.uid;
-      })
-    );
-  }, [newRace]);
 
   const handleGetRace = async (e) => {
     // setSelectedState(e.raceTime);
@@ -220,6 +227,7 @@ export const AdminDashboard = () => {
                         })
                       ),
                     ]);
+
                     // setStateWiseData([]);
                     // setParticipants();
                   }}
@@ -263,7 +271,6 @@ export const AdminDashboard = () => {
                     }
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      console.log(e);
                       handleGetRace(e);
                       // setRaceIndexNum(index);
                     }}
@@ -299,13 +306,11 @@ export const AdminDashboard = () => {
               }}
             >
               <div>
-                {oddData?.status === "DRL" && (
+                {oddData?.status === "COMPLETE" && (
                   <Card>
                     <Card.Body className={styles["results-div"]}>
-                      {/* {oddData?.statusView
-                        ?.split("-")
-                        .slice(0, -1)
-                        ?.map((item, index) => {
+                      {Object.values(oddData?.result?.standings)?.map(
+                        (item, index) => {
                           return (
                             <>
                               <div className={styles["jersey-div"]}>
@@ -321,12 +326,13 @@ export const AdminDashboard = () => {
                                 </span>
 
                                 <small className={styles["draw-num"]}>
-                                  {item}
+                                  {item[0]}
                                 </small>
                               </div>
                             </>
                           );
-                        })} */}
+                        }
+                      )}
                     </Card.Body>
                   </Card>
                 )}
@@ -352,29 +358,32 @@ export const AdminDashboard = () => {
                   >
                     Stop Bet :{" "}
                   </p>
+
                   <label class="switch">
                     <input
                       type="checkbox"
-                      // checked={
-                      //   oddData?.status?.toLowerCase() === "drl" ||
-                      //   oddData?.status?.toLowerCase() === "stp"
-                      //     ? true
-                      //     : false
-                      // }
+                      checked={
+                        oddData?.status?.toLowerCase() === "complete" ||
+                        oddData?.status?.toLowerCase() === "stp"
+                          ? true
+                          : false
+                      }
                       onChange={(e) => {
                         const array1 = [...indiaRace];
                         if (
-                          array1[raceIndexNum].status.toLowerCase() === "drl"
+                          array1[raceIndexNum].status.toLowerCase() === "new"
                         ) {
-                          array1[raceIndexNum].status = "BST";
+                          array1[raceIndexNum].status = "PUBLISHED";
                         } else if (
-                          array1[raceIndexNum].status.toLowerCase() === "bst"
+                          array1[raceIndexNum].status.toLowerCase() ===
+                          "published"
                         ) {
-                          array1[raceIndexNum].status = "STP";
+                          array1[raceIndexNum].status = "COMPLETE";
                         } else if (
-                          array1[raceIndexNum].status.toLowerCase() === "stp"
+                          array1[raceIndexNum].status.toLowerCase() ===
+                          "completed"
                         ) {
-                          array1[raceIndexNum].status = "DRL";
+                          array1[raceIndexNum].status = "NEW";
                         }
                         db.collection("TimeData")
                           .doc("RaceData")
@@ -420,7 +429,7 @@ export const AdminDashboard = () => {
                           <FiEdit
                             onClick={(event) => {
                               event.preventDefault();
-                              // setModalShow(true);
+                              setModalShow(true);
                               setUseData(e);
                               setIndexNum(index);
                             }}
@@ -434,11 +443,13 @@ export const AdminDashboard = () => {
           </div>
         </div>
       </div>
-      <RaceModel
-        // show={modalShow}
-        // data={oddData}
-        onHide={() => setModalShow(false)}
-      />
+      {modalShow && (
+        <RaceModel
+          show={modalShow}
+          data={oddData}
+          onHide={() => setModalShow(false)}
+        />
+      )}
       <DeleteModel
         show={detelemodalShow}
         onHide={() => setDeleteModalShow(false)}

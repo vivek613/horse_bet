@@ -54,7 +54,6 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
     });
   }, []);
-  console.log("gorceBet", userBet);
   const handleSubmit = () => {
     setbetLoading(true);
     if (Number(betAmount) <= Number(userData.amount)) {
@@ -94,7 +93,6 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
     } else {
     }
   };
-  console.log("user", user);
   return (
     <>
       {walletModal && (
@@ -113,7 +111,6 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
               <p>
                 Odds - {winPlc.type} : {winPlc.value}
               </p>
-              {console.log("rrr", betAmount, userData)}
               {Number(betAmount) + (Number(betAmount) * 10) / 100 <=
               Number(userData?.amount) ? (
                 <p>Your Bet Amount : {betAmount}</p>

@@ -212,7 +212,6 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        {console.log(participants, user)}
         {participants && participants?.participants ? (
           <>
             <p className={styles["user-race-title"]}>Race Details :</p>
