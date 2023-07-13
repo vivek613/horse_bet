@@ -73,6 +73,7 @@ export const Sidebar = () => {
             signOut(auth).then((data) => {
               navigate("/login");
               deleteAllCookies();
+              window.location.reload(true);
             });
           }}
         >

@@ -88,6 +88,7 @@ export const NavbarCommon = () => {
             signOut(auth).then((data) => {
               navigate("/login");
               deleteAllCookies();
+              window.location.reload(true);
             });
           }}
         >
