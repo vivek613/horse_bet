@@ -27,6 +27,7 @@ const convertHour = (data) => {
 };
 export const AdminDashboard = () => {
   const auth = getAuth();
+
   const [user, loading, error] = useAuthState(auth);
   const {
     indiaRace,
@@ -212,7 +213,7 @@ export const AdminDashboard = () => {
               return (
                 <button
                   className={
-                    selectedState?.venue === index
+                    selectedState?.venue === items
                       ? styles["state-button-user-select"]
                       : styles["state-button-user"]
                   }
@@ -227,7 +228,9 @@ export const AdminDashboard = () => {
                         })
                       ),
                     ]);
-
+                    setSelectedState({
+                      venue: items,
+                    });
                     // setStateWiseData([]);
                     // setParticipants();
                   }}
@@ -242,7 +245,7 @@ export const AdminDashboard = () => {
               return (
                 <button
                   className={
-                    selectedState?.venue === index
+                    selectedState?.venueState === items
                       ? styles["state-button-user-select"]
                       : styles["state-button-user"]
                   }
@@ -252,6 +255,11 @@ export const AdminDashboard = () => {
                     });
                     // setStateRace(array);
                     setStateWiseData(array);
+                    setSelectedState({
+                      ...selectedState,
+                      venueState: items,
+                      raceNum: "",
+                    });
                   }}
                 >
                   {items}
@@ -265,14 +273,17 @@ export const AdminDashboard = () => {
                 <>
                   <Card
                     className={
-                      selectedState === e?.raceTime
+                      selectedState?.raceNum === index
                         ? styles["user-simple-card-select"]
                         : styles["user-simple-card"]
                     }
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       handleGetRace(e);
-                      // setRaceIndexNum(index);
+                      setSelectedState({
+                        ...selectedState,
+                        raceNum: index,
+                      });
                     }}
                   >
                     <Card.Body className={styles["user-card-body"]}>
@@ -337,6 +348,7 @@ export const AdminDashboard = () => {
                   </Card>
                 )}
               </div>
+              {console.log("rr", oddData)}
               {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
                 <div
                   style={{
@@ -363,22 +375,18 @@ export const AdminDashboard = () => {
                     <input
                       type="checkbox"
                       checked={
-                        oddData?.status?.toLowerCase() === "complete" ||
-                        oddData?.status?.toLowerCase() === "stp"
+                        oddData?.status?.toLowerCase() === "complete"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const array1 = [...indiaRace];
                         if (
-                          array1[raceIndexNum].status.toLowerCase() === "new"
-                        ) {
-                          array1[raceIndexNum].status = "PUBLISHED";
-                        } else if (
+                          array1[raceIndexNum].status.toLowerCase() === "new" ||
                           array1[raceIndexNum].status.toLowerCase() ===
-                          "published"
+                            "published"
                         ) {
-                          array1[raceIndexNum].status = "COMPLETE";
+                          array1[raceIndexNum].status = "NEW";
                         } else if (
                           array1[raceIndexNum].status.toLowerCase() ===
                           "completed"

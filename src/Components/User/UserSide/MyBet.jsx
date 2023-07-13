@@ -17,7 +17,7 @@ const MyBet = () => {
   useEffect(() => {
     const uid = getCookie("Uid");
     db.collection("participant")
-      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+      .doc(user?.uid)
       .onSnapshot((snapshot) => {
         if (snapshot?.data()?.data) {
           setUserBet(
@@ -32,6 +32,7 @@ const MyBet = () => {
       });
   }, [user]);
 
+  console.log("use", user);
   return (
     <>
       <NavbarCommon />

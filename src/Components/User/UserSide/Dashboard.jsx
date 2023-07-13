@@ -34,15 +34,14 @@ export const Dashboard = () => {
   const [selectedState, setSelectedState] = useState({
     venue: "",
     raceNum: "",
+    venueState: "",
   });
   const [walletModal, setWalletModal] = useState(false);
 
   const [ind, setInd] = useState();
-  const [stateName, setStateName] = useState("");
   const [allData, setAllData] = useState([]);
   const [allCountry, setAllCountry] = useState([]);
   const [countryState, setCountryState] = useState([]);
-  const [stateRace, setStateRace] = useState([]);
 
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
@@ -67,9 +66,9 @@ export const Dashboard = () => {
     }
   }, []);
 
-  const handleGetRace = (e) => {
-    setParticipants(e);
-  };
+  // const handleGetRace = (e) => {
+  //   setParticipants(e);
+  // };
 
   const getRaceDataTime = (id) => {
     db.collection("RaceData")
@@ -88,11 +87,12 @@ export const Dashboard = () => {
       <div className={styles["user-race-data-main"]}>
         <p className={styles["user-race-title"]}>Today's Race</p>
         <div className={styles["state-array"]}>
+          {console.log(selectedState)}
           {allCountry.map((items, index) => {
             return (
               <button
                 className={
-                  selectedState.venue === index
+                  selectedState.venue === items
                     ? styles["state-button-user-select"]
                     : styles["state-button-user"]
                 }
@@ -107,6 +107,9 @@ export const Dashboard = () => {
                       })
                     ),
                   ]);
+                  setSelectedState({
+                    venue: items,
+                  });
                   setStateWiseData([]);
                   setParticipants();
                 }}
@@ -121,7 +124,7 @@ export const Dashboard = () => {
             return (
               <button
                 className={
-                  selectedState.venue === index
+                  selectedState?.venueState === items
                     ? styles["state-button-user-select"]
                     : styles["state-button-user"]
                 }
@@ -129,8 +132,13 @@ export const Dashboard = () => {
                   const array = allData.filter((e) => {
                     return e.data.venueName === items;
                   });
-                  setStateRace(array);
                   setStateWiseData(array);
+                  setSelectedState({
+                    ...selectedState,
+                    venueState: items,
+                    raceNum: "",
+                  });
+                  setParticipants();
                 }}
               >
                 {items}
@@ -138,48 +146,20 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        {/* <div className={styles["state-array"]}>
-          {stateHorce.map((items, index) => {
-            return (
-              <button
-                className={
-                  selectedState.venue === index
-                    ? styles["state-button-user-select"]
-                    : styles["state-button-user"]
-                }
-                onClick={() => {
-                  setRaceIndexNum(index);
-                  setSelectedState({ ...selectedState, venue: index });
-                  setParticipants([]);
-                  setInd();
-                  setStateName(items);
-                  setStateWiseData(
-                    indiaRace.filter((data) => {
-                      if (data.vName.toLowerCase() === items.toLowerCase()) {
-                        return data;
-                      }
-                    })
-                  );
-                }}
-              >
-                {items}
-              </button>
-            );
-          })}
-        </div> */}
+
         <div className={styles["user-card-main"]}>
           {stateWiseData.map((e, index) => {
             return (
               <>
                 <Card
                   className={
-                    selectedState.raceNum === index
+                    selectedState?.raceNum === index
                       ? styles["user-simple-card-select"]
                       : styles["user-simple-card"]
                   }
                   onClick={() => {
                     getRaceDataTime(e.uid);
-                    selectedState.raceNum !== index && handleGetRace(e);
+                    // selectedState.raceNum !== index && handleGetRace(e);
                     setWinPlc({
                       ...winPlc,
                       user_id: user.uid,
