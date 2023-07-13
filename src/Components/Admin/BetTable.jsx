@@ -231,16 +231,20 @@ const BetTable = () => {
           </div>
         </div>
       </div>
-      <StatusModel
-        show={modalShow}
-        updateData={updateData}
-        onHide={() => setModalShow(false)}
-      />
-      <DrawModal
-        show={drawModalShow}
-        updateData={updateData}
-        onHide={() => setDrawModalShow(false)}
-      />
+      {modalShow && (
+        <StatusModel
+          show={modalShow}
+          updateData={updateData}
+          onHide={() => setModalShow(false)}
+        />
+      )}
+      {drawModalShow && (
+        <DrawModal
+          show={drawModalShow}
+          updateData={updateData}
+          onHide={() => setDrawModalShow(false)}
+        />
+      )}
     </>
   );
 };

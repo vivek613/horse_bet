@@ -20,13 +20,7 @@ const MyBet = () => {
       .doc(user?.uid)
       .onSnapshot((snapshot) => {
         if (snapshot?.data()?.data) {
-          setUserBet(
-            snapshot?.data()?.data.filter((item) => {
-              if (uid === item.user_id) {
-                return item;
-              }
-            })
-          );
+          setUserBet(snapshot?.data()?.data);
           // setUserBet(snapshot.data()?.data);
         }
       });

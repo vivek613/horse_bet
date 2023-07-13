@@ -12,11 +12,17 @@ const StatusModel = (props) => {
   const [dividend, setDividend] = useState(0);
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [adminAmountData, setAdminAmountData] = useState();
+  const [userBetData, setUserBetData] = useState([]);
   useEffect(() => {
     db.collection("users")
       .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setAdminAmountData(snapshot.data());
+      });
+    db.collection("participant")
+      .doc(props?.updateData?.data?.user_id)
+      .onSnapshot((snapshot) => {
+        setUserBetData(snapshot.data()?.data);
       });
   }, []);
 
@@ -27,6 +33,23 @@ const StatusModel = (props) => {
         .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
           data: betData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.status = "enabled";
+              data.withdraw = false;
+            }
+            return data;
+          }),
+        });
+      db.collection("participant")
+        .doc(props?.updateData?.data?.user_id)
+        .set({
+          data: userBetData.map((data, index) => {
             if (
               props?.updateData?.data?.time === data.time &&
               props?.updateData?.data?.user_id === data.user_id &&
