@@ -80,6 +80,11 @@ export const Dashboard = () => {
       });
   };
 
+  useEffect(() => {
+    setParticipants();
+    setCountryState();
+  }, []);
+
   return (
     <>
       <NavbarCommon />
