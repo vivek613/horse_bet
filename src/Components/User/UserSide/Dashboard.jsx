@@ -81,8 +81,8 @@ export const Dashboard = () => {
   };
 
   useEffect(() => {
-    setParticipants();
-    setCountryState();
+    setParticipants({});
+    setCountryState([]);
   }, []);
 
   return (
