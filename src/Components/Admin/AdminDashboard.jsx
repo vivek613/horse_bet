@@ -79,7 +79,7 @@ export const AdminDashboard = () => {
     setLoadingg(true);
     e.preventDefault();
     axios
-      .get("http://localhost:5000/api/allDataForCountry")
+      .get("https://horse-batting.onrender.com/api/allDataForCountry")
       .then((data) => {
         setLoadingg(false);
         const country = [
@@ -113,15 +113,24 @@ export const AdminDashboard = () => {
   };
 
   async function fetchData(uid) {
+    setLoadingg(true);
+
     try {
       await axios
-        .get(`http://localhost:5000/api/getTimesOfRacing?id=${uid}`)
+        .get(
+          `https://horse-batting.onrender.com/api/getTimesOfRacing?id=${uid}`
+        )
         .then((res) => {
+          setLoadingg(false);
+
           db.collection("RaceData").doc(uid).set(res?.data?.data);
         })
-        .catch((e) => {});
+        .catch((e) => {
+          setLoadingg(false);
+        });
     } catch (error) {
       console.error(error);
+      setLoadingg(false);
     }
   }
 
