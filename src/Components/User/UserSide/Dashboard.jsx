@@ -102,24 +102,37 @@ export const Dashboard = () => {
                     : styles["state-button-user"]
                 }
                 onClick={() => {
-                  const array = allData.filter((e) => {
-                    return e.data.venueCountry === items;
-                  });
-                  setCountryState([
-                    ...new Set(
-                      array.map((data) => {
-                        return data.data.venueName;
-                      })
-                    ),
-                  ]);
-                  setSelectedState({
-                    venue: items,
-                  });
-                  setStateWiseData([]);
-                  setParticipants();
+                  if (items) {
+                    const array = allData.filter((e) => {
+                      return e.data.venueCountry === items;
+                    });
+                    setCountryState([
+                      ...new Set(
+                        array.map((data) => {
+                          return data.data.venueName;
+                        })
+                      ),
+                    ]);
+                    setSelectedState({
+                      venue: items,
+                    });
+                    setStateWiseData([]);
+                    setParticipants();
+                  } else {
+                    const array = allData.filter((e) => {
+                      return e.data.venueCountry === items;
+                    });
+                    const filteredData = array.map((item) => item.venue);
+                    setCountryState([...new Set(filteredData)]);
+                    setSelectedState({
+                      venue: items,
+                    });
+                    setStateWiseData([]);
+                    setParticipants();
+                  }
                 }}
               >
-                {items}
+                {items || "IND"}
               </button>
             );
           })}
@@ -134,16 +147,29 @@ export const Dashboard = () => {
                     : styles["state-button-user"]
                 }
                 onClick={() => {
-                  const array = allData.filter((e) => {
-                    return e.data.venueName === items;
-                  });
-                  setStateWiseData(array);
-                  setSelectedState({
-                    ...selectedState,
-                    venueState: items,
-                    raceNum: "",
-                  });
-                  setParticipants();
+                  if (items === "MYS") {
+                    const array = allData.filter((e) => {
+                      return e.venue === items;
+                    });
+                    setStateWiseData(array);
+                    setSelectedState({
+                      ...selectedState,
+                      venueState: items,
+                      raceNum: "",
+                    });
+                    setParticipants();
+                  } else {
+                    const array = allData.filter((e) => {
+                      return e.data.venueName === items;
+                    });
+                    setStateWiseData(array);
+                    setSelectedState({
+                      ...selectedState,
+                      venueState: items,
+                      raceNum: "",
+                    });
+                    setParticipants();
+                  }
                 }}
               >
                 {items}

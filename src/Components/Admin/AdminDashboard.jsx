@@ -218,21 +218,32 @@ export const AdminDashboard = () => {
                       : styles["state-button-user"]
                   }
                   onClick={() => {
-                    const array = newRace.filter((e) => {
-                      return e.data?.venueCountry === items;
-                    });
-                    setCountryState([
-                      ...new Set(
-                        array.map((data) => {
-                          return data.data.venueName;
-                        })
-                      ),
-                    ]);
-                    setSelectedState({
-                      venue: items,
-                    });
-                    // setStateWiseData([]);
-                    // setParticipants();
+                    if (items) {
+                      const array = newRace.filter((e) => {
+                        return e.data?.venueCountry === items;
+                      });
+                      setCountryState([
+                        ...new Set(
+                          array.map((data) => {
+                            return data.data.venueName;
+                          })
+                        ),
+                      ]);
+                      console.log("state", countryState);
+                      setSelectedState({
+                        venue: items,
+                      });
+                    } else {
+                      const array = newRace.filter((e) => {
+                        return e.data?.venueCountry === items;
+                      });
+                      const filteredData = array.map((item) => item.venue);
+
+                      setCountryState([...new Set(filteredData)]);
+                      setSelectedState({
+                        venue: items,
+                      });
+                    }
                   }}
                 >
                   {items || "IND"}
@@ -250,16 +261,31 @@ export const AdminDashboard = () => {
                       : styles["state-button-user"]
                   }
                   onClick={() => {
-                    const array = newRace.filter((e) => {
-                      return e.data.venueName === items;
-                    });
-                    // setStateRace(array);
-                    setStateWiseData(array);
-                    setSelectedState({
-                      ...selectedState,
-                      venueState: items,
-                      raceNum: "",
-                    });
+                    console.log("item", items);
+                    if (items === "MYS") {
+                      const array = newRace.filter((e) => {
+                        return e.venue === items;
+                      });
+                      // setStateRace(array);
+                      setStateWiseData(array);
+                      setSelectedState({
+                        ...selectedState,
+                        venueState: items,
+                        raceNum: "",
+                      });
+                    } else {
+                      const array = newRace.filter((e) => {
+                        return e.data.venueName === items;
+                      });
+                      console.log("aaa", array, newRace);
+                      // setStateRace(array);
+                      setStateWiseData(array);
+                      setSelectedState({
+                        ...selectedState,
+                        venueState: items,
+                        raceNum: "",
+                      });
+                    }
                   }}
                 >
                   {items}
