@@ -25,8 +25,13 @@ const BetTable = () => {
   } = useContext(Context);
   const auth = getAuth();
   const [user, loading, error] = useAuthState(auth);
+  const [allCountry, setAllCountry] = useState([]);
+  const [countryState, setCountryState] = useState([]);
+  const [stateWiseData, setStateWiseData] = useState([]);
+
   const [selectedState, setSelectedState] = useState({});
   const [raceWiseBetData, setRaceWiseBetData] = useState();
+  const [raceMainData, setRaceMainData] = useState([]);
   const [updateData, setUpdateData] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [drawModalShow, setDrawModalShow] = useState(false);
@@ -34,24 +39,51 @@ const BetTable = () => {
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
+      const all_race = snapshot.docs.map((doc) => doc.data())[0].Allrace;
+      // setOddData(
+      //   snapshot.docs.map((doc) => doc.data())[0]?.Allrace[raceIndexNum]
+      // );
+      const country = [
+        ...new Set(
+          all_race?.map((e) => {
+            return e.data.venueCountry;
+          })
+        ),
+      ];
+      setAllCountry(country);
     });
-    db.collection("participant")
-      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
-      .onSnapshot((snapshot) => {
-        setBetData(snapshot.data()?.data);
-        setRaceWiseBetData(snapshot.data()?.data);
-      });
 
     // doc;
   }, []);
   useEffect(() => {
-    if (!filterHorce) {
-      setRaceWiseBetData(betData);
+    db.collection("participant")
+      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+      .onSnapshot((snapshot) => {
+        setBetData(snapshot.data()?.data);
+      });
+  }, [allCountry]);
+
+  console.log(
+    "dddd",
+    stateWiseData.sort((a, b) => a.data.raceNumber - b.data.raceNumber)
+  );
+  const filterDataByHorseNumber = (horseNumberInput) => {
+    // Convert the input value to a number (assuming the input is a string)
+    const horseNumber = parseInt(horseNumberInput, 10);
+
+    // Use the 'filter' method to filter the data array
+    if (isNaN(horseNumber)) {
+      // If the input is not a valid number, return all the data
+      return raceMainData;
     }
-  }, [filterHorce]);
-  // useEffect(() => {
-  //   setRaceWiseBetData(betData);
-  // }, []);
+
+    // Use the 'filter' method to filter the data array
+    const filteredData = raceMainData.filter(
+      (item) => item.horce_number === horseNumber
+    );
+
+    return filteredData;
+  };
 
   return (
     <>
@@ -69,13 +101,111 @@ const BetTable = () => {
           >
             User Bet Data :{" "}
           </p>
+          <div className={styles["state-array"]}>
+            {allCountry?.map((items, index) => {
+              return (
+                <button
+                  className={
+                    selectedState?.venue === items
+                      ? styles["state-button-user-select"]
+                      : styles["state-button-user"]
+                  }
+                  onClick={() => {
+                    setStateWiseData([]);
+                    setRaceWiseBetData([]);
+                    if (items) {
+                      const array = indiaRace.filter((e) => {
+                        return e.data?.venueCountry === items;
+                      });
+                      setCountryState([
+                        ...new Set(
+                          array.map((data) => {
+                            return data.data.venueName;
+                          })
+                        ),
+                      ]);
+                      console.log("state", countryState);
+                      setSelectedState({
+                        venue: items,
+                      });
+                    } else {
+                      const array = indiaRace.filter((e) => {
+                        return e.data?.venueCountry === items;
+                      });
+                      const filteredData = array.map((item) => item.venue);
+
+                      setCountryState([...new Set(filteredData)]);
+                      setSelectedState({
+                        venue: items,
+                      });
+                    }
+                  }}
+                >
+                  {items || "IND"}
+                </button>
+              );
+            })}
+          </div>
+          <div className={styles["state-array"]}>
+            {countryState.map((items, index) => {
+              return (
+                <button
+                  className={
+                    selectedState?.venueState === items
+                      ? styles["state-button-user-select"]
+                      : styles["state-button-user"]
+                  }
+                  onClick={() => {
+                    console.log("item", items);
+                    if (items === "MYS") {
+                      const array = indiaRace.filter((e) => {
+                        return e.venue === items;
+                      });
+                      // setStateRace(array);
+                      setStateWiseData(
+                        array.sort(
+                          (a, b) => a.data.raceNumber - b.data.raceNumber
+                        )
+                      );
+                      setSelectedState({
+                        ...selectedState,
+                        venueState: items,
+                        raceNum: "",
+                      });
+                    } else {
+                      const array = indiaRace.filter((e) => {
+                        return e.data.venueName === items;
+                      });
+                      // setStateRace(array);
+                      array.sort(
+                        (a, b) => a.data.raceNumber - b.data.raceNumber
+                      );
+                      setStateWiseData(
+                        array.sort(
+                          (a, b) => a.data.raceNumber - b.data.raceNumber
+                        )
+                      );
+                      setSelectedState({
+                        ...selectedState,
+                        venueState: items,
+                        raceNum: "",
+                      });
+                    }
+                  }}
+                >
+                  {items}
+                </button>
+              );
+            })}
+          </div>
           <div className={styles["user-card-main"]}>
-            {indiaRace?.map((e, index) => {
+            {console.log("bet", betData)}
+            {stateWiseData?.map((e, index) => {
               return (
                 <>
                   <Card
                     className={
-                      selectedState.time === convertHour(e.startDate)
+                      selectedState.raceNum === index
                         ? styles["user-simple-card-select"]
                         : styles["user-simple-card"]
                     }
@@ -84,11 +214,20 @@ const BetTable = () => {
                       // handleGetRace(e);
                       setFilterHorce();
                       setSelectedState({
-                        time: convertHour(e.startDate),
-                        venue: e.data.venueName,
-                        num: e.data.raceNumber,
+                        ...selectedState,
+                        raceNum: index,
                       });
                       setRaceWiseBetData(
+                        betData.filter((item) => {
+                          if (
+                            item.venue === e.data.venueName &&
+                            item.race_number === e.data.raceNumber
+                          ) {
+                            return item;
+                          }
+                        })
+                      );
+                      setRaceMainData(
                         betData.filter((item) => {
                           if (
                             item.venue === e.data.venueName &&
@@ -136,13 +275,11 @@ const BetTable = () => {
                   value={filterHorce}
                   placeholder="Enter Horce Number"
                   onChange={(e) => {
-                    setFilterHorce(e.target.value);
+                    const filteredData = filterDataByHorseNumber(
+                      e.target.value
+                    );
 
-                    // setRaceWiseBetData(
-                    //   raceWiseBetData.filter(
-                    //     (d) => d.horce_number === Number(e.target.value)
-                    //   )
-                    // );
+                    setRaceWiseBetData(filteredData);
                   }}
                 />
               </Form.Group>

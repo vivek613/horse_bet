@@ -151,7 +151,11 @@ export const Dashboard = () => {
                     const array = allData.filter((e) => {
                       return e.venue === items;
                     });
-                    setStateWiseData(array);
+                    setStateWiseData(
+                      array.sort(
+                        (a, b) => a.data.raceNumber - b.data.raceNumber
+                      )
+                    );
                     setSelectedState({
                       ...selectedState,
                       venueState: items,
@@ -162,7 +166,11 @@ export const Dashboard = () => {
                     const array = allData.filter((e) => {
                       return e.data.venueName === items;
                     });
-                    setStateWiseData(array);
+                    setStateWiseData(
+                      array.sort(
+                        (a, b) => a.data.raceNumber - b.data.raceNumber
+                      )
+                    );
                     setSelectedState({
                       ...selectedState,
                       venueState: items,

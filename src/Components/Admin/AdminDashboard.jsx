@@ -41,6 +41,7 @@ export const AdminDashboard = () => {
   const [modalShow, setModalShow] = useState(false);
   const [detelemodalShow, setDeleteModalShow] = useState(false);
   const [loadingg, setLoadingg] = useState(false);
+  const [raceDataLoading, setRaceDataLoading] = useState(false);
 
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
@@ -122,15 +123,17 @@ export const AdminDashboard = () => {
         )
         .then((res) => {
           setLoadingg(false);
-
+          setRaceDataLoading(false);
           db.collection("RaceData").doc(uid).set(res?.data?.data);
         })
         .catch((e) => {
           setLoadingg(false);
+          setRaceDataLoading(false);
         });
     } catch (error) {
       console.error(error);
       setLoadingg(false);
+      setRaceDataLoading(false);
     }
   }
 
@@ -154,7 +157,10 @@ export const AdminDashboard = () => {
   const handleBetDelete = () => {
     setDeleteModalShow(true);
   };
-
+  const handleRaceRefreshAPi = (uid) => {
+    setRaceDataLoading(true);
+    fetchData(uid);
+  };
   return (
     <>
       <div>
@@ -227,6 +233,8 @@ export const AdminDashboard = () => {
                       : styles["state-button-user"]
                   }
                   onClick={() => {
+                    setOddData({});
+                    setStateWiseData([]);
                     if (items) {
                       const array = newRace.filter((e) => {
                         return e.data?.venueCountry === items;
@@ -276,7 +284,11 @@ export const AdminDashboard = () => {
                         return e.venue === items;
                       });
                       // setStateRace(array);
-                      setStateWiseData(array);
+                      setStateWiseData(
+                        array.sort(
+                          (a, b) => a.data.raceNumber - b.data.raceNumber
+                        )
+                      );
                       setSelectedState({
                         ...selectedState,
                         venueState: items,
@@ -288,7 +300,11 @@ export const AdminDashboard = () => {
                       });
                       console.log("aaa", array, newRace);
                       // setStateRace(array);
-                      setStateWiseData(array);
+                      setStateWiseData(
+                        array.sort(
+                          (a, b) => a.data.raceNumber - b.data.raceNumber
+                        )
+                      );
                       setSelectedState({
                         ...selectedState,
                         venueState: items,
@@ -385,57 +401,79 @@ export const AdminDashboard = () => {
               </div>
               {console.log("rr", oddData)}
               {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    height: "50px",
-                    margin: "10px 0px",
-                    alignItems: "center",
-                  }}
-                >
-                  <p
+                <>
+                  <Button
                     style={{
-                      margin: "0px",
-                      padding: "0px",
-                      color: "red",
-                      fontSize: "20px",
-                      fontWeight: "600",
+                      background: "#cdc6eb",
+                      color: "black",
+                      border: "1px solid black",
+                    }}
+                    onClick={() => handleRaceRefreshAPi(oddData.uid)}
+                  >
+                    {loadingg ? (
+                      <ReactLoading
+                        type={"spin"}
+                        color={"#000000"}
+                        height={30}
+                        width={30}
+                      />
+                    ) : (
+                      "RaceData Refresh"
+                    )}
+                  </Button>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      height: "50px",
+                      margin: "10px 0px",
+                      alignItems: "center",
                     }}
                   >
-                    Stop Bet :{" "}
-                  </p>
-
-                  <label class="switch">
-                    <input
-                      type="checkbox"
-                      checked={
-                        oddData?.status?.toLowerCase() === "complete"
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        const array1 = [...indiaRace];
-                        if (
-                          array1[raceIndexNum].status.toLowerCase() === "new" ||
-                          array1[raceIndexNum].status.toLowerCase() ===
-                            "published"
-                        ) {
-                          array1[raceIndexNum].status = "NEW";
-                        } else if (
-                          array1[raceIndexNum].status.toLowerCase() ===
-                          "completed"
-                        ) {
-                          array1[raceIndexNum].status = "NEW";
-                        }
-                        db.collection("TimeData")
-                          .doc("RaceData")
-                          .update({ Allrace: array1 });
+                    <p
+                      style={{
+                        margin: "0px",
+                        padding: "0px",
+                        color: "red",
+                        fontSize: "20px",
+                        fontWeight: "600",
                       }}
-                    />
-                    <span class="slider round"></span>
-                  </label>
-                </div>
+                    >
+                      Stop Bet :{" "}
+                    </p>
+
+                    <label class="switch">
+                      <input
+                        type="checkbox"
+                        checked={
+                          oddData?.status?.toLowerCase() === "complete"
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          const array1 = [...indiaRace];
+                          if (
+                            array1[raceIndexNum].status.toLowerCase() ===
+                              "new" ||
+                            array1[raceIndexNum].status.toLowerCase() ===
+                              "published"
+                          ) {
+                            array1[raceIndexNum].status = "NEW";
+                          } else if (
+                            array1[raceIndexNum].status.toLowerCase() ===
+                            "completed"
+                          ) {
+                            array1[raceIndexNum].status = "NEW";
+                          }
+                          db.collection("TimeData")
+                            .doc("RaceData")
+                            .update({ Allrace: array1 });
+                        }}
+                      />
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </>
               )}
             </div>
             <Table bordered hover>
