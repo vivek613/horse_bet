@@ -256,7 +256,7 @@ export const Dashboard = () => {
                         background:
                           participants?.status === "COMPLETE"
                             ? "#f44336"
-                            : participants?.status === "STP"
+                            : participants?.status.toLowerCase() === "suspended"
                             ? "#f44336"
                             : "#1976d2",
                         textAlign: "center",
@@ -431,6 +431,11 @@ export const Dashboard = () => {
                                     ) !== 0.0
                                       ? "pointer"
                                       : "not-allowed",
+                                  background:
+                                    participants?.status?.toLowerCase() ===
+                                    "published"
+                                      ? "#cdc6eb"
+                                      : "#827e7e",
                                 }}
                                 className={styles["odds-button"]}
                                 onClick={() => {
@@ -487,8 +492,13 @@ export const Dashboard = () => {
                                     ) !== 0.0
                                       ? "pointer"
                                       : "not-allowed",
+                                  background:
+                                    participants?.status?.toLowerCase() ===
+                                    "published"
+                                      ? "#cdc6eb"
+                                      : "#827e7e",
                                 }}
-                                className={styles["bet-button"]}
+                                className={styles["odds-button"]}
                                 onClick={() => {
                                   setHorcesData(e);
                                   setWinPlc({
