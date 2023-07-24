@@ -266,9 +266,9 @@ export const Dashboard = () => {
                     >
                       {participants?.status.toLowerCase() === "complete"
                         ? "completed"
-                        : participants?.status.toLowerCase() === "stp"
-                        ? "Stop"
-                        : "Opening"}
+                        : participants?.status.toLowerCase() === "suspended"
+                        ? "Close"
+                        : "Open"}
                     </span>
                   </Card.Body>
                   {participants?.status === "COMPLETE" && (

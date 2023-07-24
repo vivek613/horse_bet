@@ -161,6 +161,32 @@ export const AdminDashboard = () => {
     setRaceDataLoading(true);
     fetchData(uid);
   };
+  const handleResultRefreshAPI = async (uid) => {
+    try {
+      await axios
+        .get(
+          `https://horse-batting.onrender.com/api/getTimesOfRacing?id=${uid}`
+        )
+        .then((res) => {
+          setLoadingg(false);
+          setRaceDataLoading(false);
+          const new_object = {
+            ...res.data.data,
+            markets: oddData.markets,
+          };
+
+          db.collection("RaceData").doc(uid).set(new_object);
+        })
+        .catch((e) => {
+          setLoadingg(false);
+          setRaceDataLoading(false);
+        });
+    } catch (error) {
+      console.error(error);
+      setLoadingg(false);
+      setRaceDataLoading(false);
+    }
+  };
   return (
     <>
       <div>
@@ -399,9 +425,28 @@ export const AdminDashboard = () => {
                   </Card>
                 )}
               </div>
-              {console.log("rr", oddData)}
+
               {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
                 <>
+                  <Button
+                    style={{
+                      background: "#cdc6eb",
+                      color: "black",
+                      border: "1px solid black",
+                    }}
+                    onClick={() => handleResultRefreshAPI(oddData.uid)}
+                  >
+                    {loadingg ? (
+                      <ReactLoading
+                        type={"spin"}
+                        color={"#000000"}
+                        height={30}
+                        width={30}
+                      />
+                    ) : (
+                      "RaceResult Refresh"
+                    )}
+                  </Button>
                   <Button
                     style={{
                       background: "#cdc6eb",
@@ -446,6 +491,12 @@ export const AdminDashboard = () => {
                       <input
                         type="checkbox"
                         checked={
+                          oddData?.status?.toLowerCase() === "complete" ||
+                          oddData?.status?.toLowerCase() === "suspended"
+                            ? true
+                            : false
+                        }
+                        disabled={
                           oddData?.status?.toLowerCase() === "complete"
                             ? true
                             : false
@@ -458,10 +509,10 @@ export const AdminDashboard = () => {
                             array1[raceIndexNum].status.toLowerCase() ===
                               "published"
                           ) {
-                            array1[raceIndexNum].status = "NEW";
+                            array1[raceIndexNum].status = "SUSPENDED";
                           } else if (
                             array1[raceIndexNum].status.toLowerCase() ===
-                            "completed"
+                            "suspended"
                           ) {
                             array1[raceIndexNum].status = "NEW";
                           }
