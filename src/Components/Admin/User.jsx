@@ -92,6 +92,7 @@ const User = () => {
                 <th>user id</th>
                 <th>email</th>
                 <th>amount</th>
+                <th>Phone</th>
                 <th>admin</th>
                 <th>edit</th>
                 <th>Delete</th>
@@ -105,6 +106,7 @@ const User = () => {
                       <td>{e.uid}</td>
                       <td>{e.email}</td>
                       <td>{e.amount}</td>
+                      <td>{e?.phoneNumber}</td>
                       <td>{`${e.admin}`}</td>
                       <td>
                         <FiEdit

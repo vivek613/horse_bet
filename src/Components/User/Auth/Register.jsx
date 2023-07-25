@@ -14,43 +14,50 @@ import ReactLoading from "react-loading";
 export const Register = () => {
   const navigate = useNavigate();
   const [registerLoading, setregisterLoading] = useState(false);
+  const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
+    phoneNumber: "",
   });
 
-  const registerWithEmailAndPassword = async (email, password) => {
+  const registerWithEmailAndPassword = async (email, password, phoneNumber) => {
     const authentication = getAuth();
-    setregisterLoading(true);
-    try {
-      const res = createUserWithEmailAndPassword(
-        authentication,
-        email,
-        password
-      )
-        .then((response) => {
-          const user = response.user;
-          setregisterLoading(false);
-          db.collection("users").doc(user.uid).set({
-            uid: user.uid,
-            email,
-            admin: false,
-            amount: "0",
+    if (isValidPhoneNumber) {
+      setregisterLoading(true);
+      try {
+        const res = createUserWithEmailAndPassword(
+          authentication,
+          email,
+          password
+        )
+          .then((response) => {
+            const user = response.user;
+            setregisterLoading(false);
+            db.collection("users").doc(user.uid).set({
+              uid: user.uid,
+              email,
+              admin: false,
+              phoneNumber,
+              amount: "0",
+            });
+
+            toast.success(`welcome ${response?.user?.email}`);
+            setTimeout(() => {
+              navigate("/login");
+            }, 2000);
+          })
+
+          .catch((error) => {
+            setregisterLoading(false);
+            toast.error(` Wrong !${error?.message}`);
           });
-
-          toast.success(`welcome ${response?.user?.email}`);
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
-        })
-
-        .catch((error) => {
-          setregisterLoading(false);
-          toast.error(` Wrong !${error?.message}`);
-        });
-    } catch (err) {
-      setregisterLoading(false);
-      toast.error(`Oops , Something went wrong...`);
+      } catch (err) {
+        setregisterLoading(false);
+        toast.error(`Oops , Something went wrong...`);
+      }
+    } else {
+      toast.error(` Please enter valid phone number`);
     }
   };
 
@@ -59,7 +66,16 @@ export const Register = () => {
       <div className="main-div">
         <div class="login-form">
           <div>
-            <form>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                registerWithEmailAndPassword(
+                  registerData.email,
+                  registerData.password,
+                  registerData.phoneNumber
+                );
+              }}
+            >
               <div class="avatar">
                 <FaLock />
               </div>
@@ -82,6 +98,31 @@ export const Register = () => {
                     setRegisterData({ ...registerData, email: e.target.value })
                   }
                 />
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter phone Number (10 digits)"
+                  required
+                  value={registerData.phoneNumber}
+                  onChange={(e) => {
+                    const phoneNumberPattern = /^\d{10}$/;
+
+                    setIsValidPhoneNumber(
+                      phoneNumberPattern.test(e.target.value)
+                    );
+                    setRegisterData({
+                      ...registerData,
+                      phoneNumber: e.target.value,
+                    });
+                  }}
+                />
+                {!isValidPhoneNumber && (
+                  <p style={{ color: "red" }}>
+                    Invalid phone number! Please enter 10 digits.
+                  </p>
+                )}
               </div>
               <div class="form-group">
                 <input
@@ -111,13 +152,14 @@ export const Register = () => {
                   type="submit"
                   class="btn btn-primary btn-block btn-lg"
                   value="Login"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    registerWithEmailAndPassword(
-                      registerData.email,
-                      registerData.password
-                    );
-                  }}
+                  // onClick={(e) => {
+                  //   e.preventDefault();
+                  //   registerWithEmailAndPassword(
+                  //     registerData.email,
+                  //     registerData.password,
+                  //     registerData.phoneNumber
+                  //   );
+                  // }}
                 >
                   Register
                 </button>

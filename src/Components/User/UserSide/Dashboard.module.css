@@ -239,3 +239,8 @@
   font-size: .75rem;
     line-height: 1rem;
 }
+.horce-runner-div{
+  height: 15px;
+                            width: 30px;
+                            margin-top:40px;
+}
