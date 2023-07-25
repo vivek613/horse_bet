@@ -42,6 +42,7 @@ export const AdminDashboard = () => {
   const [detelemodalShow, setDeleteModalShow] = useState(false);
   const [loadingg, setLoadingg] = useState(false);
   const [raceDataLoading, setRaceDataLoading] = useState(false);
+  const [raceResultLoading, setRaceResultLoading] = useState(false);
 
   const [oddData, setOddData] = useState([]);
   const [newRace, setNewRace] = useState([]);
@@ -157,11 +158,9 @@ export const AdminDashboard = () => {
   const handleBetDelete = () => {
     setDeleteModalShow(true);
   };
-  const handleRaceRefreshAPi = (uid) => {
+  const handleRaceRefreshAPi = async (uid) => {
     setRaceDataLoading(true);
-    fetchData(uid);
-  };
-  const handleResultRefreshAPI = async (uid) => {
+
     try {
       await axios
         .get(
@@ -170,12 +169,7 @@ export const AdminDashboard = () => {
         .then((res) => {
           setLoadingg(false);
           setRaceDataLoading(false);
-          const new_object = {
-            ...res.data.data,
-            markets: oddData.markets,
-          };
-
-          db.collection("RaceData").doc(uid).set(new_object);
+          db.collection("RaceData").doc(uid).set(res?.data?.data);
         })
         .catch((e) => {
           setLoadingg(false);
@@ -185,6 +179,34 @@ export const AdminDashboard = () => {
       console.error(error);
       setLoadingg(false);
       setRaceDataLoading(false);
+    }
+  };
+  const handleResultRefreshAPI = async (uid) => {
+    setRaceResultLoading(true);
+    try {
+      await axios
+        .get(
+          `https://horse-batting.onrender.com/api/getTimesOfRacing?id=${uid}`
+        )
+        .then((res) => {
+          setLoadingg(false);
+          setRaceResultLoading(false);
+
+          const new_object = {
+            ...res.data.data,
+            markets: oddData.markets,
+          };
+
+          db.collection("RaceData").doc(uid).set(new_object);
+        })
+        .catch((e) => {
+          setLoadingg(false);
+          setRaceResultLoading(false);
+        });
+    } catch (error) {
+      console.error(error);
+      setLoadingg(false);
+      setRaceResultLoading(false);
     }
   };
   return (
@@ -436,7 +458,7 @@ export const AdminDashboard = () => {
                     }}
                     onClick={() => handleResultRefreshAPI(oddData.uid)}
                   >
-                    {loadingg ? (
+                    {raceResultLoading ? (
                       <ReactLoading
                         type={"spin"}
                         color={"#000000"}
@@ -455,7 +477,7 @@ export const AdminDashboard = () => {
                     }}
                     onClick={() => handleRaceRefreshAPi(oddData.uid)}
                   >
-                    {loadingg ? (
+                    {raceDataLoading ? (
                       <ReactLoading
                         type={"spin"}
                         color={"#000000"}

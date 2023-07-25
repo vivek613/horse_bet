@@ -60,6 +60,16 @@ const BetTable = () => {
       .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setBetData(snapshot.data()?.data);
+        setRaceWiseBetData(
+          snapshot.data()?.data.filter((item) => {
+            if (
+              item.venue === selectedState.venueState &&
+              item.race_number === selectedState.raceNum
+            ) {
+              return item;
+            }
+          })
+        );
       });
   }, [allCountry]);
 

@@ -272,7 +272,7 @@ export const Dashboard = () => {
                       {participants?.status.toLowerCase()}
                     </span>
                   </Card.Body>
-                  {(participants?.status?.toLowerCase() === "completed" ||
+                  {(participants?.status?.toLowerCase() === "complete" ||
                     participants?.status?.toLowerCase() === "result") && (
                     <Card.Body className={styles["results-div"]}>
                       {Object.values(participants?.result?.standings).map(
@@ -401,7 +401,7 @@ export const Dashboard = () => {
                           }}
                         >
                           {(participants?.status?.toLowerCase() !==
-                            "completed" ||
+                            "complete" ||
                             participants?.status?.toLowerCase() !==
                               "result") && (
                             <>
