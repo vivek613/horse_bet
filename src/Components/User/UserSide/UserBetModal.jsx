@@ -38,9 +38,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
     db.collection("participant")
       .doc(uid)
       .onSnapshot((snapshot) => {
-        if (snapshot.data()) {
-          setUserBet(snapshot.data()?.data);
-        }
+        setUserBet(snapshot.data()?.data);
       });
     db.collection("users")
       .doc(uid)

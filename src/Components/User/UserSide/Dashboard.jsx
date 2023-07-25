@@ -69,6 +69,17 @@ export const Dashboard = () => {
   // const handleGetRace = (e) => {
   //   setParticipants(e);
   // };
+  useEffect(() => {
+    if (selectedState.id) {
+      db.collection("RaceData")
+        .doc(selectedState.id)
+        .onSnapshot((snapshot) => {
+          if (snapshot.data()) {
+            setParticipants(snapshot.data());
+          }
+        });
+    }
+  }, []);
 
   const getRaceDataTime = (id) => {
     db.collection("RaceData")
@@ -219,6 +230,7 @@ export const Dashboard = () => {
                     setSelectedState({
                       ...selectedState,
                       raceNum: index,
+                      id: e.uid,
                     });
                   }}
                 >
