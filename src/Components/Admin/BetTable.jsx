@@ -60,8 +60,8 @@ const BetTable = () => {
       .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setBetData(snapshot.data()?.data);
-
-        setRaceWiseBetData(
+        console.log(
+          "ttttttttt",
           snapshot.data()?.data.filter((item) => {
             if (
               item.venue === selectedState.venueState &&
@@ -73,6 +73,21 @@ const BetTable = () => {
         );
       });
   }, [allCountry]);
+  useEffect(() => {
+    setRaceWiseBetData(
+      betData.filter((item) => {
+        console.log("item", item);
+        if (
+          item.venue === selectedState.venueState &&
+          item.race_number === selectedState.raceNum + 1
+        ) {
+          return item;
+        }
+      })
+    );
+  }, [betData]);
+
+  console.log("ssss", selectedState);
 
   const filterDataByHorseNumber = (horseNumberInput) => {
     // Convert the input value to a number (assuming the input is a string)
