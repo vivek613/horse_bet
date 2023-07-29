@@ -73,6 +73,7 @@ const BetTable = () => {
         }
       })
     );
+    console.log("dd");
   }, [betData]);
 
   const filterDataByHorseNumber = (horseNumberInput) => {
