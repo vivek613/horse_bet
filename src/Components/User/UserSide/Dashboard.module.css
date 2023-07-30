@@ -1,0 +1,246 @@
+.user-race-data-main {
+  width: 100vw;
+  color: black;
+}
+.user-time-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 10px;
+  padding: 20px;
+  overflow-x: scroll;
+}
+.user-race-title {
+  font-size: 20px;
+  color: black;
+  margin: 15px 0px 0px 15px;
+}
+.user-horce-card {
+  display: flex;
+  flex-direction: column;
+  height: 900px;
+  overflow-y: auto;
+  gap: 7px;
+  margin: 5px;
+}
+.user-simple-card-body {
+  width: 400px;
+}
+.user-card-main {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  transition: 5s all ease;
+  padding-right: 20px;
+}
+.user-simple-card {
+  display: inline-block;
+  margin: 15px 0px 15px 15px;
+  scroll-behavior: smooth;
+}
+.user-simple-card-select {
+  display: inline-block;
+  margin: 15px 0px 15px 15px;
+  scroll-behavior: smooth;
+  border: 3px solid #cdc6eb;
+}
+.user-simple-card-time {
+  margin: 0px;
+}
+.user-simple-card-hour {
+  margin: 0px;
+}
+#basic-navbar-nav {
+  margin-top: 145px;
+}
+.race-id-main {
+  display: flex;
+  gap: 5px;
+  margin: 0px;
+  padding: 3px;
+}
+.race-details-card {
+  background: transparent;
+  border: none;
+}
+.user-card-body {
+  color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.06);
+}
+.user-card-body-selected {
+  outline: 1px solid #866afb;
+  background: #cdc6eb;
+  font-weight: 600;
+  color: #fdfdfd;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.06);
+}
+.horce-card-body {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  padding: 15px;
+}
+.horce-card-prs-name {
+  color: black;
+  font-weight: bolder;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.jockey-icons {
+  background: #c62828 !important;
+  padding-left: 4px;
+  padding-right: 4px;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+  margin: 2px;
+}
+.trainer-icons {
+  background: #2e7d32 !important;
+  padding-left: 4px;
+  padding-right: 4px;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+  margin: 2px;
+}
+.jockey-details {
+  color: #424242 !important;
+  font-weight: 700;
+}
+.trainer-details {
+  color: #424242 !important;
+  font-weight: 700;
+}
+.jersey-div {
+  margin-right: 12px;
+  display: flex;
+  width: 40px;
+  height: 54px;
+  border: 1px solid #cdc6eb;
+  border-radius: 5px;
+  flex-direction: column;
+ 
+  overflow: hidden;
+}
+.selected-race-data {
+  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 0.05), 0 6px 20px 0 rgb(0 0 0 / 0.08);
+}
+.race-status-completed {
+  display: flex;
+  flex-direction: row-reverse;
+  color: #2e7d32;
+  font-weight: 800;
+}
+.user-city-tab {
+  margin: 10px 0px;
+}
+.state-array {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  transition: 5s all ease;
+  display: flex;
+  gap: 1px;
+  padding: 15px 15px 15px 15px;
+}
+.state-button-user {
+  background: #cdc6eb;
+  color: #0000008a;
+  border: 1px solid white;
+  padding: 8px;
+  height: 44px;
+  border-radius: 5px;
+}
+.state-button-user-select {
+  border: 3px solid black;
+  background: #cdc6eb;
+  color: #0000008a;
+
+  padding: 8px;
+  height: 44px;
+  border-radius: 5px;
+}
+.odds-button {
+  background: #cdc6eb;
+  color: #ffffff;
+  border: 1px solid white;
+  height: 38px;
+  width: 60px;
+  border-radius: 5px;
+}
+
+.wallet-calc {
+  display: flex;
+  justify-content: space-between;
+}
+.please-select-race {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 500px;
+  color: gray;
+}
+.wallet-button-wrapper {
+  display: flex;
+  gap: 10px;
+}
+.horce-num{
+  background: #cdc6eb;
+    width: 100%;
+    float: left;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+}
+.jersey-image{
+  height: 28px;
+    float: left;
+    margin: 5px 0 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.draw-num{
+  width: 100%;
+   
+    color: #152a47;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.horce-data-div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.race-details-div{
+      padding: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 280px;
+}
+.results-div{
+  display: flex;
+  /* flex-wrap: nowrap; */
+  padding: 8px 11px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 7px;
+
+}
+.race-details-span{
+  font-size: .75rem;
+    line-height: 1rem;
+}
+.horce-runner-div{
+  height: 15px;
+                            width: 30px;
+                            margin-top:40px;
+}

@@ -1,93 +1,258 @@
-.main-div{
-    background:linear-gradient(to left, green, white);
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    color:white;
-    height: 100vh;
-    width: 100vw;
-  }
-  
-  body {
-    color: #999;
-    background: #f5f5f5;
-    font-family: 'Varela Round', sans-serif;
+.main-div {
+  background: linear-gradient(to left, green, white);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+  height: 100vh;
+  width: 100vw;
+}
+.bet-main-div {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.bet-pop-up {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+body {
+  color: #999;
+  background: #f5f5f5;
+  font-family: "Varela Round", sans-serif;
 }
 .form-control {
-    box-shadow: none;
-    border-color: #ddd;
+  box-shadow: none;
+  border-color: #ddd;
 }
 .form-control:focus {
-    border-color: #4aba70; 
+  border-color: #4aba70;
 }
 .login-form {
-    width: 350px;
-    margin: 0 auto;
-    padding: 30px 0;
+  width: 350px;
+  margin: 0 auto;
+  padding: 30px 0;
 }
 .login-form form {
-    color: #434343;
-    border-radius: 1px;
-    margin-bottom: 15px;
-    background: #fff;
-    border: 1px solid #f3f3f3;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    padding: 30px;
+  color: #434343;
+  border-radius: 1px;
+  margin-bottom: 15px;
+  background: #f7f7f7;
+  border: 1px solid #f3f3f3;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  padding: 30px;
 }
 .login-form h4 {
-    text-align: center;
-    font-size: 22px;
-    margin-bottom: 20px;
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 20px;
 }
 .login-form .avatar {
-    color: #fff;
-    margin: 0 auto 30px;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    z-index: 9;
-    background: #4aba70;
-    padding: 10px;
-    box-shadow: 0px 2px 2px rgb(0 0 0 / 10%);
+  color: #fff;
+  margin: 0 auto 30px;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  z-index: 9;
+  background: #4aba70;
+  padding: 10px;
+  box-shadow: 0px 2px 2px rgb(0 0 0 / 10%);
 }
 .login-form .avatar i {
-    font-size: 62px;
+  font-size: 62px;
 }
 .login-form .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
-.login-form .form-control, .login-form .btn {
-    min-height: 40px;
-    border-radius: 2px; 
-    transition: all 0.5s;
+.login-form .form-control,
+.login-form .btn {
+  min-height: 40px;
+  border-radius: 2px;
+  transition: all 0.5s;
 }
 .login-form .close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
 .login-form .btn {
-    background: #4aba70;
-    border: none;
-    line-height: normal;
+  background: #4aba70;
+  border: none;
+  line-height: normal;
 }
-.login-form .btn:hover, .login-form .btn:focus {
-    background: #42ae68;
+.login-form .btn:hover,
+.login-form .btn:focus {
+  background: #42ae68;
 }
 .login-form .checkbox-inline {
-    float: left;
+  float: left;
 }
 .login-form input[type="checkbox"] {
-    margin-top: 2px;
+  margin-top: 2px;
 }
 .login-form .forgot-link {
-    float: right;
+  float: right;
 }
 .login-form .small {
-    font-size: 13px;
+  font-size: 13px;
 }
 .login-form a {
-    color: #280404;
-    font-size: 15px;
+  color: #280404;
+  font-size: 15px;
+}
+@import url("https://fonts.googleapis.com/css?family=Varela+Round");
+html,
+body {
+  overflow-x: hidden;
+  height: 100%;
+}
+body {
+  background: #fff;
+  padding: 0;
+  margin: 0;
+  font-family: "Varela Round", sans-serif;
+}
+.header {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: none;
+  background-color: #fc466b;
+  position: fixed;
+  height: 60px !important;
+  overflow: hidden;
+  z-index: 10;
+}
+.main {
+  margin: 0 auto;
+  display: block;
+  height: 100%;
+  margin-top: 60px;
+}
+.mainInner {
+  display: table;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+.mainInner div {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 1.25px;
+}
+#sidebarMenu {
+  height: 100%;
+  position: fixed;
+  left: 0;
+  width: 250px;
+  margin-top: 60px;
+  transform: translateX(-250px);
+  transition: transform 250ms ease-in-out;
+  background: linear-gradient(180deg, #fc466b 0%, #3f5efb 100%);
+}
+.sidebarMenuInner {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.sidebarMenuInner li {
+  list-style: none;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.sidebarMenuInner li span {
+  display: block;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.sidebarMenuInner li a {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sidebarIconToggle {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: absolute;
+  z-index: 99;
+  height: 100%;
+  width: 100%;
+  top: 22px;
+  left: 15px;
+  height: 22px;
+  width: 22px;
+}
+.spinner {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background-color: #fff;
+}
+.horizontal {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  position: relative;
+  float: left;
+  margin-top: 3px;
+}
+.diagonal.part-1 {
+  position: relative;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  float: left;
+}
+.diagonal.part-2 {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  position: relative;
+  float: left;
+  margin-top: 3px;
+}
+input[type="checkbox"]:checked ~ .sidebarIconToggle > .horizontal {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  opacity: 0;
+}
+input[type="checkbox"]:checked ~ .sidebarIconToggle > .diagonal.part-1 {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  transform: rotate(135deg);
+  margin-top: 8px;
+}
+input[type="checkbox"]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  transform: rotate(-135deg);
+  margin-top: -9px;
+}
+.login-logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: -15px 0 10px 0;
 }

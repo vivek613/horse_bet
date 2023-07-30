@@ -1,107 +1,127 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { db } from "../config/firebase";
 // import { signOut } from "firebase/auth";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router";
-import { deleteAllCookies } from "../Hook/Cookies";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Context } from "../App";
 import { toast } from "react-hot-toast";
+import styles from "./Navbar.module.css";
+import { deleteAllCookies, getCookie } from "../Hook/Cookies";
+import { BiWallet } from "react-icons/bi";
 
 export const NavbarCommon = () => {
+  const navigate = useNavigate();
   const auth = getAuth();
+
   const { toastData, setToastData } = useContext(Context);
 
   const [user, loading, error] = useAuthState(auth);
+  const [userData, setUserData] = useState({});
 
-  const navigate = useNavigate();
-  console.log(auth);
+  useEffect(() => {
+    const uid = getCookie("Uid");
+    db.collection("users")
+      .doc(uid)
+      .onSnapshot((snapshot) => {
+        setUserData(snapshot.data());
+      });
+  }, [user]);
+
+  const openNav = () => {
+    document.getElementById("mySidenav").style.width = "200px";
+    document.getElementById("mySidenav").style.background = "white";
+    document.getElementById("mySidenav").style.boxShadow =
+      "box-shadow: 0 4px 8px 0 rgb(0 0 0 / 5%), 0 6px 20px 0 rgb(0 0 0 / 8%);";
+  };
+
+  const closeNav = () => {
+    document.getElementById("mySidenav").style.width = "0";
+  };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="md">
-      <Container>
-        <Navbar.Brand href="#home">Horse Race</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <div
-            style={{
-              display: "flex",
-              gap: "15px",
+    <>
+      <div id="mySidenav" className={styles["sidenav"]}>
+        <a
+          href="javascript:void(0)"
+          className={styles["closebtn"]}
+          onClick={() => {
+            closeNav();
+          }}
+        >
+          &times;
+        </a>
+        <p
+          style={{ width: "95%", margin: "auto" }}
+          className={styles["user-email"]}
+        >
+          {userData?.email}
+        </p>
+        <div className={styles["user-wallet"]}>
+          <p className={styles["user-balance-show"]}>Balance : </p>
+          <p className={styles["user-balance-show"]}>₹ {userData?.amount}</p>
+        </div>
+        <p
+          className={styles["user-email"]}
+          style={{ fontSize: "14px" }}
+          onClick={() => {
+            navigate("/dashboard/mybet");
+          }}
+        >
+          My Bet
+        </p>
+        {userData?.admin && (
+          <p
+            className={styles["user-email"]}
+            style={{ fontSize: "14px" }}
+            onClick={() => {
+              navigate("/dashboard/adduserpage");
             }}
           >
-            {user ? (
-              <div>
-                <Button
-                  variant="primary"
-                  onClick={(e) => {
-                    // e.preventDefault();
-                    try {
-                      auth
-                        .signOut()
-                        .then((response) => {
-                          toast.success(`log Out  successfully`);
-                          navigate("/login");
-                          deleteAllCookies();
-                        })
-                        .catch((error) => {
-                          toast.error(error.message);
-                        });
-                    } catch (err) {
-                      toast.error(err.message);
-                      // <Toasts />;
-                    }
-                  }}
-                >
-                  Log out
-                </Button>
-              </div>
-            ) : (
-              <>
-                <Button
-                  variant="primary"
-                  onClick={(e) => {
-                    // e.preventDefault();
-                    // deleteAllCookies();
-
-                    navigate("/login");
-                  }}
-                >
-                  login
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={(e) => {
-                    // e.preventDefault();
-
-                    navigate("/register");
-                  }}
-                >
-                  Register
-                </Button>
-              </>
-            )}
-          </div>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+            Add User
+          </p>
+        )}
+        <p
+          className={styles["user-logout"]}
+          onClick={() => {
+            signOut(auth).then((data) => {
+              navigate("/login");
+              deleteAllCookies();
+              window.location.reload(true);
+            });
+          }}
+        >
+          Log out
+        </p>
+      </div>
+      <div className={styles["navbar-div"]}>
+        <span
+          style={{ fontSize: "25px", cursor: "pointer", color: "black" }}
+          onClick={() => {
+            openNav();
+          }}
+        >
+          &#9776;
+        </span>
+        <div
+          style={{
+            color: "#ffffff",
+            marginRight: "5%",
+            display: "flex",
+            gap: "11px",
+            alignItems: "center",
+          }}
+        >
+          <BiWallet
+            style={{
+              width: "24px",
+              height: "24px",
+            }}
+          />
+          ₹ {userData?.amount}
+        </div>
+      </div>
+    </>
   );
 };

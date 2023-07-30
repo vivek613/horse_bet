@@ -15,7 +15,6 @@ export const GetFirebaseData = ({ setTable, collectionName }) => {
       });
       setTable(array);
     });
-  console.log(array);
 };
 // add data
 export const AddDataToFirebase = (data, tableName) => {
