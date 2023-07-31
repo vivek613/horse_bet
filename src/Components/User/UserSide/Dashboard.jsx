@@ -163,7 +163,7 @@ export const Dashboard = () => {
                     : styles["state-button-user"]
                 }
                 onClick={() => {
-                  if (items === "MYS") {
+                  if (items === "MYS" || items === "HYD") {
                     const array = allData.filter((e) => {
                       return e.venue === items;
                     });

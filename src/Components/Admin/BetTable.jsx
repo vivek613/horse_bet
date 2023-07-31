@@ -166,7 +166,7 @@ const BetTable = () => {
                   }
                   onClick={() => {
                     console.log("item", items);
-                    if (items === "MYS") {
+                    if (items === "MYS" || items === "HYD") {
                       const array = indiaRace.filter((e) => {
                         return e.venue === items;
                       });
