@@ -73,7 +73,6 @@ const BetTable = () => {
         }
       })
     );
-    console.log("dd");
   }, [betData]);
 
   const filterDataByHorseNumber = (horseNumberInput) => {
@@ -133,7 +132,6 @@ const BetTable = () => {
                           })
                         ),
                       ]);
-                      console.log("state", countryState);
                       setSelectedState({
                         venue: items,
                       });
@@ -165,7 +163,6 @@ const BetTable = () => {
                       : styles["state-button-user"]
                   }
                   onClick={() => {
-                    console.log("item", items);
                     if (items === "MYS" || items === "HYD") {
                       const array = indiaRace.filter((e) => {
                         return e.venue === items;
@@ -183,7 +180,7 @@ const BetTable = () => {
                       });
                     } else {
                       const array = indiaRace.filter((e) => {
-                        return e.data.venueName === items;
+                        return (e.data.venueName || e.venue) === items;
                       });
                       // setStateRace(array);
                       array.sort(
@@ -208,7 +205,6 @@ const BetTable = () => {
             })}
           </div>
           <div className={styles["user-card-main"]}>
-            {console.log("bet", betData)}
             {stateWiseData?.map((e, index) => {
               return (
                 <>
@@ -229,7 +225,7 @@ const BetTable = () => {
                       setRaceWiseBetData(
                         betData.filter((item) => {
                           if (
-                            item.venue === e.data.venueName &&
+                            item.venue === (e.data.venueName || e.venue) &&
                             item.race_number === e.data.raceNumber
                           ) {
                             return item;
@@ -239,7 +235,7 @@ const BetTable = () => {
                       setRaceMainData(
                         betData.filter((item) => {
                           if (
-                            item.venue === e.data.venueName &&
+                            item.venue === (e.data.venueName || e.venue) &&
                             item.race_number === e.data.raceNumber
                           ) {
                             return item;

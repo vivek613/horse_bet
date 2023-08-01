@@ -9,8 +9,7 @@ import { getCookie } from "../../../Hook/Cookies";
 import ReactLoading from "react-loading";
 
 export const UserBetModal = ({ walletModal, setWalletModal }) => {
-  const { winPlc, setWinPlc, userBet, setUserBet, setIndiaRace } =
-    useContext(Context);
+  const { winPlc, setWinPlc, setIndiaRace } = useContext(Context);
   const auth = getAuth();
   const [user] = useAuthState(auth);
   const [participant, setParticipant] = useState([]);
@@ -19,6 +18,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
   const [showValue, setShowValue] = useState(false);
   const [betLoading, setbetLoading] = useState(false);
   const [forProfitAdminData, setforProfitAdminData] = useState();
+  const [userRaceData, setUserRaceData] = useState([]);
 
   useEffect(() => {
     db.collection("users")
@@ -38,7 +38,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
     db.collection("participant")
       .doc(uid)
       .onSnapshot((snapshot) => {
-        setUserBet(snapshot.data()?.data);
+        setUserRaceData(snapshot.data()?.data || []);
       });
     db.collection("users")
       .doc(uid)
@@ -78,15 +78,28 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
             })
             .then(function () {});
         });
-      db.collection("participant")
-        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
-        .set({
-          data: [...participant, winPlc],
+      console.log("ddd", user, participant, winPlc, userRaceData);
+      const docRef = db
+        .collection("participant")
+        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3");
+
+      const newData = [...participant, winPlc];
+
+      docRef
+        .update({
+          data: newData, // Assuming you have a field named "data" to store the array
+        })
+        .then(() => {
+          console.log("Document successfully updated!");
+        })
+        .catch((error) => {
+          console.error("Error updating document: ", error);
         });
+
       db.collection("participant")
         .doc(user?.uid)
-        .set({
-          data: [...userBet, winPlc],
+        .update({
+          data: [...userRaceData, winPlc],
         });
     } else {
     }
