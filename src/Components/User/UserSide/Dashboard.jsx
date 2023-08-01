@@ -108,7 +108,6 @@ export const Dashboard = () => {
       <div className={styles["user-race-data-main"]}>
         <p className={styles["user-race-title"]}>Today's Race</p>
         <div className={styles["state-array"]}>
-          {console.log(selectedState)}
           {allCountry.map((items, index) => {
             return (
               <button
@@ -201,7 +200,7 @@ export const Dashboard = () => {
             );
           })}
         </div>
-
+        {console.log(stateWiseData)}
         <div className={styles["user-card-main"]}>
           {stateWiseData.map((e, index) => {
             return (
@@ -221,7 +220,7 @@ export const Dashboard = () => {
                       email: user.email,
                       race_number: e.data.raceNumber,
                       race_time: convertHour(e.startDate),
-                      venue: e.data?.venueName,
+                      venue: e.data?.venueName || e.venue,
                       status: "disabled",
                       withdraw: false,
                     });
