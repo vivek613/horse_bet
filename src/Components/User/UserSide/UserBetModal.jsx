@@ -78,27 +78,14 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
             })
             .then(function () {});
         });
-      console.log("ddd", user, participant, winPlc, userRaceData);
-      const docRef = db
-        .collection("participant")
-        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3");
-
-      const newData = [...participant, winPlc];
-
-      docRef
-        .update({
-          data: newData, // Assuming you have a field named "data" to store the array
-        })
-        .then(() => {
-          console.log("Document successfully updated!");
-        })
-        .catch((error) => {
-          console.error("Error updating document: ", error);
+      db.collection("participant")
+        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .set({
+          data: [...participant, winPlc],
         });
-
       db.collection("participant")
         .doc(user?.uid)
-        .update({
+        .set({
           data: [...userRaceData, winPlc],
         });
     } else {

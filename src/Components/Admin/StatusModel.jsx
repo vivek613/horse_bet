@@ -11,6 +11,7 @@ const StatusModel = (props) => {
   const { betData, amountData } = useContext(Context);
   const [dividend, setDividend] = useState(0);
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const [lossLoading, setLossLoading] = useState(false);
   const [adminAmountData, setAdminAmountData] = useState();
   const [userBetData, setUserBetData] = useState([]);
   useEffect(() => {
@@ -97,6 +98,80 @@ const StatusModel = (props) => {
     }
   };
 
+  const handleLossChange = async (event) => {
+    if (event.target.checked) {
+      setLossLoading(true);
+      db.collection("participant")
+        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .set({
+          data: betData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.status = "disabled";
+
+              data.withdraw = false;
+              data.loss = true;
+            }
+            return data;
+          }),
+        });
+      db.collection("participant")
+        .doc(props?.updateData?.data?.user_id)
+        .set({
+          data: userBetData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.status = "disabled";
+
+              data.withdraw = false;
+              data.loss = true;
+            }
+            return data;
+          }),
+        })
+        .then(async (dd) => {
+          db.collection("users")
+            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+            .update({
+              ...adminAmountData,
+              amount:
+                Number(adminAmountData?.amount) -
+                (Number(props?.updateData?.data?.user_amount) *
+                  (Number(props?.updateData?.data?.value) -
+                    (Number(props?.updateData?.data?.value) * dividend) / 100) +
+                  Number(props?.updateData?.data?.user_amount)),
+            })
+            .then(function () {
+              setLossLoading(false);
+            });
+          db.collection("users")
+            .doc(props?.updateData?.data?.user_id)
+            .update({
+              ...amountData,
+              amount:
+                Number(amountData.amount) +
+                (Number(props?.updateData?.data?.user_amount) *
+                  (Number(props?.updateData?.data?.value) -
+                    (Number(props?.updateData?.data?.value) * dividend) / 100) +
+                  Number(props?.updateData?.data?.user_amount)),
+            })
+            .then(() => {
+              setDividend(0);
+              props.onHide();
+            });
+        });
+    }
+  };
   return (
     <Modal
       {...props}
@@ -144,7 +219,7 @@ const StatusModel = (props) => {
               }}
               controlId="formBasicPassword"
             >
-              <Form.Label>Status :</Form.Label>
+              <Form.Label>Win :</Form.Label>
               {paymentLoading ? (
                 <ReactLoading
                   type={"spin"}
@@ -167,9 +242,32 @@ const StatusModel = (props) => {
                   }
                   id="vehicle1"
                   name="vehicle1"
-                  value="Bike"
                   onChange={(event) => {
                     handleChange(event);
+                  }}
+                ></input>
+              )}
+              <Form.Label>Loss :</Form.Label>
+              {lossLoading ? (
+                <ReactLoading
+                  type={"spin"}
+                  color={"#000000"}
+                  height={30}
+                  width={30}
+                />
+              ) : (
+                <input
+                  style={{
+                    height: "26px",
+                    width: "26px",
+                  }}
+                  type="checkbox"
+                  disabled={props?.updateData?.data?.loss ? true : false}
+                  checked={props?.updateData?.data?.loss ? true : false}
+                  id="vehicle1"
+                  name="vehicle1"
+                  onChange={(event) => {
+                    handleLossChange(event);
                   }}
                 ></input>
               )}
