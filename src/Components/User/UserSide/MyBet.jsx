@@ -26,7 +26,7 @@ const MyBet = () => {
       });
   }, [user]);
 
-  console.log("use", user);
+  console.log("use", userBet);
   return (
     <>
       <NavbarCommon />
@@ -45,6 +45,7 @@ const MyBet = () => {
         className={styles["user-horce-card"]}
         style={{ height: "calc(100vh - 170px)", color: "black" }}
       >
+        {console.log("usee", userBet)}
         {userBet?.reverse().map((item) => {
           return (
             <Card style={{ width: "calc(100% - 2px)" }}>
@@ -61,19 +62,24 @@ const MyBet = () => {
                       margin: "0 0 10px 0",
                     }}
                   >
-                    {item?.status === "enabled" && (
-                      <div
-                        style={{
-                          backgroundColor: item.withdraw ? "gray" : "#39e75f",
-                          width: item.withdraw ? "110px" : "53px",
-                          color: "black",
-                          borderRadius: "5px",
-                          textAlign: "center",
-                        }}
-                      >
-                        {item?.withdraw ? "Withdrawn" : "Win"}
-                      </div>
-                    )}
+                    <div
+                      style={{
+                        backgroundColor:
+                          item?.status === "enabled"
+                            ? "#39e75f"
+                            : item?.loss
+                            ? "red"
+                            : "blue",
+                        width: item.withdraw ? "110px" : "53px",
+                        color: "black",
+                        borderRadius: "5px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item?.status === "enabled" && "Win"}
+                      {item?.withdraw && "Withdraw"}
+                      {item?.loss && "Loss"}
+                    </div>
                   </div>
                   <div
                     style={{

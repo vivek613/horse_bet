@@ -222,6 +222,7 @@ export const Dashboard = () => {
                       race_time: convertHour(e.startDate),
                       venue: e.data?.venueName || e.venue,
                       status: "disabled",
+                      loss: false,
                       withdraw: false,
                     });
                     setInd(index);

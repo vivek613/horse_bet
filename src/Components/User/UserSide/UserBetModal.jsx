@@ -78,7 +78,6 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
             })
             .then(function () {});
         });
-      console.log("ddd", user, participant, winPlc, userRaceData);
       db.collection("participant")
         .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
