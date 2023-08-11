@@ -78,6 +78,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
             })
             .then(function () {});
         });
+
       db.collection("participant")
         .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
