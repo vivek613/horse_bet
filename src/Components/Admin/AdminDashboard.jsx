@@ -326,7 +326,12 @@ export const AdminDashboard = () => {
                   }
                   onClick={() => {
                     console.log("item", items);
-                    if (items === "MYS" || items === "HYD" || items === "PUN") {
+                    if (
+                      items === "MYS" ||
+                      items === "HYD" ||
+                      items === "PUN" ||
+                      items === "BLR"
+                    ) {
                       const array = newRace.filter((e) => {
                         return e.venue === items;
                       });

@@ -163,7 +163,12 @@ const BetTable = () => {
                       : styles["state-button-user"]
                   }
                   onClick={() => {
-                    if (items === "MYS" || items === "HYD" || items === "PUN") {
+                    if (
+                      items === "MYS" ||
+                      items === "HYD" ||
+                      items === "PUN" ||
+                      items === "BLR"
+                    ) {
                       const array = indiaRace.filter((e) => {
                         return e.venue === items;
                       });

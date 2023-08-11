@@ -150,9 +150,13 @@ const MyBet = () => {
                   >
                     <p>
                       Bet Time :-{" "}
-                      {`${new Date(item.time).getHours()}:${new Date(
-                        item.time
-                      ).getMinutes()}`}
+                      {`${String(new Date(item.time).getHours()).padStart(
+                        2,
+                        "0"
+                      )}:${String(new Date(item.time).getMinutes()).padStart(
+                        2,
+                        "0"
+                      )}`}
                     </p>
                     <p>Date:- {item?.date}</p>
                   </div>
