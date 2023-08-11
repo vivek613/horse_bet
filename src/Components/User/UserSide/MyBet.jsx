@@ -87,15 +87,19 @@ const MyBet = () => {
                             : item?.loss
                             ? "red"
                             : "blue",
-                        width: item.withdraw ? "110px" : "53px",
+                        width: item.withdraw ? "110px" : "80px",
                         color: "black",
                         borderRadius: "5px",
                         textAlign: "center",
                       }}
                     >
-                      {item?.status === "enabled" && "Win"}
-                      {item?.withdraw === true && "Withdraw"}
-                      {item?.loss && "Loss"}
+                      {item?.status === "enabled"
+                        ? "Win"
+                        : item?.withdraw
+                        ? "Withdraw"
+                        : item?.loss
+                        ? "Loss"
+                        : "pending"}
                     </div>
                   </div>
                   <div
