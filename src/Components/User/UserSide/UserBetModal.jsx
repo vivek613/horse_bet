@@ -78,6 +78,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
             })
             .then(function () {});
         });
+
       db.collection("participant")
         .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
@@ -114,7 +115,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                 <p>Your Bet Amount : {betAmount}</p>
               ) : (
                 <>
-                  {Number(betAmount) > 0 && (
+                  {Number(betAmount) >= 0 && (
                     <p style={{ color: "red" }}>
                       Sorry, You have not enough balance
                     </p>

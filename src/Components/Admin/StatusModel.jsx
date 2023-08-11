@@ -208,7 +208,8 @@ const StatusModel = (props) => {
                   type="checkbox"
                   disabled={
                     props?.updateData?.data?.status === "enabled" ||
-                    props?.updateData?.data?.loss
+                    props?.updateData?.data?.loss ||
+                    props?.updateData?.data?.withdraw
                       ? true
                       : false
                   }
@@ -239,7 +240,8 @@ const StatusModel = (props) => {
                   type="checkbox"
                   disabled={
                     props?.updateData?.data?.loss ||
-                    props?.updateData?.data?.status === "enabled"
+                    props?.updateData?.data?.status === "enabled" ||
+                    props?.updateData?.data?.withdraw
                       ? true
                       : false
                   }

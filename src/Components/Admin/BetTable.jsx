@@ -320,6 +320,7 @@ const BetTable = () => {
                 </tr>
               </thead>
               <tbody>
+                {console.log("dddd", raceWiseBetData)}
                 {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
                   raceWiseBetData?.map((e, index) => {
                     return (
