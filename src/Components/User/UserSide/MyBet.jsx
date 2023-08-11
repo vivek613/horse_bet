@@ -94,7 +94,7 @@ const MyBet = () => {
                       }}
                     >
                       {item?.status === "enabled" && "Win"}
-                      {item?.withdraw && "Withdraw"}
+                      {item?.withdraw === true && "Withdraw"}
                       {item?.loss && "Loss"}
                     </div>
                   </div>

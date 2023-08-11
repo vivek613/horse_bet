@@ -10,6 +10,8 @@ import ReactLoading from "react-loading";
 const DrawModal = (props) => {
   const { betData, amountData } = useContext(Context);
   const [adminDataForAmount, setadminDataForAmount] = useState();
+  const [userBetData, setUserBetData] = useState([]);
+
   const [withdrawLoading, setWithdrawLoading] = useState(false);
 
   useEffect(() => {
@@ -17,6 +19,11 @@ const DrawModal = (props) => {
       .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
         setadminDataForAmount(snapshot.data());
+      });
+    db.collection("participant")
+      .doc(props?.updateData?.data?.user_id)
+      .onSnapshot((snapshot) => {
+        setUserBetData(snapshot.data()?.data);
       });
   }, []);
 
@@ -26,7 +33,7 @@ const DrawModal = (props) => {
       db.collection("participant")
         .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
-          data: betData.map((data, index) => {
+          data: userBetData.map((data, index) => {
             if (
               props?.updateData?.data?.time === data.time &&
               props?.updateData?.data?.user_id === data.user_id &&
@@ -35,7 +42,22 @@ const DrawModal = (props) => {
               props?.updateData?.data?.venue === data.venue
             ) {
               data.withdraw = true;
-              data.status = "enabled";
+            }
+            return data;
+          }),
+        });
+      db.collection("participant")
+        .doc(props?.updateData?.data?.user_id)
+        .set({
+          data: userBetData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.withdraw = true;
             }
             return data;
           }),
@@ -106,11 +128,13 @@ const DrawModal = (props) => {
                 }}
                 type="checkbox"
                 disabled={
-                  props?.updateData?.data?.status === "enabled" ? true : false
+                  props?.updateData?.data?.withdraw === "enabled" ||
+                  props?.updateData?.data?.loss === true ||
+                  props?.updateData?.data?.withdraw === true
+                    ? true
+                    : false
                 }
-                checked={
-                  props?.updateData?.data?.status === "enabled" ? true : false
-                }
+                checked={props?.updateData?.data?.withdraw}
                 id="withdraw"
                 name="withdraw"
                 value="Bike"
