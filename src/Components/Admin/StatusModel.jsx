@@ -235,7 +235,10 @@ const StatusModel = (props) => {
                   }}
                   type="checkbox"
                   disabled={
-                    props?.updateData?.data?.status === "enabled" ? true : false
+                    props?.updateData?.data?.status === "enabled" ||
+                    props?.updateData?.data?.loss
+                      ? true
+                      : false
                   }
                   checked={
                     props?.updateData?.data?.status === "enabled" ? true : false
@@ -262,7 +265,12 @@ const StatusModel = (props) => {
                     width: "26px",
                   }}
                   type="checkbox"
-                  disabled={props?.updateData?.data?.loss ? true : false}
+                  disabled={
+                    props?.updateData?.data?.loss ||
+                    props?.updateData?.data?.status === "enabled"
+                      ? true
+                      : false
+                  }
                   checked={props?.updateData?.data?.loss ? true : false}
                   id="vehicle1"
                   name="vehicle1"
