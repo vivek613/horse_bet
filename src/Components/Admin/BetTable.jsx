@@ -307,6 +307,7 @@ const BetTable = () => {
                   <th>Venue</th>
                   <th>₹ Bet</th>
                   <th>Status</th>
+                  <th>Loss</th>
                   <th>Action</th>
                   <th>draw Status</th>
                 </tr>
@@ -328,6 +329,7 @@ const BetTable = () => {
                         <td>{e.venue}</td>
                         <td>{e.user_amount}</td>
                         <td>{e.status}</td>
+                        <td>{`${e.loss}`}</td>
                         <td>
                           <FiEdit
                             onClick={(event) => {

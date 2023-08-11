@@ -26,6 +26,23 @@ const MyBet = () => {
       });
   }, [user]);
 
+  const dateConvert = (time) => {
+    const date = new Date(time * 1000);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Months are zero-based, so we add 1
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return {
+      year,
+      month,
+      day,
+      hours,
+      minutes,
+    };
+  };
+
   console.log("use", userBet);
   return (
     <>
@@ -137,6 +154,7 @@ const MyBet = () => {
                         item.time
                       ).getMinutes()}`}
                     </p>
+                    <p>Date:- {item?.date}</p>
                   </div>
                 </div>
               </Card.Body>

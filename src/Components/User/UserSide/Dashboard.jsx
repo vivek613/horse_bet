@@ -101,6 +101,17 @@ export const Dashboard = () => {
     });
   }, []);
 
+  const todayDate = () => {
+    const currentDate = new Date();
+
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const year = String(currentDate.getFullYear()).slice();
+
+    const formattedDate = `${day}-${month}-${year}`;
+    return formattedDate;
+  };
+
   return (
     <>
       <NavbarCommon />
@@ -470,6 +481,7 @@ export const Dashboard = () => {
                                     jockey_name: e.data.jockey,
                                     horce_number: e.data.horseNumber,
                                     time: new Date().getTime(),
+                                    date: todayDate(),
                                     // time: Math.round(Date.now() / 1000),
                                   });
                                   setWalletModal(true);
@@ -532,6 +544,7 @@ export const Dashboard = () => {
                                     jockey_name: e.data.jockey,
                                     horce_number: e.data.horseNumber,
                                     time: new Date().getTime(),
+                                    date: todayDate(),
                                     // time: Math.round(Date.now() / 1000),
                                   });
                                   setWalletModal(true);
