@@ -114,7 +114,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                 <p>Your Bet Amount : {betAmount}</p>
               ) : (
                 <>
-                  {Number(betAmount) > 0 && (
+                  {Number(betAmount) >= 0 && (
                     <p style={{ color: "red" }}>
                       Sorry, You have not enough balance
                     </p>
