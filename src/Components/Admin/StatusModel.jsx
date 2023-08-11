@@ -140,35 +140,7 @@ const StatusModel = (props) => {
           }),
         })
         .then(async (dd) => {
-          db.collection("users")
-            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
-            .update({
-              ...adminAmountData,
-              amount:
-                Number(adminAmountData?.amount) -
-                (Number(props?.updateData?.data?.user_amount) *
-                  (Number(props?.updateData?.data?.value) -
-                    (Number(props?.updateData?.data?.value) * dividend) / 100) +
-                  Number(props?.updateData?.data?.user_amount)),
-            })
-            .then(function () {
-              setLossLoading(false);
-            });
-          db.collection("users")
-            .doc(props?.updateData?.data?.user_id)
-            .update({
-              ...amountData,
-              amount:
-                Number(amountData.amount) +
-                (Number(props?.updateData?.data?.user_amount) *
-                  (Number(props?.updateData?.data?.value) -
-                    (Number(props?.updateData?.data?.value) * dividend) / 100) +
-                  Number(props?.updateData?.data?.user_amount)),
-            })
-            .then(() => {
-              setDividend(0);
-              props.onHide();
-            });
+          setLossLoading(false);
         });
     }
   };
