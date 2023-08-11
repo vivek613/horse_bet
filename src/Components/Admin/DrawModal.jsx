@@ -128,7 +128,7 @@ const DrawModal = (props) => {
                 }}
                 type="checkbox"
                 disabled={
-                  props?.updateData?.data?.withdraw === "enabled" ||
+                  props?.updateData?.data?.status === "enabled" ||
                   props?.updateData?.data?.loss === true ||
                   props?.updateData?.data?.withdraw === true
                     ? true
