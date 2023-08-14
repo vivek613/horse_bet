@@ -216,7 +216,6 @@ export const Dashboard = () => {
             );
           })}
         </div>
-        {console.log(stateWiseData)}
         <div className={styles["user-card-main"]}>
           {stateWiseData.map((e, index) => {
             return (
@@ -282,12 +281,13 @@ export const Dashboard = () => {
                       {participants?.name}
                     </span>
                     <span className={styles["race-details-span"]}>
-                      Distance: {participants?.data?.length}
+                      Distance: {participants?.data?.distance}
                     </span>
                     <span
                       style={{
                         background:
-                          participants?.status === "COMPLETE"
+                          participants?.status === "COMPLETE" ||
+                          participants?.status === "STOP"
                             ? "#f44336"
                             : participants?.status.toLowerCase() === "suspended"
                             ? "#f44336"
@@ -300,6 +300,7 @@ export const Dashboard = () => {
                       {participants?.status.toLowerCase()}
                     </span>
                   </Card.Body>
+                  {console.log("ddddd", participants?.result?.standings)}
                   {(participants?.status?.toLowerCase() === "complete" ||
                     participants?.status?.toLowerCase() === "result") && (
                     <Card.Body className={styles["results-div"]}>
@@ -320,7 +321,9 @@ export const Dashboard = () => {
                                 </span>
 
                                 <small className={styles["draw-num"]}>
-                                  {item[0]}
+                                  {item.map((e) => {
+                                    return <>{e},</>;
+                                  })}
                                 </small>
                               </div>
                             </>
@@ -430,8 +433,8 @@ export const Dashboard = () => {
                         >
                           {(participants?.status?.toLowerCase() !==
                             "complete" ||
-                            participants?.status?.toLowerCase() !==
-                              "result") && (
+                            participants?.status?.toLowerCase() !== "result" ||
+                            participants?.status?.toLowerCase() !== "stop") && (
                             <>
                               <button
                                 disabled={
