@@ -439,7 +439,9 @@ export const AdminDashboard = () => {
                                 </span>
 
                                 <small className={styles["draw-num"]}>
-                                  {item[0]}
+                                  {item.map((e) => {
+                                    return <>{e},</>;
+                                  })}
                                 </small>
                               </div>
                             </>
