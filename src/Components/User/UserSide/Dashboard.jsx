@@ -300,6 +300,7 @@ export const Dashboard = () => {
                       {participants?.status.toLowerCase()}
                     </span>
                   </Card.Body>
+                  {console.log("ddddd", participants?.result?.standings)}
                   {(participants?.status?.toLowerCase() === "complete" ||
                     participants?.status?.toLowerCase() === "result") && (
                     <Card.Body className={styles["results-div"]}>
@@ -320,7 +321,9 @@ export const Dashboard = () => {
                                 </span>
 
                                 <small className={styles["draw-num"]}>
-                                  {item[0]}
+                                  {item.map((e) => {
+                                    return <>{e},</>;
+                                  })}
                                 </small>
                               </div>
                             </>
