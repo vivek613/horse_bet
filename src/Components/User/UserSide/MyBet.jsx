@@ -43,7 +43,6 @@ const MyBet = () => {
     };
   };
 
-  console.log("use", userBet);
   return (
     <>
       <NavbarCommon />
@@ -62,7 +61,6 @@ const MyBet = () => {
         className={styles["user-horce-card"]}
         style={{ height: "calc(100vh - 170px)", color: "black" }}
       >
-        {console.log("usee", userBet)}
         {userBet?.reverse().map((item) => {
           return (
             <Card style={{ width: "calc(100% - 2px)" }}>
@@ -86,7 +84,9 @@ const MyBet = () => {
                             ? "#39e75f"
                             : item?.loss
                             ? "red"
-                            : "blue",
+                            : item?.withdraw
+                            ? "blue"
+                            : "yellow",
                         width: item.withdraw ? "110px" : "80px",
                         color: "black",
                         borderRadius: "5px",

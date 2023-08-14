@@ -325,7 +325,6 @@ export const AdminDashboard = () => {
                       : styles["state-button-user"]
                   }
                   onClick={() => {
-                    console.log("item", items);
                     if (
                       items === "MYS" ||
                       items === "HYD" ||
@@ -350,7 +349,6 @@ export const AdminDashboard = () => {
                       const array = newRace.filter((e) => {
                         return e.data.venueName === items;
                       });
-                      console.log("aaa", array, newRace);
                       // setStateRace(array);
                       setStateWiseData(
                         array.sort(
@@ -513,14 +511,14 @@ export const AdminDashboard = () => {
                     >
                       Stop Bet :{" "}
                     </p>
-
                     <label class="switch">
                       <input
                         type="checkbox"
                         checked={
                           oddData?.status?.toLowerCase() === "complete" ||
                           oddData?.status?.toLowerCase() === "suspended" ||
-                          oddData?.status?.toLowerCase() === "result"
+                          oddData?.status?.toLowerCase() === "result" ||
+                          oddData?.status?.toLowerCase() === "stop"
                             ? true
                             : false
                         }
@@ -530,23 +528,23 @@ export const AdminDashboard = () => {
                             : false
                         }
                         onChange={(e) => {
-                          const array1 = [...indiaRace];
-                          if (
-                            array1[raceIndexNum].status.toLowerCase() ===
-                              "new" ||
-                            array1[raceIndexNum].status.toLowerCase() ===
-                              "published"
-                          ) {
-                            array1[raceIndexNum].status = "SUSPENDED";
-                          } else if (
-                            array1[raceIndexNum].status.toLowerCase() ===
-                            "suspended"
-                          ) {
-                            array1[raceIndexNum].status = "NEW";
+                          if (oddData?.status?.toLowerCase() === "stop") {
+                            const new_object = {
+                              ...oddData,
+                              status: "published",
+                            };
+                            db.collection("RaceData")
+                              .doc(oddData.uid)
+                              .set(new_object);
+                          } else {
+                            const new_object = {
+                              ...oddData,
+                              status: "STOP",
+                            };
+                            db.collection("RaceData")
+                              .doc(oddData.uid)
+                              .set(new_object);
                           }
-                          db.collection("TimeData")
-                            .doc("RaceData")
-                            .update({ Allrace: array1 });
                         }}
                       />
                       <span class="slider round"></span>
