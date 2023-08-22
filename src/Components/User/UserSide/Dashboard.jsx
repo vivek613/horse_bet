@@ -279,6 +279,8 @@ export const Dashboard = () => {
                       withdraw: false,
                     });
                     setInd(index);
+                    setLiveTrue(false);
+
                     setRaceIndexNum(index);
                     setSelectedState({
                       ...selectedState,

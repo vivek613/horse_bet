@@ -416,7 +416,7 @@ export const AdminDashboard = () => {
                         ...selectedState,
                         raceNum: index,
                       });
-                      setLoadingLive(false);
+                      setLiveTrue(false);
                     }}
                   >
                     <Card.Body className={styles["user-card-body"]}>
