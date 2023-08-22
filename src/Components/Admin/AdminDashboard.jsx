@@ -17,6 +17,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-hot-toast";
 import ReactLoading from "react-loading";
 import { DeleteModel } from "./DeleteModel";
+import { ImVideoCamera } from "react-icons/im";
 
 const convertHour = (data) => {
   const date = new Date(data);
@@ -50,6 +51,9 @@ export const AdminDashboard = () => {
   const [allCountry, setAllCountry] = useState([]);
   const [countryState, setCountryState] = useState([]);
   const [stateWiseData, setStateWiseData] = useState([]);
+  const [liveTrue, setLiveTrue] = useState(false);
+  const [liveVideoData, setLiveVideoData] = useState({});
+  const [loadingLive, setLoadingLive] = useState(false);
 
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
@@ -207,6 +211,33 @@ export const AdminDashboard = () => {
       console.error(error);
       setLoadingg(false);
       setRaceResultLoading(false);
+    }
+  };
+  const handleGetLiveData = async (data) => {
+    const id = data?.data?.externalId.split("-")[1];
+    if (!liveTrue) {
+      setLoadingLive(true);
+
+      try {
+        await axios
+          .get(
+            `https://horse-batting.onrender.com/api/getliveData?id=${data?.uid}&streamId=${id}`
+          )
+          .then((res) => {
+            console.log("ress", res);
+            if (res?.data?.status) {
+              setLiveVideoData(res?.data?.data);
+            }
+            setLoadingLive(false);
+
+            setLiveTrue(true);
+          })
+          .catch((e) => {});
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setLiveTrue(false);
     }
   };
   return (
@@ -385,6 +416,7 @@ export const AdminDashboard = () => {
                         ...selectedState,
                         raceNum: index,
                       });
+                      setLoadingLive(false);
                     }}
                   >
                     <Card.Body className={styles["user-card-body"]}>
@@ -455,6 +487,25 @@ export const AdminDashboard = () => {
 
               {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
                 <>
+                  <Button
+                    className={styles["bet-live-button"]}
+                    onClick={() => handleGetLiveData(oddData)}
+                  >
+                    {loadingLive ? (
+                      <ReactLoading
+                        type={"spin"}
+                        color={"#000000"}
+                        height={30}
+                        width={30}
+                      />
+                    ) : (
+                      <>
+                        {" "}
+                        <ImVideoCamera />
+                        live
+                      </>
+                    )}
+                  </Button>
                   <Button
                     style={{
                       background: "#cdc6eb",
@@ -555,6 +606,32 @@ export const AdminDashboard = () => {
                 </>
               )}
             </div>
+            {liveTrue && (
+              <div className={styles["bet-live-video"]}>
+                <iframe
+                  src={liveVideoData?.phenixEmbedUrl}
+                  title="Phenix Live Streaming"
+                  width="100%"
+                  height="200px"
+                  frameBorder="0"
+                  style={{ position: "absolute", zIndex: 2 }}
+                ></iframe>
+                <video
+                  controls
+                  width="100%"
+                  height="200px"
+                  style={{
+                    position: "absolute",
+                  }}
+                >
+                  <source
+                    src={liveVideoData?.hlsUrl}
+                    type="application/x-mpegURL"
+                  />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            )}
             <Table bordered hover>
               <thead>
                 <tr>
