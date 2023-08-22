@@ -148,3 +148,41 @@ input:checked + .slider:before {
   height: 44px;
   border-radius: 5px;
 }
+.bet-live-button-div{
+  display: flex;
+    align-items: center;
+    gap: 40px;
+    margin: 12px 0px 13px 15px;
+}
+.bet-live-button{
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border: 2px solid rgb(194 185 185);
+    background: #d32f2f!important;
+}
+.bet-live-video{
+  max-height: 200px;
+    margin: 11px 6px;
+}
+.bet-live-video {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.bet-live-video iframe {
+  width: 100%;
+  height: 200px;
+  border: none;
+  display: block;
+}
+
+.bet-live-videovideo {
+  width: 100%;
+  height: 200px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

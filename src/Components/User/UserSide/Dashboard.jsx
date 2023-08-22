@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { NavbarCommon } from "../../Navbar";
 import styles from "./Dashboard.module.css";
 import { db } from "../../../config/firebase";
@@ -10,6 +10,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
 import { Context } from "../../../App";
 import { UserBetModal } from "./UserBetModal";
+import { ImVideoCamera } from "react-icons/im";
+import ReactLoading from "react-loading";
+
 import axios from "axios";
 import { ReactComponent as NoRace } from "../../../Assets/NoRace.svg";
 
@@ -30,18 +33,21 @@ export const Dashboard = () => {
   const [horcesData, setHorcesData] = useState({});
   const [stateWiseData, setStateWiseData] = useState([]);
   const auth = getAuth();
-  const [user, loading, error] = useAuthState(auth);
+  const [user, error] = useAuthState(auth);
+  const [liveTrue, setLiveTrue] = useState(false);
   const [selectedState, setSelectedState] = useState({
     venue: "",
     raceNum: "",
     venueState: "",
   });
   const [walletModal, setWalletModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [ind, setInd] = useState();
   const [allData, setAllData] = useState([]);
   const [allCountry, setAllCountry] = useState([]);
   const [countryState, setCountryState] = useState([]);
+  const [liveVideoData, setLiveVideoData] = useState({});
 
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
@@ -66,6 +72,7 @@ export const Dashboard = () => {
     }
   }, []);
 
+  console.log("alll", liveTrue);
   // const handleGetRace = (e) => {
   //   setParticipants(e);
   // };
@@ -90,10 +97,38 @@ export const Dashboard = () => {
         }
       });
   };
+  const handleGetLiveData = async (data) => {
+    const id = data?.data?.externalId.split("-")[1];
+    if (!liveTrue) {
+      setLoading(true);
+
+      try {
+        await axios
+          .get(
+            `https://horse-batting.onrender.com/api/getliveData?id=${data?.uid}&streamId=${id}`
+          )
+          .then((res) => {
+            console.log("ress", res);
+            if (res?.data?.status) {
+              setLiveVideoData(res?.data?.data);
+            }
+            setLoading(false);
+
+            setLiveTrue(true);
+          })
+          .catch((e) => {});
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setLiveTrue(false);
+    }
+  };
 
   useEffect(() => {
     setParticipants({});
     setCountryState([]);
+    setStateWiseData([]);
     setSelectedState({
       venue: "",
       raceNum: "",
@@ -111,6 +146,9 @@ export const Dashboard = () => {
     const formattedDate = `${day}-${month}-${year}`;
     return formattedDate;
   };
+
+  const hlsUrl =
+    "https://pcast.phenixrts.com/pcast/channel/uk-southeast%23sis.tv%23mkppStrPhnx01Port04.mwquP9iF0JEb/live.m3u8?streamToken=DIGEST:eyJhcHBsaWNhdGlvbklkIjoic2lzLnR2IiwiZGlnZXN0IjoiaE9GeFhabWRIM1FRcGx3Tjd0MktFaytBZnQ2WmkyUER2NzlZR3RJYUpLWnRDVCtsK2F3d2VZSmVPQ3kvODBxNngzVGZpQWlhMlcydVpFVDdzc3U4U3c9PSIsInRva2VuIjoie1wicmVxdWlyZWRUYWdcIjpcImNoYW5uZWxBbGlhczpNSzAxX1BPUlRfMDRcIixcImFwcGx5VGFnc1wiOltcIkN1c3RvbWVyPXhnQ0RPcHZNJmFzc2V0SWQ9MTgxJlVzZXJJZD0wZDY1YmU0Ni03ODExLTQ0YzYtODczMy00MTQwOWMzN2UxM2EmY2hhbm5lbD1SYWNpbmcrVmljdG9yaWElMkZTb3V0aCtBdXN0cmFsaWEmc2VjdXJlPWZhbHNlJnRyYWNrTmFtZT1XYXJybmFtYm9vbCZzcG9ydENvZGU9V0wmY291bnRyeT1BVSZjYXRlZ29yeT1IUiZldmVudElkPTI5OTIyMTImc2Vzc2lvbklkPTBkNjViZTQ2LTc4MTEtNDRjNi04NzMzLTQxNDA5YzM3ZTEzYTE2OTI1MTEyMTcyMDk4MVwiXSxcImV4cGlyZXNcIjoxNjkyNTE4NDE3NzA2fSJ9";
 
   return (
     <>
@@ -241,6 +279,8 @@ export const Dashboard = () => {
                       withdraw: false,
                     });
                     setInd(index);
+                    setLiveTrue(false);
+
                     setRaceIndexNum(index);
                     setSelectedState({
                       ...selectedState,
@@ -265,7 +305,29 @@ export const Dashboard = () => {
         </div>
         {participants && participants?.participants ? (
           <>
-            <p className={styles["user-race-title"]}>Race Details :</p>
+            <div className={styles["bet-live-button-div"]}>
+              <p className={styles["user-race-title"]}>Race Details :</p>
+              <Button
+                className={styles["bet-live-button"]}
+                onClick={() => handleGetLiveData(participants)}
+              >
+                {loading ? (
+                  <ReactLoading
+                    type={"spin"}
+                    color={"#000000"}
+                    height={30}
+                    width={30}
+                  />
+                ) : (
+                  <>
+                    {" "}
+                    <ImVideoCamera />
+                    live
+                  </>
+                )}
+              </Button>
+            </div>
+
             <Card className={styles["race-details-card"]}>
               <Card.Body className={styles["race-id-main"]}>
                 <div>
@@ -335,6 +397,32 @@ export const Dashboard = () => {
                 </Card>
               </Card.Body>
             </Card>
+            {liveTrue && (
+              <div className={styles["bet-live-video"]}>
+                <iframe
+                  src={liveVideoData?.phenixEmbedUrl}
+                  title="Phenix Live Streaming"
+                  width="100%"
+                  height="200px"
+                  frameBorder="0"
+                  style={{ position: "absolute", zIndex: 2 }}
+                ></iframe>
+                <video
+                  controls
+                  width="100%"
+                  height="200px"
+                  style={{
+                    position: "absolute",
+                  }}
+                >
+                  <source
+                    src={liveVideoData?.hlsUrl}
+                    type="application/x-mpegURL"
+                  />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            )}
             {participants?.participants && (
               <Card style={{ marginLeft: "8px", border: "none" }}>
                 <Card.Body
