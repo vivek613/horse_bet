@@ -283,3 +283,53 @@
   top: 0;
   left: 0;
 }
+.bet-all-list-header{
+  display: flex;
+  justify-content: space-around;
+  margin: 5px;
+  border: 1px solid white;
+  border-radius: 5px;
+  background: #cdc6eb;
+
+}
+.bet-all-list-race-show{
+  display: flex;
+  gap: 13px;
+  border-bottom: 1px solid #cdc6eb;
+  padding: 6px;
+  justify-content: space-around;
+
+}
+.bet-all-list-race-venue{
+  height: 23px;
+    width: 61px;
+    font-weight: 500;
+    background: #cdc6eb;
+    padding: 0px 7px;
+    border-radius: 5px;
+
+}
+.bet-all-list-race-venue-div{
+  display: flex;
+  gap: 10px;
+  padding: 0px 7px;
+    border-radius: 5px;
+    max-width: 157px;
+    width: 100%;
+}
+.bet-all-list-race-details{
+  display: flex;
+    gap: 15px;
+    max-width: 120px;
+    width: 100%;
+}
+.user-race-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2px 24px;
+}
+.bet-all-list-div{
+  border: 1px solid #cdc6eb;
+    margin: 0px 42px;
+}
