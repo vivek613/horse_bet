@@ -22,7 +22,13 @@ export const useContext = () => {
     const hours = date.getHours();
     const minutes = date.getMinutes();
 
-    return hours + ":" + minutes;
+    const seconds = date.getSeconds();
+
+    return (
+      hours.toString().padStart(2, "0") +
+      ":" +
+      minutes.toString().padStart(2, "0")
+    );
   };
   return {
     hosreData,

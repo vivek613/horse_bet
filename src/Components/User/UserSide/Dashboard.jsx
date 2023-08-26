@@ -53,7 +53,7 @@ export const Dashboard = () => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setWalletModal(false);
       const all_race = snapshot.docs.map((doc) => doc.data())[0].Allrace;
-      setAllData(all_race);
+      setAllData(all_race.sort((a, b) => a.startDate - b.startDate));
       setAllCountry([
         ...new Set(
           all_race.map((e) => {
