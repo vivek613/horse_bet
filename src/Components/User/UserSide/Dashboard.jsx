@@ -63,7 +63,7 @@ export const Dashboard = () => {
       ]);
     });
   }, [ind]);
-
+  console.log("all", allData);
   useEffect(() => {
     if (getCookie("access_token")) {
       navigate("/dashboard");
@@ -155,7 +155,26 @@ export const Dashboard = () => {
       <NavbarCommon />
       <Toaster position="top-right" reverseOrder={false} />
       <div className={styles["user-race-data-main"]}>
-        <p className={styles["user-race-title"]}>Today's Race</p>
+        <div className={styles["user-race-header"]}>
+          <p className={styles["user-race-title"]}>Today's Race</p>
+          <button
+            className={styles["state-button-user"]}
+            onClick={() => {
+              setParticipants({});
+              setCountryState([]);
+              setStateWiseData([]);
+              setSelectedState({
+                venue: "",
+                raceNum: "",
+                venueState: "",
+              });
+            }}
+          >
+            {" "}
+            Today Race List
+          </button>
+        </div>
+
         <div className={styles["state-array"]}>
           {allCountry.map((items, index) => {
             return (
@@ -682,6 +701,57 @@ export const Dashboard = () => {
           </>
         ) : stateWiseData.length === 0 ? (
           <>
+            <div className={styles["bet-all-list-header"]}>
+              UPCOMING RACE <span>{new Date().toJSON().slice(0, 10)}</span>
+            </div>
+            <div className={styles["bet-all-list-div"]}>
+              {allData.map((e, index) => {
+                return (
+                  <>
+                    <div
+                      className={styles["bet-all-list-race-show"]}
+                      onClick={() => {
+                        getRaceDataTime(e.uid);
+                        // selectedState.raceNum !== index && handleGetRace(e);
+                        setWinPlc({
+                          ...winPlc,
+                          user_id: user.uid,
+                          email: user.email,
+                          race_number: e.data.raceNumber,
+                          race_time: convertHour(e.startDate),
+                          venue: e.data?.venueName || e.venue,
+                          status: "disabled",
+                          loss: false,
+                          withdraw: false,
+                        });
+                        setInd(index);
+                        setLiveTrue(false);
+
+                        setRaceIndexNum(index);
+                        setSelectedState({
+                          ...selectedState,
+                          raceNum: index,
+                          id: e.uid,
+                        });
+                      }}
+                    >
+                      <div className={styles["bet-all-list-race-venue-div"]}>
+                        <div className={styles["bet-all-list-race-venue"]}>
+                          {e?.venue}
+                        </div>
+                        {e?.venue}
+                      </div>
+                      <div className={styles["bet-all-list-race-details"]}>
+                        <span>race {e.data.raceNumber}</span>
+                        <span style={{ fontWeight: 700 }}>
+                          {convertHour(e.startDate)}
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+            </div>
             <div className={styles["please-select-race"]}>
               <NoRace
                 style={{ height: "420px", padding: "110px 50px 0px 50px" }}
