@@ -752,12 +752,6 @@ export const Dashboard = () => {
                 );
               })}
             </div>
-            <div className={styles["please-select-race"]}>
-              <NoRace
-                style={{ height: "420px", padding: "110px 50px 0px 50px" }}
-              />
-              <h1>Oops! No Race Today</h1>
-            </div>
           </>
         ) : (
           <>
