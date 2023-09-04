@@ -192,7 +192,7 @@ export const Dashboard = () => {
                     setCountryState([
                       ...new Set(
                         array.map((data) => {
-                          return data.data.venueName;
+                          return data.data.venueName || data.venue;
                         })
                       ),
                     ]);
