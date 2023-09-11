@@ -14,9 +14,9 @@ import { BiWallet } from "react-icons/bi";
 export const NavbarCommon = () => {
   const navigate = useNavigate();
   const auth = getAuth();
-
+  const { token, expirationTime } = auth.currentUser.getIdTokenResult();
   const { toastData, setToastData } = useContext(Context);
-
+  const [user1, setUser1] = useState(null);
   const [user, loading, error] = useAuthState(auth);
   const [userData, setUserData] = useState({});
 
@@ -28,6 +28,40 @@ export const NavbarCommon = () => {
         setUserData(snapshot.data());
       });
   }, [user]);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, and you can access the user's properties.
+        setUser1(user);
+      } else {
+        // User is signed out or token has expired
+        setUser1(null);
+      }
+    });
+
+    return () => {
+      // Unsubscribe from the auth state observer when the component unmounts.
+      unsubscribe();
+    };
+  }, []);
+  useEffect(() => {
+    if (user) {
+    } else {
+      deleteAllCookies();
+      navigate("/login");
+    }
+  }, [user1]);
+  auth.currentUser
+    .getIdToken(true)
+    .then((refreshedIdToken) => {
+      // The ID token has been refreshed
+      console.log("Refreshed ID token:", refreshedIdToken);
+    })
+    .catch((error) => {
+      // Handle errors if the token refresh fails
+      console.error("Token refresh error:", error);
+    });
 
   const openNav = () => {
     document.getElementById("mySidenav").style.width = "200px";
@@ -48,14 +82,12 @@ export const NavbarCommon = () => {
           className={styles["closebtn"]}
           onClick={() => {
             closeNav();
-          }}
-        >
+          }}>
           &times;
         </a>
         <p
           style={{ width: "95%", margin: "auto" }}
-          className={styles["user-email"]}
-        >
+          className={styles["user-email"]}>
           {userData?.email}
         </p>
         <div className={styles["user-wallet"]}>
@@ -67,8 +99,7 @@ export const NavbarCommon = () => {
           style={{ fontSize: "14px" }}
           onClick={() => {
             navigate("/dashboard/mybet");
-          }}
-        >
+          }}>
           My Bet
         </p>
         {userData?.admin && (
@@ -77,8 +108,7 @@ export const NavbarCommon = () => {
             style={{ fontSize: "14px" }}
             onClick={() => {
               navigate("/dashboard/adduserpage");
-            }}
-          >
+            }}>
             Add User
           </p>
         )}
@@ -90,8 +120,7 @@ export const NavbarCommon = () => {
               deleteAllCookies();
               window.location.reload(true);
             });
-          }}
-        >
+          }}>
           Log out
         </p>
       </div>
@@ -100,8 +129,7 @@ export const NavbarCommon = () => {
           style={{ fontSize: "25px", cursor: "pointer", color: "black" }}
           onClick={() => {
             openNav();
-          }}
-        >
+          }}>
           &#9776;
         </span>
         <div
@@ -111,8 +139,7 @@ export const NavbarCommon = () => {
             display: "flex",
             gap: "11px",
             alignItems: "center",
-          }}
-        >
+          }}>
           <BiWallet
             style={{
               width: "24px",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideNav, {
   Toggle,
   Nav,
@@ -19,24 +19,57 @@ import { deleteAllCookies } from "../../Hook/Cookies";
 
 export const Sidebar = () => {
   const auth = getAuth();
+  const [user1, setUser1] = useState(null);
 
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, and you can access the user's properties.
+        setUser1(user);
+      } else {
+        // User is signed out or token has expired
+        setUser1(null);
+      }
+    });
+
+    return () => {
+      // Unsubscribe from the auth state observer when the component unmounts.
+      unsubscribe();
+    };
+  }, []);
+  useEffect(() => {
+    if (user) {
+    } else {
+      deleteAllCookies();
+      navigate("/login");
+    }
+  }, [user1]);
+  auth.currentUser
+    .getIdToken(true)
+    .then((refreshedIdToken) => {
+      // The ID token has been refreshed
+      console.log("Refreshed ID token:", refreshedIdToken);
+    })
+    .catch((error) => {
+      // Handle errors if the token refresh fails
+      console.error("Token refresh error:", error);
+    });
+
   return (
     <SideNav
       style={{ background: "#cdc6eb" }}
       onSelect={(selected) => {
         // Add your code here
-      }}
-    >
+      }}>
       <SideNav.Toggle />
       <SideNav.Nav>
         <NavItem
           eventKey="home"
           onClick={() => {
             navigate(`/user/admin/usertable/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
-          }}
-        >
+          }}>
           <NavIcon style={{ opacity: "1" }}>
             <FaUserAlt style={{ fill: "black" }} />
           </NavIcon>
@@ -47,8 +80,7 @@ export const Sidebar = () => {
           eventKey="charts"
           onClick={() => {
             navigate(`/user/admin/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
-          }}
-        >
+          }}>
           <NavIcon style={{ opacity: "1" }}>
             <MdAccessTimeFilled style={{ fill: "black" }} />
           </NavIcon>
@@ -59,8 +91,7 @@ export const Sidebar = () => {
           eventKey="charts"
           onClick={() => {
             navigate(`/user/admin/bettable/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
-          }}
-        >
+          }}>
           <NavIcon style={{ opacity: "1" }}>
             <FaUsers style={{ fill: "black" }} />
           </NavIcon>
@@ -75,8 +106,7 @@ export const Sidebar = () => {
               deleteAllCookies();
               window.location.reload(true);
             });
-          }}
-        >
+          }}>
           <NavIcon style={{ opacity: "1" }}>
             <BiLogOut style={{ fill: "black" }} />
           </NavIcon>
