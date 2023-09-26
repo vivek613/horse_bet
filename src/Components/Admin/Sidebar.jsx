@@ -50,7 +50,7 @@ export const Sidebar = () => {
     .getIdToken(true)
     .then((refreshedIdToken) => {
       // The ID token has been refreshed
-      console.log("Refreshed ID token:", refreshedIdToken);
+      // console.log("Refreshed ID token:", refreshedIdToken);
     })
     .catch((error) => {
       // Handle errors if the token refresh fails

@@ -340,6 +340,7 @@ export const AdminDashboard = () => {
               );
             })}
           </div>
+          {console.log("sta", countryState)}
           <div className={styles["state-array"]}>
             {countryState.map((items, index) => {
               return (
