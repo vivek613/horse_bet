@@ -168,8 +168,7 @@ export const Dashboard = () => {
                 raceNum: "",
                 venueState: "",
               });
-            }}
-          >
+            }}>
             {" "}
             Today Race List
           </button>
@@ -213,8 +212,7 @@ export const Dashboard = () => {
                     setStateWiseData([]);
                     setParticipants();
                   }
-                }}
-              >
+                }}>
                 {items || "IND"}
               </button>
             );
@@ -234,7 +232,8 @@ export const Dashboard = () => {
                     items === "MYS" ||
                     items === "HYD" ||
                     items === "PUN" ||
-                    items === "BLR"
+                    items === "BLR" ||
+                    items === "CAL"
                   ) {
                     const array = allData.filter((e) => {
                       return e.venue === items;
@@ -266,8 +265,7 @@ export const Dashboard = () => {
                     });
                     setParticipants();
                   }
-                }}
-              >
+                }}>
                 {items}
               </button>
             );
@@ -306,13 +304,11 @@ export const Dashboard = () => {
                       raceNum: index,
                       id: e.uid,
                     });
-                  }}
-                >
+                  }}>
                   <Card.Body className={styles["user-card-body"]}>
                     <Card.Title>{`Race: ${e?.data?.raceNumber}`}</Card.Title>
                     <Card.Text
-                      className={styles["user-simple-card-time"]}
-                    ></Card.Text>
+                      className={styles["user-simple-card-time"]}></Card.Text>
                     <Card.Text className={styles["user-simple-card-hour"]}>
                       {convertHour(e.startDate)}
                     </Card.Text>
@@ -328,8 +324,7 @@ export const Dashboard = () => {
               <p className={styles["user-race-title"]}>Race Details :</p>
               <Button
                 className={styles["bet-live-button"]}
-                onClick={() => handleGetLiveData(participants)}
-              >
+                onClick={() => handleGetLiveData(participants)}>
                 {loading ? (
                   <ReactLoading
                     type={"spin"}
@@ -376,8 +371,7 @@ export const Dashboard = () => {
                         textAlign: "center",
                         borderRadius: "7px",
                         padding: "4px",
-                      }}
-                    >
+                      }}>
                       {participants?.status.toLowerCase()}
                     </span>
                   </Card.Body>
@@ -424,16 +418,14 @@ export const Dashboard = () => {
                   width="100%"
                   height="200px"
                   frameBorder="0"
-                  style={{ position: "absolute", zIndex: 2 }}
-                ></iframe>
+                  style={{ position: "absolute", zIndex: 2 }}></iframe>
                 <video
                   controls
                   width="100%"
                   height="200px"
                   style={{
                     position: "absolute",
-                  }}
-                >
+                  }}>
                   <source
                     src={liveVideoData?.hlsUrl}
                     type="application/x-mpegURL"
@@ -445,15 +437,13 @@ export const Dashboard = () => {
             {participants?.participants && (
               <Card style={{ marginLeft: "8px", border: "none" }}>
                 <Card.Body
-                  style={{ padding: "0px", width: "calc(100% - 2px)" }}
-                >
+                  style={{ padding: "0px", width: "calc(100% - 2px)" }}>
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                    }}
-                  >
+                    }}>
                     <p style={{ margin: "0px" }}>Horses :</p>
                     <div
                       style={{
@@ -462,8 +452,7 @@ export const Dashboard = () => {
                         justifyContent: "center",
                         gap: "10px",
                         marginRight: "20px",
-                      }}
-                    >
+                      }}>
                       <p className={styles["user-race-title"]}>Win</p>
                       <p className={styles["user-race-title"]}>Plc</p>
                     </div>
@@ -483,18 +472,17 @@ export const Dashboard = () => {
                             style={{
                               marginRight: "15px",
                               height: "83px",
-                            }}
-                          >
+                            }}>
                             <span className={styles["horce-num"]}>
                               {`(${e.data.horseNumber})`}
                             </span>
                             <img
                               className={styles["jersey-image"]}
-                              src={e.data.jerseyUrl}
-                            ></img>
+                              src={e.data.jerseyUrl}></img>
                             <small
-                              className={styles["draw-num"]}
-                            >{`(${e.data.cageNumber})`}</small>
+                              className={
+                                styles["draw-num"]
+                              }>{`(${e.data.cageNumber})`}</small>
                           </div>
                           <div className={styles["details-div"]}>
                             <div className={styles["horce-card-prs-name"]}>
@@ -503,8 +491,7 @@ export const Dashboard = () => {
                             <div
                               style={{
                                 fontSize: "13px",
-                              }}
-                            >
+                              }}>
                               Wt ={e.data.weight},draw :#{e.data.cageNumber}
                             </div>
 
@@ -515,8 +502,7 @@ export const Dashboard = () => {
                                 display: "flex",
                                 justifyContent: "space-between",
                                 flexDirection: "column",
-                              }}
-                            >
+                              }}>
                               <span className={styles["jockey-details"]}>
                                 <span className={styles["jockey-icons"]}>
                                   J
@@ -536,8 +522,7 @@ export const Dashboard = () => {
                             width: "125px",
                             position: "absolute",
                             right: "0",
-                          }}
-                        >
+                          }}>
                           {(participants?.status?.toLowerCase() !==
                             "complete" ||
                             participants?.status?.toLowerCase() !== "result" ||
@@ -600,8 +585,7 @@ export const Dashboard = () => {
                                     // time: Math.round(Date.now() / 1000),
                                   });
                                   setWalletModal(true);
-                                }}
-                              >
+                                }}>
                                 {
                                   participants?.markets[0]?.selections[index]
                                     .odds?.price
@@ -663,8 +647,7 @@ export const Dashboard = () => {
                                     // time: Math.round(Date.now() / 1000),
                                   });
                                   setWalletModal(true);
-                                }}
-                              >
+                                }}>
                                 {
                                   participants?.markets[1]?.selections[index]
                                     .odds?.price
@@ -680,8 +663,7 @@ export const Dashboard = () => {
                               aria-hidden="true"
                               role="presentation"
                               viewBox="0 0 24 24"
-                              style={{ fontSize: "5px", fill: "red" }}
-                            >
+                              style={{ fontSize: "5px", fill: "red" }}>
                               <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"></path>
                             </svg>
                           </div>
@@ -733,8 +715,7 @@ export const Dashboard = () => {
                           raceNum: index,
                           id: e.uid,
                         });
-                      }}
-                    >
+                      }}>
                       <div className={styles["bet-all-list-race-venue-div"]}>
                         <div className={styles["bet-all-list-race-venue"]}>
                           {e?.venue}
