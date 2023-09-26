@@ -253,14 +253,12 @@ export const AdminDashboard = () => {
                 alignItems: "center",
                 height: "50px",
                 marginLeft: "15px",
-              }}
-            >
+              }}>
               <p
                 style={{
                   marginTop: "10px",
                   color: "black",
-                }}
-              >
+                }}>
                 Indian Race data
               </p>
               <Button
@@ -269,8 +267,7 @@ export const AdminDashboard = () => {
                   color: "black",
                   border: "1px solid black",
                 }}
-                onClick={handleRefreshAPi}
-              >
+                onClick={handleRefreshAPi}>
                 {loadingg ? (
                   <ReactLoading
                     type={"spin"}
@@ -286,8 +283,7 @@ export const AdminDashboard = () => {
                 style={{
                   marginTop: "10px",
                   color: "black",
-                }}
-              >
+                }}>
                 Bet Data Delete
               </p>
               <Button
@@ -296,8 +292,7 @@ export const AdminDashboard = () => {
                   color: "black",
                   border: "1px solid black",
                 }}
-                onClick={handleBetDelete}
-              >
+                onClick={handleBetDelete}>
                 Delete
               </Button>
             </div>
@@ -339,8 +334,7 @@ export const AdminDashboard = () => {
                         venue: items,
                       });
                     }
-                  }}
-                >
+                  }}>
                   {items || "IND"}
                 </button>
               );
@@ -360,7 +354,8 @@ export const AdminDashboard = () => {
                       items === "MYS" ||
                       items === "HYD" ||
                       items === "PUN" ||
-                      items === "BLR"
+                      items === "BLR" ||
+                      items === "CAL"
                     ) {
                       const array = newRace.filter((e) => {
                         return e.venue === items;
@@ -392,8 +387,7 @@ export const AdminDashboard = () => {
                         raceNum: "",
                       });
                     }
-                  }}
-                >
+                  }}>
                   {items}
                 </button>
               );
@@ -417,8 +411,7 @@ export const AdminDashboard = () => {
                         raceNum: index,
                       });
                       setLiveTrue(false);
-                    }}
-                  >
+                    }}>
                     <Card.Body className={styles["user-card-body"]}>
                       <Card.Title>{`Race: ${e.data?.raceNumber}`}</Card.Title>
                       <Card.Text className={styles["user-simple-card-time"]}>
@@ -436,8 +429,7 @@ export const AdminDashboard = () => {
 
           <div
             className="table-container"
-            style={{ margin: "20px 60px 20px 0px" }}
-          >
+            style={{ margin: "20px 60px 20px 0px" }}>
             <div
               style={{
                 display: "flex",
@@ -447,8 +439,7 @@ export const AdminDashboard = () => {
                 justifyContent: "space-between",
                 width: "100%",
                 alignItems: "center",
-              }}
-            >
+              }}>
               <div>
                 {(oddData?.status === "COMPLETE" ||
                   oddData?.status?.toLowerCase() === "result") && (
@@ -489,8 +480,7 @@ export const AdminDashboard = () => {
                 <>
                   <Button
                     className={styles["bet-live-button"]}
-                    onClick={() => handleGetLiveData(oddData)}
-                  >
+                    onClick={() => handleGetLiveData(oddData)}>
                     {loadingLive ? (
                       <ReactLoading
                         type={"spin"}
@@ -512,8 +502,7 @@ export const AdminDashboard = () => {
                       color: "black",
                       border: "1px solid black",
                     }}
-                    onClick={() => handleResultRefreshAPI(oddData.uid)}
-                  >
+                    onClick={() => handleResultRefreshAPI(oddData.uid)}>
                     {raceResultLoading ? (
                       <ReactLoading
                         type={"spin"}
@@ -531,8 +520,7 @@ export const AdminDashboard = () => {
                       color: "black",
                       border: "1px solid black",
                     }}
-                    onClick={() => handleRaceRefreshAPi(oddData.uid)}
-                  >
+                    onClick={() => handleRaceRefreshAPi(oddData.uid)}>
                     {raceDataLoading ? (
                       <ReactLoading
                         type={"spin"}
@@ -551,8 +539,7 @@ export const AdminDashboard = () => {
                       height: "50px",
                       margin: "10px 0px",
                       alignItems: "center",
-                    }}
-                  >
+                    }}>
                     <p
                       style={{
                         margin: "0px",
@@ -560,8 +547,7 @@ export const AdminDashboard = () => {
                         color: "red",
                         fontSize: "20px",
                         fontWeight: "600",
-                      }}
-                    >
+                      }}>
                       Stop Bet :{" "}
                     </p>
                     <label class="switch">
@@ -614,16 +600,14 @@ export const AdminDashboard = () => {
                   width="100%"
                   height="200px"
                   frameBorder="0"
-                  style={{ position: "absolute", zIndex: 2 }}
-                ></iframe>
+                  style={{ position: "absolute", zIndex: 2 }}></iframe>
                 <video
                   controls
                   width="100%"
                   height="200px"
                   style={{
                     position: "absolute",
-                  }}
-                >
+                  }}>
                   <source
                     src={liveVideoData?.hlsUrl}
                     type="application/x-mpegURL"
@@ -689,8 +673,7 @@ export const AdminDashboard = () => {
       )}
       <DeleteModel
         show={detelemodalShow}
-        onHide={() => setDeleteModalShow(false)}
-      ></DeleteModel>
+        onHide={() => setDeleteModalShow(false)}></DeleteModel>
     </>
   );
 };

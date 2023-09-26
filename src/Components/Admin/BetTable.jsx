@@ -105,8 +105,7 @@ const BetTable = () => {
               fontSize: "20px",
               color: "black",
               fontWeight: "600",
-            }}
-          >
+            }}>
             User Bet Data :{" "}
           </p>
           <div className={styles["state-array"]}>
@@ -146,8 +145,7 @@ const BetTable = () => {
                         venue: items,
                       });
                     }
-                  }}
-                >
+                  }}>
                   {items || "IND"}
                 </button>
               );
@@ -167,7 +165,8 @@ const BetTable = () => {
                       items === "MYS" ||
                       items === "HYD" ||
                       items === "PUN" ||
-                      items === "BLR"
+                      items === "BLR" ||
+                      items === "CAL"
                     ) {
                       const array = indiaRace.filter((e) => {
                         return e.venue === items;
@@ -202,8 +201,7 @@ const BetTable = () => {
                         raceNum: "",
                       });
                     }
-                  }}
-                >
+                  }}>
                   {items}
                 </button>
               );
@@ -248,8 +246,7 @@ const BetTable = () => {
                         })
                       );
                       setRaceIndexNum(index);
-                    }}
-                  >
+                    }}>
                     <Card.Body className={styles["user-card-body"]}>
                       <Card.Title>{`Race: ${e.data.raceNumber}`}</Card.Title>
                       <Card.Text className={styles["user-simple-card-time"]}>
@@ -271,8 +268,7 @@ const BetTable = () => {
               display: "flex",
               alignItems: "center",
               gap: "10px",
-            }}
-          >
+            }}>
             <p style={{ fontWeight: "600", color: "black" }}>
               Horce Number :-{" "}
             </p>
@@ -297,8 +293,7 @@ const BetTable = () => {
           </div>
           <div
             className="table-container"
-            style={{ margin: "20px 55px 20px -10px" }}
-          >
+            style={{ margin: "20px 55px 20px -10px" }}>
             <Table bordered hover>
               <thead>
                 <tr>
