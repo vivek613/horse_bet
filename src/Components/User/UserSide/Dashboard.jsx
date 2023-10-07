@@ -233,7 +233,8 @@ export const Dashboard = () => {
                     items === "HYD" ||
                     items === "PUN" ||
                     items === "BLR" ||
-                    items === "CAL"
+                    items === "CAL" ||
+                    items === "MAD"
                   ) {
                     const array = allData.filter((e) => {
                       return e.venue === items;
