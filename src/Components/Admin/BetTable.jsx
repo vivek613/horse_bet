@@ -166,7 +166,8 @@ const BetTable = () => {
                       items === "HYD" ||
                       items === "PUN" ||
                       items === "BLR" ||
-                      items === "CAL"
+                      items === "CAL" ||
+                      items === "MAD"
                     ) {
                       const array = indiaRace.filter((e) => {
                         return e.venue === items;
