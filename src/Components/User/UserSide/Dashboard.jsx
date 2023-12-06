@@ -566,7 +566,7 @@ export const Dashboard = () => {
                                   background:
                                     participants?.status?.toLowerCase() ===
                                     "published"
-                                      ? "#cdc6eb"
+                                      ? "#000000"
                                       : "#827e7e",
                                 }}
                                 className={styles["odds-button"]}
@@ -629,7 +629,7 @@ export const Dashboard = () => {
                                   background:
                                     participants?.status?.toLowerCase() ===
                                     "published"
-                                      ? "#cdc6eb"
+                                      ? "#000000"
                                       : "#827e7e",
                                 }}
                                 className={styles["odds-button"]}

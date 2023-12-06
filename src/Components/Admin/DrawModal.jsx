@@ -42,6 +42,8 @@ const DrawModal = (props) => {
               props?.updateData?.data?.venue === data.venue
             ) {
               data.withdraw = true;
+              data.status = "disabled";
+              data.loss = false;
             }
             return data;
           }),
@@ -58,6 +60,8 @@ const DrawModal = (props) => {
               props?.updateData?.data?.venue === data.venue
             ) {
               data.withdraw = true;
+              data.status = "disabled";
+              data.loss = false;
             }
             return data;
           }),
