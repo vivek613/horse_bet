@@ -138,12 +138,12 @@ const BetTable = () => {
             BWP Daily Service Charge : {adminBWPData}
           </p>
 
-          <p style={{ margin: "0px" }}>
+          {/* <p style={{ margin: "0px" }}>
             Today Total loss : {totalPotentialAmountDisabled}
           </p>
           <p style={{ margin: "0px" }}>
             Today Total profit : {totalUserAmountLoss}
-          </p>
+          </p> */}
           <div className={styles["state-array"]}>
             {allCountry?.map((items, index) => {
               return (
