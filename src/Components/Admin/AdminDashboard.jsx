@@ -253,9 +253,6 @@ export const AdminDashboard = () => {
       <div>
         <Sidebar />
         <div className="user-data-tabel">
-          <p style={{ margin: "0px" }}>
-            BWP Daily Service Charge : {adminBWPData}
-          </p>
           {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
             <div
               style={{
@@ -311,6 +308,10 @@ export const AdminDashboard = () => {
               >
                 Delete
               </Button>
+
+              <p style={{ margin: "0px" }}>
+                BWP Daily Service Charge : {adminBWPData}
+              </p>
             </div>
           )}
           <div className={styles["state-array"]}>
