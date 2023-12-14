@@ -46,16 +46,6 @@ export const Sidebar = () => {
       navigate("/login");
     }
   }, [user1]);
-  auth.currentUser
-    .getIdToken(true)
-    .then((refreshedIdToken) => {
-      // The ID token has been refreshed
-      // console.log("Refreshed ID token:", refreshedIdToken);
-    })
-    .catch((error) => {
-      // Handle errors if the token refresh fails
-      console.error("Token refresh error:", error);
-    });
 
   return (
     <SideNav
