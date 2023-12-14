@@ -140,7 +140,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                       setShowValue(false);
                       setWinPlc({
                         ...winPlc,
-                        user_amount: e.target.value,
+                        user_amount: Number(e.target.value),
                         dividend: 0,
                         potential_amount:
                           Number(e.target.value) * Number(winPlc.value) +

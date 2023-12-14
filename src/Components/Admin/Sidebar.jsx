@@ -20,7 +20,7 @@ import { deleteAllCookies } from "../../Hook/Cookies";
 export const Sidebar = () => {
   const auth = getAuth();
   const [user1, setUser1] = useState(null);
-
+  console.log("auth", auth);
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   useEffect(() => {
@@ -62,14 +62,16 @@ export const Sidebar = () => {
       style={{ background: "#cdc6eb" }}
       onSelect={(selected) => {
         // Add your code here
-      }}>
+      }}
+    >
       <SideNav.Toggle />
       <SideNav.Nav>
         <NavItem
           eventKey="home"
           onClick={() => {
             navigate(`/user/admin/usertable/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
-          }}>
+          }}
+        >
           <NavIcon style={{ opacity: "1" }}>
             <FaUserAlt style={{ fill: "black" }} />
           </NavIcon>
@@ -80,7 +82,8 @@ export const Sidebar = () => {
           eventKey="charts"
           onClick={() => {
             navigate(`/user/admin/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
-          }}>
+          }}
+        >
           <NavIcon style={{ opacity: "1" }}>
             <MdAccessTimeFilled style={{ fill: "black" }} />
           </NavIcon>
@@ -91,7 +94,8 @@ export const Sidebar = () => {
           eventKey="charts"
           onClick={() => {
             navigate(`/user/admin/bettable/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
-          }}>
+          }}
+        >
           <NavIcon style={{ opacity: "1" }}>
             <FaUsers style={{ fill: "black" }} />
           </NavIcon>
@@ -106,7 +110,8 @@ export const Sidebar = () => {
               deleteAllCookies();
               window.location.reload(true);
             });
-          }}>
+          }}
+        >
           <NavIcon style={{ opacity: "1" }}>
             <BiLogOut style={{ fill: "black" }} />
           </NavIcon>
