@@ -33,7 +33,7 @@ const DrawModal = (props) => {
       db.collection("participant")
         .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
-          data: userBetData.map((data, index) => {
+          data: betData.map((data, index) => {
             if (
               props?.updateData?.data?.time === data.time &&
               props?.updateData?.data?.user_id === data.user_id &&

@@ -28,7 +28,7 @@ const BetTable = () => {
   const [allCountry, setAllCountry] = useState([]);
   const [countryState, setCountryState] = useState([]);
   const [stateWiseData, setStateWiseData] = useState([]);
-
+  const [adminBWPData, setAdminBWPData] = useState(0);
   const [selectedState, setSelectedState] = useState({});
   const [raceWiseBetData, setRaceWiseBetData] = useState();
   const [raceMainData, setRaceMainData] = useState([]);
@@ -74,6 +74,30 @@ const BetTable = () => {
       })
     );
   }, [betData]);
+  useEffect(() => {
+    db.collection("users")
+      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+      .onSnapshot((snapshot) => {
+        console.log("user", snapshot.data());
+        setAdminBWPData(snapshot.data()?.sc);
+      });
+  }, []);
+
+  let totalPotentialAmountDisabled = 0;
+  let totalUserAmountLoss = 0;
+
+  // Iterate through the data array
+  betData?.forEach((entry) => {
+    if (entry.status === "enabled") {
+      // Add potential amount for entries with status disabled
+      totalPotentialAmountDisabled += entry.potential_amount;
+    }
+
+    if (entry.loss) {
+      // Add user amount for entries with loss true
+      totalUserAmountLoss += parseInt(entry.user_amount);
+    }
+  });
 
   const filterDataByHorseNumber = (horseNumberInput) => {
     // Convert the input value to a number (assuming the input is a string)
@@ -105,8 +129,20 @@ const BetTable = () => {
               fontSize: "20px",
               color: "black",
               fontWeight: "600",
-            }}>
+            }}
+          >
             User Bet Data :{" "}
+          </p>
+
+          <p style={{ margin: "0px" }}>
+            BWP Daily Service Charge : {adminBWPData}
+          </p>
+
+          <p style={{ margin: "0px" }}>
+            Today Total loss : {totalPotentialAmountDisabled}
+          </p>
+          <p style={{ margin: "0px" }}>
+            Today Total profit : {totalUserAmountLoss}
           </p>
           <div className={styles["state-array"]}>
             {allCountry?.map((items, index) => {
@@ -145,7 +181,8 @@ const BetTable = () => {
                         venue: items,
                       });
                     }
-                  }}>
+                  }}
+                >
                   {items || "IND"}
                 </button>
               );
@@ -203,7 +240,8 @@ const BetTable = () => {
                         raceNum: "",
                       });
                     }
-                  }}>
+                  }}
+                >
                   {items}
                 </button>
               );
@@ -248,7 +286,8 @@ const BetTable = () => {
                         })
                       );
                       setRaceIndexNum(index);
-                    }}>
+                    }}
+                  >
                     <Card.Body className={styles["user-card-body"]}>
                       <Card.Title>{`Race: ${e.data.raceNumber}`}</Card.Title>
                       <Card.Text className={styles["user-simple-card-time"]}>
@@ -270,7 +309,8 @@ const BetTable = () => {
               display: "flex",
               alignItems: "center",
               gap: "10px",
-            }}>
+            }}
+          >
             <p style={{ fontWeight: "600", color: "black" }}>
               Horce Number :-{" "}
             </p>
@@ -295,7 +335,8 @@ const BetTable = () => {
           </div>
           <div
             className="table-container"
-            style={{ margin: "20px 55px 20px -10px" }}>
+            style={{ margin: "20px 55px 20px -10px" }}
+          >
             <Table bordered hover>
               <thead>
                 <tr>

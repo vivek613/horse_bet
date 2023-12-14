@@ -43,6 +43,7 @@ const StatusModel = (props) => {
             ) {
               data.status = "enabled";
               data.withdraw = false;
+              data.loss = false;
             }
             return data;
           }),
@@ -60,6 +61,7 @@ const StatusModel = (props) => {
             ) {
               data.status = "enabled";
               data.withdraw = false;
+              data.loss = false;
             }
             return data;
           }),
