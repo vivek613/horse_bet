@@ -82,24 +82,29 @@ export const NavbarCommon = () => {
           className={styles["closebtn"]}
           onClick={() => {
             closeNav();
-          }}>
+          }}
+        >
           &times;
         </a>
         <p
           style={{ width: "95%", margin: "auto" }}
-          className={styles["user-email"]}>
+          className={styles["user-email"]}
+        >
           {userData?.email}
         </p>
         <div className={styles["user-wallet"]}>
           <p className={styles["user-balance-show"]}>Balance : </p>
-          <p className={styles["user-balance-show"]}>₹ {userData?.amount}</p>
+          <p className={styles["user-balance-show"]} style={{ color: "black" }}>
+            ₹ {userData?.amount}
+          </p>
         </div>
         <p
           className={styles["user-email"]}
           style={{ fontSize: "14px" }}
           onClick={() => {
             navigate("/dashboard/mybet");
-          }}>
+          }}
+        >
           My Bet
         </p>
         {userData?.admin && (
@@ -108,7 +113,8 @@ export const NavbarCommon = () => {
             style={{ fontSize: "14px" }}
             onClick={() => {
               navigate("/dashboard/adduserpage");
-            }}>
+            }}
+          >
             Add User
           </p>
         )}
@@ -120,7 +126,8 @@ export const NavbarCommon = () => {
               deleteAllCookies();
               window.location.reload(true);
             });
-          }}>
+          }}
+        >
           Log out
         </p>
       </div>
@@ -129,7 +136,8 @@ export const NavbarCommon = () => {
           style={{ fontSize: "25px", cursor: "pointer", color: "black" }}
           onClick={() => {
             openNav();
-          }}>
+          }}
+        >
           &#9776;
         </span>
         <div
@@ -139,7 +147,8 @@ export const NavbarCommon = () => {
             display: "flex",
             gap: "11px",
             alignItems: "center",
-          }}>
+          }}
+        >
           <BiWallet
             style={{
               width: "24px",
