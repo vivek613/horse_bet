@@ -3,7 +3,7 @@
   justify-content: flex-end;
 }
 .navbar-div {
-  background: #cdc6eb;
+  background: #000000;
   padding-left: 15px;
   display: flex;
   justify-content: space-between;
@@ -21,7 +21,7 @@
 }
 .user-balance-show {
   font-size: 14px;
-  color: green;
+  color: #ffffff;
 }
 .user-wallet {
   display: flex;
