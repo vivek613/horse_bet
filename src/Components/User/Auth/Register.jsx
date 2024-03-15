@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "../../../Assets/common.css";
 import { FaLock } from "react-icons/fa";
@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   getAuth,
+  fetchSignInMethodsForEmail,
 } from "firebase/auth";
 import { db, auth } from "../../../config/firebase";
 import { toast, Toaster } from "react-hot-toast";
@@ -15,16 +16,43 @@ export const Register = () => {
   const navigate = useNavigate();
   const [registerLoading, setregisterLoading] = useState(false);
   const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
+  const [userData, setUserData] = useState([]);
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
     phoneNumber: "",
   });
 
+  useEffect(() => {
+    db.collection("users").onSnapshot((snapshot) => {
+      setUserData(snapshot.docs.map((doc) => doc.data()));
+    });
+  }, []);
   const registerWithEmailAndPassword = async (email, password, phoneNumber) => {
+    setregisterLoading(true);
+
     const authentication = getAuth();
     if (isValidPhoneNumber) {
-      setregisterLoading(true);
+      const emailSignInMethods = await fetchSignInMethodsForEmail(
+        authentication,
+        email
+      );
+      if (emailSignInMethods.length > 0) {
+        setregisterLoading(false);
+        toast.error(`Email is already registered.`);
+        return;
+      }
+
+      // Check if the phone number is already registered
+      const phoneNumberSignInMethods = userData.filter(
+        (d) => d.phoneNumber === phoneNumber
+      );
+
+      if (phoneNumberSignInMethods.length > 0) {
+        setregisterLoading(false);
+        toast.error(`Phone number is already registered.`);
+        return;
+      }
       try {
         const res = createUserWithEmailAndPassword(
           authentication,
