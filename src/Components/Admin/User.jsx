@@ -11,12 +11,14 @@ import { Toaster } from "react-hot-toast";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { DeleteUserModal } from "./DeleteUserModal";
+import ExcelDownloadButton from "./DownloadExcle";
 
 const User = () => {
   const { userData, setUseData } = useContext(Context);
   const auth = getAuth();
   const [user] = useAuthState(auth);
   const [table, setTable] = useState([]);
+  const [adminTableData, setAdminTableData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [addModalShow, setAddModalShow] = useState(false);
   const [deleteUserShow, setdeleteUserShow] = useState(false);
@@ -27,7 +29,11 @@ const User = () => {
 
   useEffect(() => {
     db.collection("users").onSnapshot((snapshot) => {
-      setTable(snapshot.docs.map((doc) => doc.data()));
+      const userData = snapshot.docs.map((doc) => doc.data());
+      const adminData = userData?.filter((e) => e.admin);
+      const customer = userData?.filter((e) => !e.admin);
+      setAdminTableData([...adminData]);
+      setTable([...customer]);
     });
   }, []);
 
@@ -66,26 +72,79 @@ const User = () => {
                 BWP Daily Service Charge :{" "}
                 {table?.find((e) => e.uid == user?.uid)?.sc}
               </p>
-              <button
-                onClick={() => {
-                  setAddModalShow(true);
-                }}
-                style={{
-                  margin: "10px",
-                  height: "36px",
-                  padding: "0px 10px",
-                  outline: "none",
-                  border: "1px solid black",
-                  background: "#cdc6eb",
-                  color: "black",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
-              >
-                Add User
-              </button>
+              <div>
+                <ExcelDownloadButton
+                  data={table || []}
+                  filename="example.xlsx"
+                />
+                <button
+                  onClick={() => {
+                    setAddModalShow(true);
+                  }}
+                  style={{
+                    margin: "10px",
+                    height: "36px",
+                    padding: "0px 10px",
+                    outline: "none",
+                    border: "1px solid black",
+                    background: "#cdc6eb",
+                    color: "black",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Add User
+                </button>
+              </div>
             </div>
           )}
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>user id</th>
+                <th>email</th>
+                <th>amount</th>
+                <th>Phone</th>
+                <th>admin</th>
+                <th>edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
+                adminTableData?.map((e, index) => {
+                  return (
+                    <tr index={index}>
+                      <td>{e.uid}</td>
+                      <td>{e.email}</td>
+                      <td>{e.amount}</td>
+                      <td>{e?.phoneNumber}</td>
+                      <td>{e?.admin}</td>
+                      <td>
+                        <FiEdit
+                          onClick={(event) => {
+                            event.preventDefault();
+                            setModalShow(true);
+                            setUseData(e);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <AiFillDelete
+                          onClick={() => {
+                            setdeleteData({
+                              userId: e.uid,
+                              userEmail: e.email,
+                            });
+                            setdeleteUserShow(true);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </Table>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -107,7 +166,7 @@ const User = () => {
                       <td>{e.email}</td>
                       <td>{e.amount}</td>
                       <td>{e?.phoneNumber}</td>
-                      <td>{`${e.admin}`}</td>
+                      <td>{e?.admin}</td>
                       <td>
                         <FiEdit
                           onClick={(event) => {
