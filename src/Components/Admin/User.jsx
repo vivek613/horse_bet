@@ -59,6 +59,7 @@ const User = () => {
             margin: "10px 10px 10px 72px",
           }}
         >
+
           {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
             <div
               style={{
@@ -70,7 +71,7 @@ const User = () => {
             >
               <p style={{ margin: "0px" }}>
                 BWP Daily Service Charge :{" "}
-                {table?.find((e) => e.uid == user?.uid)?.sc}
+                {adminTableData[0]?.sc}
               </p>
               <div>
                 <ExcelDownloadButton
@@ -98,6 +99,7 @@ const User = () => {
               </div>
             </div>
           )}
+
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -111,85 +113,68 @@ const User = () => {
               </tr>
             </thead>
             <tbody>
-              {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
-                adminTableData?.map((e, index) => {
-                  return (
-                    <tr index={index}>
-                      <td>{e.uid}</td>
-                      <td>{e.email}</td>
-                      <td>{e.amount}</td>
-                      <td>{e?.phoneNumber}</td>
-                      <td>{e?.admin}</td>
-                      <td>
-                        <FiEdit
-                          onClick={(event) => {
-                            event.preventDefault();
-                            setModalShow(true);
-                            setUseData(e);
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <AiFillDelete
-                          onClick={() => {
-                            setdeleteData({
-                              userId: e.uid,
-                              userEmail: e.email,
-                            });
-                            setdeleteUserShow(true);
-                          }}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </Table>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>user id</th>
-                <th>email</th>
-                <th>amount</th>
-                <th>Phone</th>
-                <th>admin</th>
-                <th>edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
-                table?.map((e, index) => {
-                  return (
-                    <tr index={index}>
-                      <td>{e.uid}</td>
-                      <td>{e.email}</td>
-                      <td>{e.amount}</td>
-                      <td>{e?.phoneNumber}</td>
-                      <td>{e?.admin}</td>
-                      <td>
-                        <FiEdit
-                          onClick={(event) => {
-                            event.preventDefault();
-                            setModalShow(true);
-                            setUseData(e);
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <AiFillDelete
-                          onClick={() => {
-                            setdeleteData({
-                              userId: e.uid,
-                              userEmail: e.email,
-                            });
-                            setdeleteUserShow(true);
-                          }}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
+              {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (<>{adminTableData?.map((e, index) => {
+                return (
+                  <tr index={index}>
+                    <td>{e.uid}</td>
+                    <td>{e.email}</td>
+                    <td>{e.amount}</td>
+                    <td>{e?.phoneNumber}</td>
+                    <td>{`${e?.admin}`}</td>
+                    <td>
+                      <FiEdit
+                        onClick={(event) => {
+                          event.preventDefault();
+                          setModalShow(true);
+                          setUseData(e);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <AiFillDelete
+                        onClick={() => {
+                          setdeleteData({
+                            userId: e.uid,
+                            userEmail: e.email,
+                          });
+                          setdeleteUserShow(true);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}{table?.map((e, index) => {
+                return (
+                  <tr index={index}>
+                    <td>{e.uid}</td>
+                    <td>{e.email}</td>
+                    <td>{e.amount}</td>
+                    <td>{e?.phoneNumber}</td>
+                    <td>{e?.admin}</td>
+                    <td>
+                      <FiEdit
+                        onClick={(event) => {
+                          event.preventDefault();
+                          setModalShow(true);
+                          setUseData(e);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <AiFillDelete
+                        onClick={() => {
+                          setdeleteData({
+                            userId: e.uid,
+                            userEmail: e.email,
+                          });
+                          setdeleteUserShow(true);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}</>)
+              }
             </tbody>
           </Table>
         </div>
