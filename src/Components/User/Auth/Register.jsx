@@ -67,7 +67,7 @@ export const Register = () => {
               email,
               admin: false,
               phoneNumber,
-              amount: "0",
+              amount: 0,
             });
 
             toast.success(`welcome ${response?.user?.email}`);
@@ -180,14 +180,14 @@ export const Register = () => {
                   type="submit"
                   class="btn btn-primary btn-block btn-lg"
                   value="Login"
-                  // onClick={(e) => {
-                  //   e.preventDefault();
-                  //   registerWithEmailAndPassword(
-                  //     registerData.email,
-                  //     registerData.password,
-                  //     registerData.phoneNumber
-                  //   );
-                  // }}
+                // onClick={(e) => {
+                //   e.preventDefault();
+                //   registerWithEmailAndPassword(
+                //     registerData.email,
+                //     registerData.password,
+                //     registerData.phoneNumber
+                //   );
+                // }}
                 >
                   Register
                 </button>
