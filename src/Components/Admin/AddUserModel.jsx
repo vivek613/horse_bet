@@ -30,7 +30,7 @@ export const AddUserModel = (props) => {
           email: addUser.email,
           // password: addUser.password,
           admin: addUser.admin,
-          amount: "0",
+          amount: 0,
         });
       })
 
