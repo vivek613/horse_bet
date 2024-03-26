@@ -63,7 +63,6 @@ export const Dashboard = () => {
       ]);
     });
   }, [ind]);
-  console.log("all", allData);
   useEffect(() => {
     if (getCookie("access_token")) {
       navigate("/dashboard");
@@ -72,7 +71,6 @@ export const Dashboard = () => {
     }
   }, []);
 
-  console.log("alll", liveTrue);
   // const handleGetRace = (e) => {
   //   setParticipants(e);
   // };
@@ -116,7 +114,7 @@ export const Dashboard = () => {
 
             setLiveTrue(true);
           })
-          .catch((e) => {});
+          .catch((e) => { });
       } catch (error) {
         console.error(error);
       }
@@ -365,11 +363,11 @@ export const Dashboard = () => {
                       style={{
                         background:
                           participants?.status === "COMPLETE" ||
-                          participants?.status === "STOP"
+                            participants?.status === "STOP"
                             ? "#f44336"
                             : participants?.status.toLowerCase() === "suspended"
-                            ? "#f44336"
-                            : "#1976d2",
+                              ? "#f44336"
+                              : "#1976d2",
                         textAlign: "center",
                         borderRadius: "7px",
                         padding: "4px",
@@ -377,38 +375,37 @@ export const Dashboard = () => {
                       {participants?.status.toLowerCase()}
                     </span>
                   </Card.Body>
-                  {console.log("ddddd", participants?.result?.standings)}
                   {(participants?.status?.toLowerCase() === "complete" ||
                     participants?.status?.toLowerCase() === "result") && (
-                    <Card.Body className={styles["results-div"]}>
-                      {Object.values(participants?.result?.standings).map(
-                        (item, index) => {
-                          return (
-                            <>
-                              <div className={styles["jersey-div"]}>
-                                <span className={styles["horce-num"]}>
-                                  {index + 1}
-                                  <sup>
-                                    {index === 0
-                                      ? "st"
-                                      : index === 1
-                                      ? "nd"
-                                      : "rd"}
-                                  </sup>
-                                </span>
+                      <Card.Body className={styles["results-div"]}>
+                        {Object.values(participants?.result?.standings).map(
+                          (item, index) => {
+                            return (
+                              <>
+                                <div className={styles["jersey-div"]}>
+                                  <span className={styles["horce-num"]}>
+                                    {index + 1}
+                                    <sup>
+                                      {index === 0
+                                        ? "st"
+                                        : index === 1
+                                          ? "nd"
+                                          : "rd"}
+                                    </sup>
+                                  </span>
 
-                                <small className={styles["draw-num"]}>
-                                  {item.map((e) => {
-                                    return <>{e},</>;
-                                  })}
-                                </small>
-                              </div>
-                            </>
-                          );
-                        }
-                      )}
-                    </Card.Body>
-                  )}
+                                  <small className={styles["draw-num"]}>
+                                    {item.map((e) => {
+                                      return <>{e},</>;
+                                    })}
+                                  </small>
+                                </div>
+                              </>
+                            );
+                          }
+                        )}
+                      </Card.Body>
+                    )}
                 </Card>
               </Card.Body>
             </Card>
@@ -529,134 +526,134 @@ export const Dashboard = () => {
                             "complete" ||
                             participants?.status?.toLowerCase() !== "result" ||
                             participants?.status?.toLowerCase() !== "stop") && (
-                            <>
-                              <button
-                                disabled={
-                                  participants?.status?.toLowerCase() ===
-                                    "published" &&
-                                  Number(
-                                    participants?.markets[0]?.selections[index]
-                                      .odds?.price
-                                  ) !== 0 &&
-                                  Number(
-                                    participants?.markets[0]?.selections[index]
-                                      .odds?.price
-                                  ) !== 0.0 &&
-                                  e.data.isRunner
-                                    ? false
-                                    : true
-                                }
-                                style={{
-                                  cursor:
+                              <>
+                                <button
+                                  disabled={
                                     participants?.status?.toLowerCase() ===
                                       "published" &&
-                                    Number(
-                                      participants?.markets[0]?.selections[
-                                        index
-                                      ].odds?.price
-                                    ) !== 0 &&
-                                    Number(
-                                      participants?.markets[0]?.selections[
-                                        index
-                                      ].odds?.price
-                                    ) !== 0.0 &&
-                                    e.data.isRunner
-                                      ? "pointer"
-                                      : "not-allowed",
-                                  background:
-                                    participants?.status?.toLowerCase() ===
-                                    "published"
-                                      ? "#000000"
-                                      : "#827e7e",
-                                }}
-                                className={styles["odds-button"]}
-                                onClick={() => {
-                                  setIndexNum(index);
-                                  setHorcesData(e);
-                                  setWinPlc({
-                                    ...winPlc,
-                                    type: "WIN",
-                                    value:
-                                      participants?.markets[0]?.selections[
-                                        index
-                                      ].odds?.price,
-                                    jockey_name: e.data.jockey,
-                                    horce_number: e.data.horseNumber,
-                                    time: new Date().getTime(),
-                                    date: todayDate(),
-                                    // time: Math.round(Date.now() / 1000),
-                                  });
-                                  setWalletModal(true);
-                                }}>
-                                {
-                                  participants?.markets[0]?.selections[index]
-                                    .odds?.price
-                                }
-                              </button>
-                              <button
-                                disabled={
-                                  participants?.status?.toLowerCase() ===
-                                    "published" &&
-                                  Number(
+                                      Number(
+                                        participants?.markets[0]?.selections[index]
+                                          .odds?.price
+                                      ) !== 0 &&
+                                      Number(
+                                        participants?.markets[0]?.selections[index]
+                                          .odds?.price
+                                      ) !== 0.0 &&
+                                      e.data.isRunner
+                                      ? false
+                                      : true
+                                  }
+                                  style={{
+                                    cursor:
+                                      participants?.status?.toLowerCase() ===
+                                        "published" &&
+                                        Number(
+                                          participants?.markets[0]?.selections[
+                                            index
+                                          ].odds?.price
+                                        ) !== 0 &&
+                                        Number(
+                                          participants?.markets[0]?.selections[
+                                            index
+                                          ].odds?.price
+                                        ) !== 0.0 &&
+                                        e.data.isRunner
+                                        ? "pointer"
+                                        : "not-allowed",
+                                    background:
+                                      participants?.status?.toLowerCase() ===
+                                        "published"
+                                        ? "#000000"
+                                        : "#827e7e",
+                                  }}
+                                  className={styles["odds-button"]}
+                                  onClick={() => {
+                                    setIndexNum(index);
+                                    setHorcesData(e);
+                                    setWinPlc({
+                                      ...winPlc,
+                                      type: "WIN",
+                                      value:
+                                        participants?.markets[0]?.selections[
+                                          index
+                                        ].odds?.price,
+                                      jockey_name: e.data.jockey,
+                                      horce_number: e.data.horseNumber,
+                                      time: new Date().getTime(),
+                                      date: todayDate(),
+                                      // time: Math.round(Date.now() / 1000),
+                                    });
+                                    setWalletModal(true);
+                                  }}>
+                                  {
                                     participants?.markets[0]?.selections[index]
                                       .odds?.price
-                                  ) !== 0 &&
-                                  Number(
-                                    participants?.markets[0]?.selections[index]
-                                      .odds?.price
-                                  ) !== 0.0 &&
-                                  e.data.isRunner
-                                    ? false
-                                    : true
-                                }
-                                style={{
-                                  cursor:
+                                  }
+                                </button>
+                                <button
+                                  disabled={
                                     participants?.status?.toLowerCase() ===
                                       "published" &&
-                                    Number(
-                                      participants?.markets[1]?.selections[
-                                        index
-                                      ].odds?.price
-                                    ) !== 0 &&
-                                    Number(
-                                      participants?.markets[1]?.selections[
-                                        index
-                                      ].odds?.price
-                                    ) !== 0.0 &&
-                                    e.data.isRunner
-                                      ? "pointer"
-                                      : "not-allowed",
-                                  background:
-                                    participants?.status?.toLowerCase() ===
-                                    "published"
-                                      ? "#000000"
-                                      : "#827e7e",
-                                }}
-                                className={styles["odds-button"]}
-                                onClick={() => {
-                                  setHorcesData(e);
-                                  setWinPlc({
-                                    ...winPlc,
-                                    type: "PLC",
-                                    value:
-                                      participants?.markets[1]?.selections[
-                                        index
-                                      ].odds?.price,
-                                    jockey_name: e.data.jockey,
-                                    horce_number: e.data.horseNumber,
-                                    time: new Date().getTime(),
-                                    date: todayDate(),
-                                    // time: Math.round(Date.now() / 1000),
-                                  });
-                                  setWalletModal(true);
-                                }}>
-                                {
-                                  participants?.markets[1]?.selections[index]
-                                    .odds?.price
-                                }
-                              </button>
-                            </>
-                          )}
+                                      Number(
+                                        participants?.markets[0]?.selections[index]
+                                          .odds?.price
+                                      ) !== 0 &&
+                                      Number(
+                                        participants?.markets[0]?.selections[index]
+                                          .odds?.price
+                                      ) !== 0.0 &&
+                                      e.data.isRunner
+                                      ? false
+                                      : true
+                                  }
+                                  style={{
+                                    cursor:
+                                      participants?.status?.toLowerCase() ===
+                                        "published" &&
+                                        Number(
+                                          participants?.markets[1]?.selections[
+                                            index
+                                          ].odds?.price
+                                        ) !== 0 &&
+                                        Number(
+                                          participants?.markets[1]?.selections[
+                                            index
+                                          ].odds?.price
+                                        ) !== 0.0 &&
+                                        e.data.isRunner
+                                        ? "pointer"
+                                        : "not-allowed",
+                                    background:
+                                      participants?.status?.toLowerCase() ===
+                                        "published"
+                                        ? "#000000"
+                                        : "#827e7e",
+                                  }}
+                                  className={styles["odds-button"]}
+                                  onClick={() => {
+                                    setHorcesData(e);
+                                    setWinPlc({
+                                      ...winPlc,
+                                      type: "PLC",
+                                      value:
+                                        participants?.markets[1]?.selections[
+                                          index
+                                        ].odds?.price,
+                                      jockey_name: e.data.jockey,
+                                      horce_number: e.data.horseNumber,
+                                      time: new Date().getTime(),
+                                      date: todayDate(),
+                                      // time: Math.round(Date.now() / 1000),
+                                    });
+                                    setWalletModal(true);
+                                  }}>
+                                  {
+                                    participants?.markets[1]?.selections[index]
+                                      .odds?.price
+                                  }
+                                </button>
+                              </>
+                            )}
                         </div>
                         {!e.data.isRunner && (
                           <div className={styles["horce-runner-div"]}>

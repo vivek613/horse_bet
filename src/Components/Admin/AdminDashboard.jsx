@@ -84,7 +84,6 @@ export const AdminDashboard = () => {
     db.collection("users")
       .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
-        console.log("user", snapshot.data());
         setAdminBWPData(snapshot.data()?.sc);
       });
   }, []);
@@ -240,7 +239,7 @@ export const AdminDashboard = () => {
 
             setLiveTrue(true);
           })
-          .catch((e) => {});
+          .catch((e) => { });
       } catch (error) {
         console.error(error);
       }
@@ -358,7 +357,6 @@ export const AdminDashboard = () => {
               );
             })}
           </div>
-          {console.log("sta", countryState)}
           <div className={styles["state-array"]}>
             {countryState.map((items, index) => {
               return (
@@ -468,37 +466,37 @@ export const AdminDashboard = () => {
               <div>
                 {(oddData?.status === "COMPLETE" ||
                   oddData?.status?.toLowerCase() === "result") && (
-                  <Card>
-                    <Card.Body className={styles["results-div"]}>
-                      {Object.values(oddData?.result?.standings)?.map(
-                        (item, index) => {
-                          return (
-                            <>
-                              <div className={styles["jersey-div"]}>
-                                <span className={styles["horce-num"]}>
-                                  {index + 1}
-                                  <sup>
-                                    {index === 0
-                                      ? "st"
-                                      : index === 1
-                                      ? "nd"
-                                      : "rd"}
-                                  </sup>
-                                </span>
+                    <Card>
+                      <Card.Body className={styles["results-div"]}>
+                        {Object.values(oddData?.result?.standings)?.map(
+                          (item, index) => {
+                            return (
+                              <>
+                                <div className={styles["jersey-div"]}>
+                                  <span className={styles["horce-num"]}>
+                                    {index + 1}
+                                    <sup>
+                                      {index === 0
+                                        ? "st"
+                                        : index === 1
+                                          ? "nd"
+                                          : "rd"}
+                                    </sup>
+                                  </span>
 
-                                <small className={styles["draw-num"]}>
-                                  {item.map((e) => {
-                                    return <>{e},</>;
-                                  })}
-                                </small>
-                              </div>
-                            </>
-                          );
-                        }
-                      )}
-                    </Card.Body>
-                  </Card>
-                )}
+                                  <small className={styles["draw-num"]}>
+                                    {item.map((e) => {
+                                      return <>{e},</>;
+                                    })}
+                                  </small>
+                                </div>
+                              </>
+                            );
+                          }
+                        )}
+                      </Card.Body>
+                    </Card>
+                  )}
               </div>
 
               {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
@@ -585,9 +583,9 @@ export const AdminDashboard = () => {
                         type="checkbox"
                         checked={
                           oddData?.status?.toLowerCase() === "complete" ||
-                          oddData?.status?.toLowerCase() === "suspended" ||
-                          oddData?.status?.toLowerCase() === "result" ||
-                          oddData?.status?.toLowerCase() === "stop"
+                            oddData?.status?.toLowerCase() === "suspended" ||
+                            oddData?.status?.toLowerCase() === "result" ||
+                            oddData?.status?.toLowerCase() === "stop"
                             ? true
                             : false
                         }
