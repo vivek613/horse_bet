@@ -20,7 +20,6 @@ import { deleteAllCookies } from "../../Hook/Cookies";
 export const Sidebar = () => {
   const auth = getAuth();
   const [user1, setUser1] = useState(null);
-  console.log("auth", auth);
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   useEffect(() => {

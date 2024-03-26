@@ -78,7 +78,6 @@ const BetTable = () => {
     db.collection("users")
       .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
       .onSnapshot((snapshot) => {
-        console.log("user", snapshot.data());
         setAdminBWPData(snapshot.data()?.sc);
       });
   }, []);
@@ -117,7 +116,6 @@ const BetTable = () => {
     return filteredData;
   };
 
-  console.log("betData", betData.filter((d) => d.user_id === "XarjcRbn0NeIU8eI4jtdGKGbaNz1"), stateWiseData)
   return (
     <>
       <div>
