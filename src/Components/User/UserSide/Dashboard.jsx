@@ -152,6 +152,13 @@ export const Dashboard = () => {
     <>
       <NavbarCommon />
       <Toaster position="top-right" reverseOrder={false} />
+      <marquee className={styles["marq"]} bgcolor="#cdc6eb"
+        direction="left" loop="1">
+        <div style={{
+          color: "#000000"
+        }}>Radhe Radhe Welcomes You All on Our Cricket 🏏 Betting site <a href="https://onlysession.in/" target="_blank"> onlysession.in</a> kindly make your id All odds available IPL CUP Match odds Session Toss just what's app to get id</div>
+
+      </marquee>
       <div className={styles["user-race-data-main"]}>
         <div className={styles["user-race-header"]}>
           <p className={styles["user-race-title"]}>Today's Race</p>

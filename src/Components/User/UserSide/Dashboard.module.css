@@ -120,13 +120,13 @@
   border: 1px solid #cdc6eb;
   border-radius: 5px;
   flex-direction: column;
- 
+
   overflow: hidden;
 }
 .selected-race-data {
   display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  flex-direction: row;
+  justify-content: space-between;
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 0.05), 0 6px 20px 0 rgb(0 0 0 / 0.08);
 }
 .race-status-completed {
@@ -190,77 +190,76 @@
   display: flex;
   gap: 10px;
 }
-.horce-num{
+.horce-num {
   background: #000000;
-    width: 100%;
-    float: left;
-    color: #fff;
-    text-align: center;
-    font-size: 14px;
-}
-.jersey-image{
-  height: 28px;
-    float: left;
-    margin: 5px 0 0;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.draw-num{
   width: 100%;
-   
-    color: #152a47;
-    margin-top: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  float: left;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
 }
-.horce-data-div{
+.jersey-image {
+  height: 28px;
+  float: left;
+  margin: 5px 0 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.draw-num {
+  width: 100%;
+
+  color: #152a47;
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.horce-data-div {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.race-details-div{
-      padding: 7px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    max-width: 280px;
+.race-details-div {
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 280px;
 }
-.results-div{
+.results-div {
   display: flex;
   /* flex-wrap: nowrap; */
   padding: 8px 11px;
   justify-content: flex-end;
   align-items: center;
   gap: 7px;
-
 }
-.race-details-span{
-  font-size: .75rem;
-    line-height: 1rem;
+.race-details-span {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
-.horce-runner-div{
+.horce-runner-div {
   height: 15px;
-                            width: 30px;
-                            margin-top:40px;
+  width: 30px;
+  margin-top: 40px;
 }
-.bet-live-button-div{
+.bet-live-button-div {
   display: flex;
-    align-items: center;
-    gap: 40px;
-    margin: 12px 0px 13px 15px;
+  align-items: center;
+  gap: 40px;
+  margin: 12px 0px 13px 15px;
 }
-.bet-live-button{
+.bet-live-button {
   display: flex;
   align-items: center;
   gap: 11px;
   border: 2px solid rgb(194 185 185);
-    background: #d32f2f!important;
+  background: #d32f2f !important;
 }
-.bet-live-video{
+.bet-live-video {
   max-height: 200px;
-    margin: 11px 39px;
+  margin: 11px 39px;
 }
 .bet-live-video {
   position: relative;
@@ -283,53 +282,53 @@
   top: 0;
   left: 0;
 }
-.bet-all-list-header{
+.marq {
+  margin-top: 50px;
+}
+.bet-all-list-header {
   display: flex;
   justify-content: space-around;
   margin: 5px;
   border: 1px solid white;
   border-radius: 5px;
   background: #cdc6eb;
-
 }
-.bet-all-list-race-show{
+.bet-all-list-race-show {
   display: flex;
   gap: 13px;
   border-bottom: 1px solid #cdc6eb;
   padding: 6px;
   justify-content: space-around;
-
 }
-.bet-all-list-race-venue{
+.bet-all-list-race-venue {
   height: 23px;
-    width: 61px;
-    font-weight: 500;
-    background: #cdc6eb;
-    padding: 0px 7px;
-    border-radius: 5px;
-
+  width: 61px;
+  font-weight: 500;
+  background: #cdc6eb;
+  padding: 0px 7px;
+  border-radius: 5px;
 }
-.bet-all-list-race-venue-div{
+.bet-all-list-race-venue-div {
   display: flex;
   gap: 10px;
   padding: 0px 7px;
-    border-radius: 5px;
-    max-width: 157px;
-    width: 100%;
+  border-radius: 5px;
+  max-width: 157px;
+  width: 100%;
 }
-.bet-all-list-race-details{
+.bet-all-list-race-details {
   display: flex;
-    gap: 15px;
-    max-width: 120px;
-    width: 100%;
+  gap: 15px;
+  max-width: 120px;
+  width: 100%;
 }
-.user-race-header{
+.user-race-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 2px 24px;
 }
-.bet-all-list-div{
+.bet-all-list-div {
   border: 1px solid #cdc6eb;
-    /* margin: 0px 42px; */
+  /* margin: 0px 42px; */
 }

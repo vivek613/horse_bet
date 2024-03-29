@@ -97,6 +97,75 @@ const StatusModel = (props) => {
               props.onHide();
             });
         });
+    } else {
+      setPaymentLoading(true);
+      db.collection("participant")
+        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .set({
+          data: betData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.status = "disabled";
+              data.withdraw = false;
+              data.loss = false;
+            }
+            return data;
+          }),
+        });
+      db.collection("participant")
+        .doc(props?.updateData?.data?.user_id)
+        .set({
+          data: userBetData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.status = "disabled";
+              data.withdraw = false;
+              data.loss = false;
+            }
+            return data;
+          }),
+        })
+        .then(async (dd) => {
+          db.collection("users")
+            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+            .update({
+              ...adminAmountData,
+              amount:
+                Number(adminAmountData?.amount) +
+                (Number(props?.updateData?.data?.user_amount) *
+                  (Number(props?.updateData?.data?.value) -
+                    (Number(props?.updateData?.data?.value) * dividend) / 100) +
+                  Number(props?.updateData?.data?.user_amount)),
+            })
+            .then(function () {
+              setPaymentLoading(false);
+            });
+          db.collection("users")
+            .doc(props?.updateData?.data?.user_id)
+            .update({
+              ...amountData,
+              amount:
+                Number(amountData.amount) -
+                (Number(props?.updateData?.data?.user_amount) *
+                  (Number(props?.updateData?.data?.value) -
+                    (Number(props?.updateData?.data?.value) * dividend) / 100) +
+                  Number(props?.updateData?.data?.user_amount)),
+            })
+            .then(() => {
+              setDividend(0);
+              props.onHide();
+            });
+        });
     }
   };
 
@@ -137,6 +206,49 @@ const StatusModel = (props) => {
 
               data.withdraw = false;
               data.loss = true;
+            }
+            return data;
+          }),
+        })
+        .then(async (dd) => {
+          setLossLoading(false);
+        });
+    } else {
+      setLossLoading(true);
+      db.collection("participant")
+        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .set({
+          data: betData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.status = "disabled";
+
+              data.withdraw = false;
+              data.loss = false;
+            }
+            return data;
+          }),
+        });
+      db.collection("participant")
+        .doc(props?.updateData?.data?.user_id)
+        .set({
+          data: userBetData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.status = "disabled";
+
+              data.withdraw = false;
+              data.loss = false;
             }
             return data;
           }),
@@ -209,9 +321,8 @@ const StatusModel = (props) => {
                   }}
                   type="checkbox"
                   disabled={
-                    props?.updateData?.data?.status === "enabled" ||
                     props?.updateData?.data?.loss ||
-                    props?.updateData?.data?.withdraw
+                      props?.updateData?.data?.withdraw
                       ? true
                       : false
                   }
@@ -242,8 +353,7 @@ const StatusModel = (props) => {
                   type="checkbox"
                   disabled={
                     props?.updateData?.data?.loss ||
-                    props?.updateData?.data?.status === "enabled" ||
-                    props?.updateData?.data?.withdraw
+                      props?.updateData?.data?.status === "enabled"
                       ? true
                       : false
                   }
