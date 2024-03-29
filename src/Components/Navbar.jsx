@@ -14,8 +14,6 @@ import { BiWallet } from "react-icons/bi";
 export const NavbarCommon = () => {
   const navigate = useNavigate();
   const auth = getAuth();
-  const { token, expirationTime } = auth.currentUser.getIdTokenResult();
-  const { toastData, setToastData } = useContext(Context);
   const [user1, setUser1] = useState(null);
   const [user, loading, error] = useAuthState(auth);
   const [userData, setUserData] = useState({});
@@ -52,16 +50,7 @@ export const NavbarCommon = () => {
       navigate("/login");
     }
   }, [user1]);
-  auth.currentUser
-    .getIdToken(true)
-    .then((refreshedIdToken) => {
-      // The ID token has been refreshed
-      console.log("Refreshed ID token:", refreshedIdToken);
-    })
-    .catch((error) => {
-      // Handle errors if the token refresh fails
-      console.error("Token refresh error:", error);
-    });
+
 
   const openNav = () => {
     document.getElementById("mySidenav").style.width = "200px";
