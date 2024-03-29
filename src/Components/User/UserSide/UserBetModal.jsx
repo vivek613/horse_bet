@@ -7,6 +7,7 @@ import { getAuth } from "firebase/auth";
 import { Context } from "../../../App";
 import { getCookie } from "../../../Hook/Cookies";
 import ReactLoading from "react-loading";
+import toast from "react-hot-toast";
 
 export const UserBetModal = ({ walletModal, setWalletModal }) => {
   const { winPlc, setWinPlc, setIndiaRace } = useContext(Context);
@@ -55,41 +56,50 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
   const handleSubmit = () => {
     setbetLoading(true);
     if (Number(betAmount) <= Number(userData.amount)) {
-      db.collection("users")
-        .doc(user?.uid)
-        .update({
-          ...userData,
-          amount:
-            Number(userData.amount) -
-            Number(betAmount) -
-            (Number(betAmount) * 10) / 100,
-        })
-        .then(function () {
-          setbetLoading(false);
-          setWalletModal(false);
-          setBetAmount();
-          db.collection("users")
-            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
-            .update({
-              ...forProfitAdminData,
-              sc:
-                Number(forProfitAdminData?.sc) + (Number(betAmount) * 10) / 100,
-              amount: Number(forProfitAdminData?.amount) + Number(betAmount),
-            })
-            .then(function () {});
-        });
-
       db.collection("participant")
         .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
           data: [...participant, winPlc],
         });
+      db.collection("backupbet")
+        .doc(user?.uid)
+        .set({
+          data: [...userRaceData, winPlc],
+        })
       db.collection("participant")
         .doc(user?.uid)
         .set({
           data: [...userRaceData, winPlc],
+        }).then(() => {
+          db.collection("users")
+            .doc(user?.uid)
+            .update({
+              ...userData,
+              amount:
+                Number(userData.amount) -
+                Number(betAmount) -
+                (Number(betAmount) * 10) / 100,
+            })
+            .then(function () {
+              setbetLoading(false);
+              setWalletModal(false);
+              setBetAmount();
+              db.collection("users")
+                .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+                .update({
+                  ...forProfitAdminData,
+                  sc:
+                    Number(forProfitAdminData?.sc) + (Number(betAmount) * 10) / 100,
+                  amount: Number(forProfitAdminData?.amount) + Number(betAmount),
+                })
+                .then(function () { });
+            });
         });
+
+
+
     } else {
+      toast.error("Please add more Wallet amount")
     }
   };
   return (
@@ -111,7 +121,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                 Odds - {winPlc.type} : {winPlc.value}
               </p>
               {Number(betAmount) + (Number(betAmount) * 10) / 100 <=
-              Number(userData?.amount) ? (
+                Number(userData?.amount) ? (
                 <p>Your Bet Amount : {betAmount}</p>
               ) : (
                 <>
@@ -194,8 +204,8 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                       disabled={
                         Number(betAmount) + (Number(betAmount) * 10) / 100 <=
                           Number(userData?.amount) &&
-                        betAmount >= 100 &&
-                        betAmount <= 25000
+                          betAmount >= 100 &&
+                          betAmount <= 25000
                           ? false
                           : true
                       }

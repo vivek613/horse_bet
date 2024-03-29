@@ -94,6 +94,72 @@ const DrawModal = (props) => {
               props.onHide();
             });
         });
+    } else {
+      setWithdrawLoading(true);
+      db.collection("participant")
+        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .set({
+          data: betData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.withdraw = false;
+              data.status = "disabled";
+              data.loss = false;
+            }
+            return data;
+          }),
+        });
+      db.collection("participant")
+        .doc(props?.updateData?.data?.user_id)
+        .set({
+          data: userBetData.map((data, index) => {
+            if (
+              props?.updateData?.data?.time === data.time &&
+              props?.updateData?.data?.user_id === data.user_id &&
+              props?.updateData?.data?.race_number === data.race_number &&
+              props?.updateData?.data?.horce_number === data.horce_number &&
+              props?.updateData?.data?.venue === data.venue
+            ) {
+              data.withdraw = false;
+              data.status = "disabled";
+              data.loss = false;
+            }
+            return data;
+          }),
+        })
+        .then(async (dd) => {
+          db.collection("users")
+            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+            .update({
+              ...adminDataForAmount,
+              sc:
+                Number(adminDataForAmount?.sc) +
+                (Number(props?.updateData?.data?.user_amount) * 10) / 100,
+              amount:
+                Number(adminDataForAmount?.amount) -
+                Number(props?.updateData?.data?.user_amount),
+            })
+            .then(function () {
+              setWithdrawLoading(false);
+            });
+          db.collection("users")
+            .doc(props?.updateData?.data?.user_id)
+            .update({
+              ...amountData,
+              amount:
+                Number(amountData.amount) -
+                Number(props?.updateData?.data?.user_amount) +
+                (Number(props?.updateData?.data?.user_amount) * 10) / 100,
+            })
+            .then(() => {
+              props.onHide();
+            });
+        });
     }
   };
 
@@ -133,8 +199,8 @@ const DrawModal = (props) => {
                 type="checkbox"
                 disabled={
                   props?.updateData?.data?.status === "enabled" ||
-                  props?.updateData?.data?.loss === true ||
-                  props?.updateData?.data?.withdraw === true
+                    props?.updateData?.data?.loss === true
+
                     ? true
                     : false
                 }
