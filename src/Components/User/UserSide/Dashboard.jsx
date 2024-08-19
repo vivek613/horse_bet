@@ -156,7 +156,10 @@ export const Dashboard = () => {
         direction="left" loop="1">
         <div style={{
           color: "#000000"
-        }}>Radhe Radhe Welcomes You All on Our Cricket 🏏 Betting site <a href="https://onlycricket.co.in" target="_blank"> onlycricket.co.in</a> kindly make your id All odds available IPL CUP Match odds Session Toss just what's app to get id</div>
+        }}>
+      For All Support What's App Message with email id to  8669646969 / 8669656969
+
+      </div>
 
       </marquee>
       <div className={styles["user-race-data-main"]}>

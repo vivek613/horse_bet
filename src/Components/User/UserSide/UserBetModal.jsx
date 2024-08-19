@@ -53,20 +53,20 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
     });
   }, []);
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setbetLoading(true);
     if (Number(betAmount) <= Number(userData.amount)) {
-      db.collection("participant")
+      await db.collection("participant")
         .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
         .set({
           data: [...participant, winPlc],
         });
-      db.collection("backupbet")
+      await db.collection("backupbet")
         .doc(user?.uid)
         .set({
           data: [...userRaceData, winPlc],
         })
-      db.collection("participant")
+      await db.collection("participant")
         .doc(user?.uid)
         .set({
           data: [...userRaceData, winPlc],
