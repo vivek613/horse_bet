@@ -60,9 +60,7 @@ export const AdminDashboard = () => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
       const all_race = snapshot.docs.map((doc) => doc.data())[0].Allrace;
-      // setOddData(
-      //   snapshot.docs.map((doc) => doc.data())[0]?.Allrace[raceIndexNum]
-      // );
+
       const country = [
         ...new Set(
           all_race?.map((e) => {
