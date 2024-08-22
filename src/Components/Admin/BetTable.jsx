@@ -84,7 +84,7 @@ const BetTable = () => {
 
   let totalPotentialAmountDisabled = 0;
   let totalUserAmountLoss = 0;
-  console.log("betData", betData.filter((d) => d.email === "kulkarnispurs23@gmail.com"))
+  // console.log("betData", betData.filter((d) => d.email === "kulkarnispurs23@gmail.com"))
   // Iterate through the data array
   betData?.forEach((entry) => {
     if (entry.status === "enabled") {

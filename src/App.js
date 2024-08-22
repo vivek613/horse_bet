@@ -7,7 +7,7 @@ import { Dashboard } from "./Components/User/UserSide/Dashboard";
 import { Register } from "./Components/User/Auth/Register";
 import { useContext } from "./Context/useContext";
 
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import User from "./Components/Admin/User";
 import BetTable from "./Components/Admin/BetTable";
 import MyBet from "./Components/User/UserSide/MyBet";
@@ -16,6 +16,25 @@ import AddUserClient from "./Components/User/UserSide/AddUserClient";
 export const Context = createContext(useContext);
 function App() {
   const value = useContext(Context);
+
+  useEffect(()=>{
+    const script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = 'https://www.googletagmanager.com/gtag/js?id=AW-16671117244';
+    
+    const script2 = document.createElement('script');
+    script2.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'AW-16671117244');
+    `;
+
+    
+    document.body.appendChild(script1);
+    document.body.appendChild(script2);
+  },[]);
+
   return (
     <>
       <BrowserRouter>
