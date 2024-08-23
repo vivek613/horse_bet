@@ -157,8 +157,7 @@ export const Dashboard = () => {
         <div style={{
           color: "#000000"
         }}>
-      For Support What's App with your Registered Email id / Mobile Number to 86 69 64 69 69 / 86 69 65 69 69 & For Cricket 🏏 Football ⚽ Tennis 🎾 etc. Live Casino make your ID Now for free www.shrijibook.com
-
+        For Support What's App with your Registered Email id / Mobile Number to <a href="tel:+918669646969">86 69 64 69 69</a> / <a href="tel:+918669656969">86 69 65 69 69</a> & For Cricket 🏏 Football ⚽ Tennis 🎾 etc. Live Casino make your ID Now for free <a href="https://www.shrijibook.com" target="_blank">www.shrijibook.com</a>
       </div>
 
       </marquee>
