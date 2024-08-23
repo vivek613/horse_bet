@@ -157,7 +157,7 @@ export const Dashboard = () => {
         <div style={{
           color: "#000000"
         }}>
-      For All Support What's App Message with email id to  8669646969 / 8669656969
+      For Support What's App with your Registered Email id / Mobile Number to 86 69 64 69 69 / 86 69 65 69 69 & For Cricket 🏏 Football ⚽ Tennis 🎾 etc. Live Casino make your ID Now for free www.shrijibook.com
 
       </div>
 
