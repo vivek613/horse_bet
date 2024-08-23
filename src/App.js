@@ -16,8 +16,8 @@ import AddUserClient from "./Components/User/UserSide/AddUserClient";
 export const Context = createContext(useContext);
 function App() {
   const value = useContext(Context);
-
-  useEffect(()=>{
+  
+  useEffect(() => {
     const script1 = document.createElement('script');
     script1.async = true;
     script1.src = 'https://www.googletagmanager.com/gtag/js?id=AW-16671117244';
@@ -30,10 +30,10 @@ function App() {
       gtag('config', 'AW-16671117244');
     `;
 
-    
-    document.body.appendChild(script1);
-    document.body.appendChild(script2);
-  },[]);
+    document.head.appendChild(script1);
+    document.head.appendChild(script2);
+}, []);
+
 
   return (
     <>
