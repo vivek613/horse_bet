@@ -103,7 +103,7 @@ export const Dashboard = () => {
       try {
         await axios
           .get(
-            `https://horse-batting.onrender.com/api/getliveData?id=${data?.uid}&streamId=${id}`
+            `https://horse-bet.onrender.com/api/allDataForCountryapi/getliveData?id=${data?.uid}&streamId=${id}`
           )
           .then((res) => {
             console.log("ress", res);
