@@ -95,6 +95,7 @@ export const Dashboard = () => {
         }
       });
   };
+  
   const handleGetLiveData = async (data) => {
     const id = data?.data?.externalId.split("-")[1];
     if (!liveTrue) {
