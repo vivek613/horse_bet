@@ -90,7 +90,7 @@ export const AdminDashboard = () => {
     setLoadingg(true);
     e.preventDefault();
     axios
-      .get("https://horse-bet.onrender.com/api/allDataForCountry")
+      .get("https://flourishing-torte-b8c653.netlify.app/api/allDataForCountry")
       .then((data) => {
         setLoadingg(false);
         const country = [
@@ -129,7 +129,7 @@ export const AdminDashboard = () => {
     try {
       await axios
         .get(
-          `https://horse-bet.onrender.com/api/getTimesOfRacing?id=${uid}`
+          `https://flourishing-torte-b8c653.netlify.app/api/getTimesOfRacing?id=${uid}`
         )
         .then((res) => {
           setLoadingg(false);
@@ -173,7 +173,7 @@ export const AdminDashboard = () => {
     try {
       await axios
         .get(
-          `https://horse-bet.onrender.com/api/getTimesOfRacing?id=${uid}`
+          `https://flourishing-torte-b8c653.netlify.app/api/getTimesOfRacing?id=${uid}`
         )
         .then((res) => {
           setLoadingg(false);
@@ -195,7 +195,7 @@ export const AdminDashboard = () => {
     try {
       await axios
         .get(
-          `https://horse-bet.onrender.com/api/getTimesOfRacing?id=${uid}`
+          `https://flourishing-torte-b8c653.netlify.app/api/getTimesOfRacing?id=${uid}`
         )
         .then((res) => {
           setLoadingg(false);
@@ -226,7 +226,7 @@ export const AdminDashboard = () => {
       try {
         await axios
           .get(
-            `https://horse-bet.onrender.com/api/getliveData?id=${data?.uid}&streamId=${id}`
+            `https://flourishing-torte-b8c653.netlify.app/api/getliveData?id=${data?.uid}&streamId=${id}`
           )
           .then((res) => {
             console.log("ress", res);
