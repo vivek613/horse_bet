@@ -104,7 +104,7 @@ export const Dashboard = () => {
       try {
         await axios
           .get(
-            `https://flourishing-torte-b8c653.netlify.app/api/getliveData?id=${data?.uid}&streamId=${id}`
+            `https://horse-bet.onrender.com/api/getliveData?id=${data?.uid}&streamId=${id}`
           )
           .then((res) => {
             console.log("ress", res);
