@@ -372,7 +372,8 @@ export const AdminDashboard = () => {
                       items === "BLR" ||
                       items === "CAL" ||
                       items === "MAD" ||
-                      items === "MMB"
+                      items === "MMB" ||
+                      items === "DEL"
                     ) {
                       const array = newRace.filter((e) => {
                         return e.venue === items;
