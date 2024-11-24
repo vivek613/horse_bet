@@ -157,8 +157,8 @@ export const Dashboard = () => {
         direction="left" loop="1">
         <p>
         <span style={{ color: '#FF0000', fontWeight: 'bold' }}>🚨 IMPORTANT ANNOUNCEMENT 🚨 </span>
-        <span style={{ color: '#000000' }}>Due to an issue with WhatsApp, kindly use the following alternatives: </span>
-        <span style={{ color: '#007BFF', fontWeight: 'bold' }}>For Communication: </span>
+        <span style={{ color: '#000000' }}>Due to an issue, kindly: </span>
+        <span style={{ color: '#007BFF', fontWeight: 'bold' }}>For Call: </span>
         <span style={{ color: '#FF4500' }}>8669 646969</span> or <span style={{ color: '#FF4500' }}>8669 656969</span>. 
         <span style={{ color: '#007BFF', fontWeight: 'bold' }}>For Deposits: </span>
         <span style={{ color: '#000000' }}>Use GPay or PhonePe to</span>
