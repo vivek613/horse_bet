@@ -15,6 +15,7 @@ import ReactLoading from "react-loading";
 
 import axios from "axios";
 import { ReactComponent as NoRace } from "../../../Assets/NoRace.svg";
+import AnnouncementPopup from "./AnnouncementPopup";
 
 export const Dashboard = () => {
   const {
@@ -152,13 +153,14 @@ export const Dashboard = () => {
   return (
     <>
       <NavbarCommon />
+      <AnnouncementPopup />
       <Toaster position="top-right" reverseOrder={false} />
       <marquee className={styles["marq"]} bgcolor="#cdc6eb"
         direction="left" loop="1">
         <p>
         <span style={{ color: '#FF0000', fontWeight: 'bold' }}>🚨 IMPORTANT ANNOUNCEMENT 🚨 </span>
-        <span style={{ color: '#000000' }}>Due to an issue, kindly: </span>
-        <span style={{ color: '#007BFF', fontWeight: 'bold' }}>For Call: </span>
+        <span style={{ color: '#000000' }}>Due to an issue with whastapp, kindly: </span>
+        <span style={{ color: '#007BFF', fontWeight: 'bold' }}> Call: </span>
         <span style={{ color: '#FF4500' }}>8669 646969</span> or <span style={{ color: '#FF4500' }}>8669 656969</span>. 
         <span style={{ color: '#007BFF', fontWeight: 'bold' }}>For Deposits: </span>
         <span style={{ color: '#000000' }}>Use GPay or PhonePe to</span>
@@ -768,3 +770,4 @@ export const Dashboard = () => {
     </>
   );
 };
+
