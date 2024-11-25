@@ -153,19 +153,22 @@ export const Dashboard = () => {
   return (
     <>
       <NavbarCommon />
-      <AnnouncementPopup />
+      {/* <AnnouncementPopup /> */}
       <Toaster position="top-right" reverseOrder={false} />
       <marquee className={styles["marq"]} bgcolor="#cdc6eb"
         direction="left" loop="1">
         <p>
-        <span style={{ color: '#FF0000', fontWeight: 'bold' }}>🚨 IMPORTANT ANNOUNCEMENT 🚨 </span>
-        <span style={{ color: '#000000' }}>Due to an issue with whastapp, kindly: </span>
-        <span style={{ color: '#007BFF', fontWeight: 'bold' }}> Call: </span>
-        <span style={{ color: '#FF4500' }}>8669 646969</span> or <span style={{ color: '#FF4500' }}>8669 656969</span>. 
-        <span style={{ color: '#007BFF', fontWeight: 'bold' }}>For Deposits: </span>
-        <span style={{ color: '#000000' }}>Use GPay or PhonePe to</span>
-        <span style={{ color: '#28A745' }}>9226 492672</span>. 
-        <span style={{ color: '#FF0000', fontWeight: 'bold' }}>We apologize for the inconvenience caused.</span>
+          <span style="color: #FF0000; font-weight: bold;">🚨 IMPORTANT ANNOUNCEMENT 🚨</span> 
+          <span style="color: #000000;">We are happy to inform you that the WhatsApp issue has been resolved. For any support or assistance, kindly:</span> 
+          <span style="color: #007BFF; font-weight: bold;">Call:</span> 
+          <span style="color: #FF4500;">8669 646969</span> or 
+          <span style="color: #FF4500;">8669 656969</span>. 
+          <span style="color: #007BFF; font-weight: bold;">WhatsApp:</span> 
+          <span style="color: #FF4500;">8669 646969</span>. 
+          <span style="color: #007BFF; font-weight: bold;">For Deposits:</span> 
+          <span style="color: #000000;">Use GPay or PhonePe to</span> 
+          <span style="color: #28A745;">9226 492672</span>. 
+          <span style="color: #FF0000; font-weight: bold;">Thank you for your patience and support!</span>
       </p>
 
       </marquee>
