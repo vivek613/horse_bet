@@ -157,20 +157,10 @@ export const Dashboard = () => {
       <Toaster position="top-right" reverseOrder={false} />
       <marquee className={styles["marq"]} bgcolor="#cdc6eb"
         direction="left" loop="1">
-        <p>
-          <span style="color: #FF0000; font-weight: bold;">🚨 IMPORTANT ANNOUNCEMENT 🚨</span> 
-          <span style="color: #000000;">We are happy to inform you that the WhatsApp issue has been resolved. For any support or assistance, kindly:</span> 
-          <span style="color: #007BFF; font-weight: bold;">Call:</span> 
-          <span style="color: #FF4500;">8669 646969</span> or 
-          <span style="color: #FF4500;">8669 656969</span>. 
-          <span style="color: #007BFF; font-weight: bold;">WhatsApp:</span> 
-          <span style="color: #FF4500;">8669 646969</span>. 
-          <span style="color: #007BFF; font-weight: bold;">For Deposits:</span> 
-          <span style="color: #000000;">Use GPay or PhonePe to</span> 
-          <span style="color: #28A745;">9226 492672</span>. 
-          <span style="color: #FF0000; font-weight: bold;">Thank you for your patience and support!</span>
-      </p>
-
+        <span style={{ color: '#FF0000', fontWeight: 'bold' }}>🚨 IMPORTANT ANNOUNCEMENT 🚨</span>{' '}
+        <span style={{ color: '#000000' }}>
+        Kindly  Call for Any Support Help <a href="tel:+918669646969">86 69 64 69 69</a> / <a href="tel:+918669656969">86 69 65 69 69</a> & What's app your Payment Screenshot & email id to 86 69 64 69 69.
+        </span>
       </marquee>
       <div className={styles["user-race-data-main"]}>
         <div className={styles["user-race-header"]}>
