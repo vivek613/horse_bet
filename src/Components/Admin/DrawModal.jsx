@@ -16,7 +16,7 @@ const DrawModal = (props) => {
 
   useEffect(() => {
     db.collection("users")
-      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+      .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
       .onSnapshot((snapshot) => {
         setadminDataForAmount(snapshot.data());
       });
@@ -31,7 +31,7 @@ const DrawModal = (props) => {
     if (event.target.checked) {
       setWithdrawLoading(true);
       db.collection("participant")
-        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
         .set({
           data: betData.map((data, index) => {
             if (
@@ -68,7 +68,7 @@ const DrawModal = (props) => {
         })
         .then(async (dd) => {
           db.collection("users")
-            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+            .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
             .update({
               ...adminDataForAmount,
               sc:
@@ -97,7 +97,7 @@ const DrawModal = (props) => {
     } else {
       setWithdrawLoading(true);
       db.collection("participant")
-        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
         .set({
           data: betData.map((data, index) => {
             if (
@@ -134,7 +134,7 @@ const DrawModal = (props) => {
         })
         .then(async (dd) => {
           db.collection("users")
-            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+            .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
             .update({
               ...adminDataForAmount,
               sc:

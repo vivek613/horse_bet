@@ -58,7 +58,7 @@ export const Sidebar = () => {
         <NavItem
           eventKey="home"
           onClick={() => {
-            navigate(`/user/admin/usertable/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
+            navigate(`/user/admin/usertable/:T0xHihFaGFfgLyByPzMcyvHm8du1`);
           }}
         >
           <NavIcon style={{ opacity: "1" }}>
@@ -70,7 +70,7 @@ export const Sidebar = () => {
           selected
           eventKey="charts"
           onClick={() => {
-            navigate(`/user/admin/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
+            navigate(`/user/admin/:T0xHihFaGFfgLyByPzMcyvHm8du1`);
           }}
         >
           <NavIcon style={{ opacity: "1" }}>
@@ -82,7 +82,7 @@ export const Sidebar = () => {
           selected
           eventKey="charts"
           onClick={() => {
-            navigate(`/user/admin/bettable/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
+            navigate(`/user/admin/bettable/:T0xHihFaGFfgLyByPzMcyvHm8du1`);
           }}
         >
           <NavIcon style={{ opacity: "1" }}>

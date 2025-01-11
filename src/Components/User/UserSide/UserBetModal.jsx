@@ -23,7 +23,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
 
   useEffect(() => {
     db.collection("users")
-      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+      .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
       .onSnapshot((snapshot) => {
         setforProfitAdminData(snapshot.data());
       });
@@ -32,7 +32,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
   useEffect(() => {
     const uid = getCookie("Uid");
     db.collection("participant")
-      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+      .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
       .onSnapshot((snapshot) => {
         setParticipant(snapshot.data()?.data);
       });
@@ -57,7 +57,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
     setbetLoading(true);
     if (Number(betAmount) <= Number(userData.amount)) {
       await db.collection("participant")
-        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
         .set({
           data: [...participant, winPlc],
         });
@@ -85,7 +85,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
               setWalletModal(false);
               setBetAmount();
               db.collection("users")
-                .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+                .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
                 .update({
                   ...forProfitAdminData,
                   sc:

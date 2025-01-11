@@ -16,7 +16,7 @@ const StatusModel = (props) => {
   const [userBetData, setUserBetData] = useState([]);
   useEffect(() => {
     db.collection("users")
-      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+      .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
       .onSnapshot((snapshot) => {
         setAdminAmountData(snapshot.data());
       });
@@ -31,7 +31,7 @@ const StatusModel = (props) => {
     if (event.target.checked) {
       setPaymentLoading(true);
       db.collection("participant")
-        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
         .set({
           data: betData.map((data, index) => {
             if (
@@ -68,7 +68,7 @@ const StatusModel = (props) => {
         })
         .then(async (dd) => {
           db.collection("users")
-            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+            .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
             .update({
               ...adminAmountData,
               amount:
@@ -100,7 +100,7 @@ const StatusModel = (props) => {
     } else {
       setPaymentLoading(true);
       db.collection("participant")
-        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
         .set({
           data: betData.map((data, index) => {
             if (
@@ -137,7 +137,7 @@ const StatusModel = (props) => {
         })
         .then(async (dd) => {
           db.collection("users")
-            .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+            .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
             .update({
               ...adminAmountData,
               amount:
@@ -173,7 +173,7 @@ const StatusModel = (props) => {
     if (event.target.checked) {
       setLossLoading(true);
       db.collection("participant")
-        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
         .set({
           data: betData.map((data, index) => {
             if (
@@ -216,7 +216,7 @@ const StatusModel = (props) => {
     } else {
       setLossLoading(true);
       db.collection("participant")
-        .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+        .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
         .set({
           data: betData.map((data, index) => {
             if (

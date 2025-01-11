@@ -23,8 +23,15 @@ const convertHour = (data) => {
   const date = new Date(data);
   const hours = date.getHours();
   const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
 
-  return hours + ":" + minutes;
+  return (
+    (hours % 12 || 12).toString().padStart(2, '0') +
+    ":" +
+    minutes.toString().padStart(2, '0') +
+    "" +
+    ampm
+  );
 };
 export const AdminDashboard = () => {
   const auth = getAuth();
@@ -74,13 +81,13 @@ export const AdminDashboard = () => {
   }, [raceIndexNum]);
   useEffect(() => {
     if (getCookie("access_token")) {
-      navigate(`/user/admin/:gP7ssoPxhkcaFPuPNIS9AXdv1BE3`);
+      navigate(`/user/admin/:T0xHihFaGFfgLyByPzMcyvHm8du1`);
     } else {
       navigate("/login");
     }
 
     db.collection("users")
-      .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+      .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
       .onSnapshot((snapshot) => {
         setAdminBWPData(snapshot.data()?.sc);
       });
@@ -250,7 +257,7 @@ export const AdminDashboard = () => {
       <div>
         <Sidebar />
         <div className="user-data-tabel">
-          {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
+          {user?.uid === "T0xHihFaGFfgLyByPzMcyvHm8du1" && (
             <div
               style={{
                 display: "flex",
@@ -497,7 +504,7 @@ export const AdminDashboard = () => {
                   )}
               </div>
 
-              {user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" && (
+              {user?.uid === "T0xHihFaGFfgLyByPzMcyvHm8du1" && (
                 <>
                   <Button
                     className={styles["bet-live-button"]}
@@ -659,7 +666,7 @@ export const AdminDashboard = () => {
               </thead>
               <tbody>
                 {!!oddData &&
-                  user?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3" &&
+                  user?.uid === "T0xHihFaGFfgLyByPzMcyvHm8du1" &&
                   oddData?.participants?.map((e, index) => {
                     return (
                       <tr index={index}>

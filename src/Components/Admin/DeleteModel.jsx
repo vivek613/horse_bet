@@ -33,7 +33,7 @@ export const DeleteModel = (props) => {
               type="submit"
               onClick={() => {
                 db.collection("participant")
-                  .doc("gP7ssoPxhkcaFPuPNIS9AXdv1BE3")
+                  .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
                   .set({
                     data: [],
                   })

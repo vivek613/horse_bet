@@ -10,7 +10,7 @@ export const UserModel = (props) => {
   const [userAddAMount, setUserAddAMount] = useState(0);
 
   const handleSubmit = async (user) => {
-    if (userData?.uid === "gP7ssoPxhkcaFPuPNIS9AXdv1BE3") {
+    if (userData?.uid === "T0xHihFaGFfgLyByPzMcyvHm8du1") {
       db.collection("users")
         .doc(userData.uid)
         .update({

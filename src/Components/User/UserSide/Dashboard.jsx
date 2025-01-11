@@ -663,11 +663,11 @@ export const Dashboard = () => {
                                     setWalletModal(true);
                                   }}>
                                   {
-                                    participants?.markets[1]?.selections[index]
-                                      .odds?.price > 4
-                                      ? 4
-                                      : participants?.markets[1]?.selections[index]
-                                          .odds?.price
+                                    Math.min(
+                                      participants?.markets[1]?.selections[index]
+                                        .odds?.price || 0,
+                                      4
+                                    )
                                   }
                                 </button>
                               </>
