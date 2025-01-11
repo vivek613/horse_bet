@@ -90,7 +90,7 @@ export const AdminDashboard = () => {
     setLoadingg(true);
     e.preventDefault();
     axios
-      .get("https://horse-bet.onrender.com/api/allDataForCountry")
+      .get("https://horse-batting.onrender.com/api/allDataForCountry")
       .then((data) => {
         setLoadingg(false);
         const country = [
@@ -129,7 +129,7 @@ export const AdminDashboard = () => {
     try {
       await axios
         .get(
-          `https://horse-bet.onrender.com/api/getTimesOfRacing?id=${uid}`
+          `https://horse-batting.onrender.com/api/getTimesOfRacing?id=${uid}`
         )
         .then((res) => {
           setLoadingg(false);
@@ -173,7 +173,7 @@ export const AdminDashboard = () => {
     try {
       await axios
         .get(
-          `https://horse-bet.onrender.com/api/getTimesOfRacing?id=${uid}`
+          `https://horse-batting.onrender.com/api/getTimesOfRacing?id=${uid}`
         )
         .then((res) => {
           setLoadingg(false);
@@ -195,7 +195,7 @@ export const AdminDashboard = () => {
     try {
       await axios
         .get(
-          `https://horse-bet.onrender.com/api/getTimesOfRacing?id=${uid}`
+          `https://horse-batting.onrender.com/api/getTimesOfRacing?id=${uid}`
         )
         .then((res) => {
           setLoadingg(false);
@@ -226,7 +226,7 @@ export const AdminDashboard = () => {
       try {
         await axios
           .get(
-            `https://horse-bet.onrender.com/api/getliveData?id=${data?.uid}&streamId=${id}`
+            `https://horse-batting.onrender.com/api/getliveData?id=${data?.uid}&streamId=${id}`
           )
           .then((res) => {
             console.log("ress", res);
@@ -372,8 +372,7 @@ export const AdminDashboard = () => {
                       items === "BLR" ||
                       items === "CAL" ||
                       items === "MAD" ||
-                      items === "MMB" ||
-                      items === "DEL"
+                      items === "MMB"
                     ) {
                       const array = newRace.filter((e) => {
                         return e.venue === items;
@@ -670,10 +669,10 @@ export const AdminDashboard = () => {
                         <td>{e.data.jockey}</td>
                         <td>{e.data.trainer}</td>
                         <td>
-                          {oddData?.markets[0]?.selections[index].odds?.price}
+                          {oddData?.markets[0]?.selections[index].odds?.price > 14 ? 14 : oddData?.markets[0]?.selections[index].odds?.price}
                         </td>
                         <td>
-                          {oddData?.markets[1]?.selections[index].odds?.price}
+                          {oddData?.markets[1]?.selections[index].odds?.price > 4 ? 4 : oddData?.markets[1]?.selections[index].odds?.price}
                         </td>
                         <td>
                           <FiEdit

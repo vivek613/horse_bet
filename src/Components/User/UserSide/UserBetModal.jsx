@@ -138,13 +138,13 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                 <Form.Label>Amount</Form.Label>
                 <Form.Control
                   type="number"
-                  min={300}
-                  max={50000}
+                  min={100}
+                  max={25000}
                   value={betAmount}
                   name="amount"
                   placeholder="Enter Amount"
                   onChange={(e) => {
-                    if (e.target.value < 300 || e.target.value > 50000) {
+                    if (e.target.value < 100 || e.target.value > 25000) {
                       setShowValue(true);
                     } else {
                       setShowValue(false);
@@ -168,7 +168,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                   }}
                 >
                   {" "}
-                  Please enter a minimum 300 and maximum 50000 amount
+                  Please enter a minimum 100 and maximum 25000 amount
                 </p>
               ) : (
                 ""
@@ -204,8 +204,8 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                       disabled={
                         Number(betAmount) + (Number(betAmount) * 10) / 100 <=
                           Number(userData?.amount) &&
-                          betAmount >= 300 &&
-                          betAmount <= 50000
+                          betAmount >= 100 &&
+                          betAmount <= 25000
                           ? false
                           : true
                       }

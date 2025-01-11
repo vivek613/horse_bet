@@ -84,7 +84,7 @@ const BetTable = () => {
 
   let totalPotentialAmountDisabled = 0;
   let totalUserAmountLoss = 0;
-  // console.log("betData", betData.filter((d) => d.email === "kulkarnispurs23@gmail.com"))
+  console.log("betData", betData.filter((d) => d.email === "kulkarnispurs23@gmail.com"))
   // Iterate through the data array
   betData?.forEach((entry) => {
     if (entry.status === "enabled") {
@@ -204,8 +204,7 @@ const BetTable = () => {
                       items === "BLR" ||
                       items === "CAL" ||
                       items === "MAD" ||
-                      items === "MMB" ||
-                      items === "DEL"
+                      items === "MMB"
                     ) {
                       const array = indiaRace.filter((e) => {
                         return e.venue === items;

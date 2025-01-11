@@ -24,12 +24,17 @@ export const useContext = () => {
 
     const seconds = date.getSeconds();
 
+    const ampm = hours >= 12 ? "PM" : "AM";
+
     return (
-      hours.toString().padStart(2, "0") +
+      (hours % 12).toString().padStart(2, "0") +
       ":" +
-      minutes.toString().padStart(2, "0")
+      minutes.toString().padStart(2, "0") +
+      "" +
+      ampm
     );
   };
+
   return {
     hosreData,
     setHorseData,
