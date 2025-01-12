@@ -181,6 +181,7 @@ const BetTable = () => {
                       });
                     }
                   }}
+                  key={index}
                 >
                   {items || "IND"}
                 </button>

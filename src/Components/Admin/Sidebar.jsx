@@ -9,7 +9,7 @@ import SideNav, {
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { signOut } from "firebase/auth";
 
-import { FaUserAlt, FaUsers } from "react-icons/fa";
+import { FaCog, FaUserAlt, FaUsers } from "react-icons/fa";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { useNavigate } from "react-router";
 import { getAuth } from "firebase/auth";
@@ -89,6 +89,18 @@ export const Sidebar = () => {
             <FaUsers style={{ fill: "black" }} />
           </NavIcon>
           <NavText style={{ color: "black" }}>User Bet Data</NavText>
+        </NavItem>
+        <NavItem
+          selected
+          eventKey="charts"
+          onClick={() => {
+            navigate(`/user/admin/settings/:T0xHihFaGFfgLyByPzMcyvHm8du1`);
+          }}
+        >
+          <NavIcon style={{ opacity: "1" }}>
+            <FaCog style={{ fill: "black" }} />
+          </NavIcon>
+          <NavText style={{ color: "black" }}>Settings</NavText>
         </NavItem>
         <NavItem
           selected

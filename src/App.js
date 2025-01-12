@@ -12,6 +12,7 @@ import User from "./Components/Admin/User";
 import BetTable from "./Components/Admin/BetTable";
 import MyBet from "./Components/User/UserSide/MyBet";
 import AddUserClient from "./Components/User/UserSide/AddUserClient";
+import Settings from "./Components/Admin/Settings";
 
 export const Context = createContext(useContext);
 function App() {
@@ -35,6 +36,7 @@ function App() {
             <Route path="/user/admin/:id" element={<AdminDashboard />} />
             <Route path="/user/admin/usertable/:id" element={<User />} />
             <Route path="/user/admin/bettable/:id" element={<BetTable />} />
+            <Route path="/user/admin/settings/:id" element={<Settings />} />
           </Routes>
         </Context.Provider>
       </BrowserRouter>

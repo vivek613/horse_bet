@@ -63,6 +63,9 @@ export const AdminDashboard = () => {
   const [loadingLive, setLoadingLive] = useState(false);
   const [adminBWPData, setAdminBWPData] = useState(0);
 
+  const [betMaxOddWin, setBetMaxOddWin] = useState(0);
+  const [betMaxOddPlc, setBetMaxOddPlc] = useState(0);
+
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setIndiaRace(snapshot.docs.map((doc) => doc.data())[0].Allrace);
@@ -79,6 +82,17 @@ export const AdminDashboard = () => {
       setNewRace(all_race);
     });
   }, [raceIndexNum]);
+
+  useEffect(() => {
+    db.collection("GeneralSetting")
+          .doc("optBALAApIh1cCTOZJOL")
+          .onSnapshot((snapshot) => {
+            const values = snapshot.data();
+            setBetMaxOddWin(values.MaxOddWin);
+            setBetMaxOddPlc(values.MaxOddPlc);
+          });
+  }, []);
+
   useEffect(() => {
     if (getCookie("access_token")) {
       navigate(`/user/admin/:T0xHihFaGFfgLyByPzMcyvHm8du1`);
@@ -313,7 +327,7 @@ export const AdminDashboard = () => {
                 Delete
               </Button>
 
-              <p style={{ margin: "0px" }}>
+              <p style={{ margin: "0px" }} key={0}>
                 BWP Daily Service Charge : {adminBWPData}
               </p>
             </div>
@@ -356,6 +370,7 @@ export const AdminDashboard = () => {
                       });
                     }
                   }}
+                  key={index}
                 >
                   {items || "IND"}
                 </button>
@@ -583,7 +598,7 @@ export const AdminDashboard = () => {
                     >
                       Stop Bet :{" "}
                     </p>
-                    <label class="switch">
+                    <label className="switch">
                       <input
                         type="checkbox"
                         checked={
@@ -619,7 +634,7 @@ export const AdminDashboard = () => {
                           }
                         }}
                       />
-                      <span class="slider round"></span>
+                      <span className="slider round"></span>
                     </label>
                   </div>
                 </>
@@ -676,10 +691,10 @@ export const AdminDashboard = () => {
                         <td>{e.data.jockey}</td>
                         <td>{e.data.trainer}</td>
                         <td>
-                          {oddData?.markets[0]?.selections[index].odds?.price > 14 ? 14 : oddData?.markets[0]?.selections[index].odds?.price}
+                          {oddData?.markets[0]?.selections[index].odds?.price > betMaxOddWin ? betMaxOddWin : oddData?.markets[0]?.selections[index].odds?.price}
                         </td>
                         <td>
-                          {oddData?.markets[1]?.selections[index].odds?.price > 4 ? 4 : oddData?.markets[1]?.selections[index].odds?.price}
+                          {oddData?.markets[1]?.selections[index].odds?.price > betMaxOddPlc ? betMaxOddPlc : oddData?.markets[1]?.selections[index].odds?.price}
                         </td>
                         <td>
                           <FiEdit

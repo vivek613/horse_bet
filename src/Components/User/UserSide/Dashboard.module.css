@@ -319,7 +319,7 @@
 .bet-all-list-race-details {
   display: flex;
   gap: 15px;
-  max-width: 120px;
+  max-width: 150px;
   width: 100%;
 }
 .user-race-header {

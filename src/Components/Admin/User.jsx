@@ -115,7 +115,7 @@ const User = () => {
             <tbody>
               {user?.uid === "T0xHihFaGFfgLyByPzMcyvHm8du1" && (<>{adminTableData?.map((e, index) => {
                 return (
-                  <tr index={index}>
+                  <tr index={index} key={e.uid}>
                     <td>{e.uid}</td>
                     <td>{e.email}</td>
                     <td>{e.amount}</td>

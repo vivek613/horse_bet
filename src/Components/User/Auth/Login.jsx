@@ -58,24 +58,24 @@ export const Login = () => {
     <>
       <div className="main-div">
         <Toaster position="top-right" reverseOrder={false} />
-        <div class="login-form">
+        <div className="login-form">
           <div>
             <form>
-              <div class="avatar">
+              <div className="avatar">
                 <FaLock />
               </div>
-              <div class="login-logo">
+              <div className="login-logo">
                 <img
                   src="/Images/logo1.jpg"
                   width={"100px"}
                   style={{ background: "transparent" }}
                 ></img>
               </div>
-              <h4 class="modal-title">Login to Your Account</h4>
-              <div class="form-group">
+              <h4 className="modal-title">Login to Your Account</h4>
+              <div className="form-group">
                 <input
                   type="email"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Enter Email"
                   required
                   value={loginData.email}
@@ -84,10 +84,10 @@ export const Login = () => {
                   }
                 />
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <input
                   type="password"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Enter Password"
                   required
                   value={loginData.password}
@@ -97,7 +97,7 @@ export const Login = () => {
                 />
               </div>
               <div
-                class="form-group small clearfix"
+                className="form-group small clearfix"
                 style={{ marginBottom: "0" }}
               >
                 <p
@@ -107,7 +107,7 @@ export const Login = () => {
                   style={{
                     cursor: "pointer",
                   }}
-                  class="forgot-link"
+                  className="forgot-link"
                 >
                   Forgot Password?
                 </p>
@@ -122,7 +122,7 @@ export const Login = () => {
               ) : (
                 <button
                   type="submit"
-                  class="btn btn-primary btn-block btn-lg"
+                  className="btn btn-primary btn-block btn-lg"
                   value="Login"
                   onClick={(e) => {
                     e.preventDefault();
@@ -150,7 +150,7 @@ export const Login = () => {
               Welcome to BetWinPlace
             </div>
           </div>
-          <div class="text-center small">
+          <div className="text-center small">
             Don't have an account?{" "}
             <a
               style={{

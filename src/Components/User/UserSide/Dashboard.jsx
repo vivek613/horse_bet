@@ -48,6 +48,23 @@ export const Dashboard = () => {
   const [countryState, setCountryState] = useState([]);
   const [liveVideoData, setLiveVideoData] = useState({});
 
+  const [betMaxAmount, setBetMaxAmount] = useState(0);
+  const [betMinAmount, setBetMinAmount] = useState(0);
+  const [betMaxOddWin, setBetMaxOddWin] = useState(0);
+  const [betMaxOddPlc, setBetMaxOddPlc] = useState(0);
+
+  useEffect(() => {
+    db.collection("GeneralSetting")
+          .doc("optBALAApIh1cCTOZJOL")
+          .onSnapshot((snapshot) => {
+            const values = snapshot.data();
+            setBetMaxAmount(values.MaxBet);
+            setBetMinAmount(values.MinBet);
+            setBetMaxOddWin(values.MaxOddWin);
+            setBetMaxOddPlc(values.MaxOddPlc);
+          });
+  }, []);
+
   useEffect(() => {
     db.collection("TimeData").onSnapshot((snapshot) => {
       setWalletModal(false);
@@ -601,7 +618,7 @@ export const Dashboard = () => {
                                     Math.min(
                                       participants?.markets[0]?.selections[index]
                                         .odds?.price || 0,
-                                      14
+                                      betMaxOddWin
                                     )
                                   }
                                 </button>
@@ -666,7 +683,7 @@ export const Dashboard = () => {
                                     Math.min(
                                       participants?.markets[1]?.selections[index]
                                         .odds?.price || 0,
-                                      4
+                                      betMaxOddPlc
                                     )
                                   }
                                 </button>
@@ -740,7 +757,7 @@ export const Dashboard = () => {
                         {e?.venue}
                       </div>
                       <div className={styles["bet-all-list-race-details"]}>
-                        <span>race {e.data.raceNumber}</span>
+                        <span>{`race ${e.data.raceNumber}`}</span>
                         <span style={{ fontWeight: 700 }}>
                           {convertHour(e.startDate)}
                         </span>

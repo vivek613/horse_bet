@@ -21,6 +21,24 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
   const [forProfitAdminData, setforProfitAdminData] = useState();
   const [userRaceData, setUserRaceData] = useState([]);
 
+
+  const [betMaxAmount, setBetMaxAmount] = useState(0);
+  const [betMinAmount, setBetMinAmount] = useState(0);
+  const [betMaxOddWin, setBetMaxOddWin] = useState(0);
+  const [betMaxOddPlc, setBetMaxOddPlc] = useState(0);
+
+  useEffect(() => {
+    db.collection("GeneralSetting")
+          .doc("optBALAApIh1cCTOZJOL")
+          .onSnapshot((snapshot) => {
+            const values = snapshot.data();
+            setBetMaxAmount(values.MaxBet);
+            setBetMinAmount(values.MinBet);
+            setBetMaxOddWin(values.MaxOddWin);
+            setBetMaxOddPlc(values.MaxOddPlc);
+          });
+  }, []);
+
   useEffect(() => {
     db.collection("users")
       .doc("T0xHihFaGFfgLyByPzMcyvHm8du1")
@@ -28,6 +46,8 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
         setforProfitAdminData(snapshot.data());
       });
   }, []);
+
+
 
   useEffect(() => {
     const uid = getCookie("Uid");
@@ -138,13 +158,13 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                 <Form.Label>Amount</Form.Label>
                 <Form.Control
                   type="number"
-                  min={100}
-                  max={25000}
+                  min={betMinAmount}
+                  max={betMaxAmount}
                   value={betAmount}
                   name="amount"
                   placeholder="Enter Amount"
                   onChange={(e) => {
-                    if (e.target.value < 100 || e.target.value > 25000) {
+                    if (e.target.value < betMinAmount || e.target.value > betMaxAmount) {
                       setShowValue(true);
                     } else {
                       setShowValue(false);
@@ -168,7 +188,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                   }}
                 >
                   {" "}
-                  Please enter a minimum 100 and maximum 25000 amount
+                  Please enter a minimum {betMinAmount} and maximum {betMaxAmount} amount
                 </p>
               ) : (
                 ""
@@ -204,8 +224,8 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                       disabled={
                         Number(betAmount) + (Number(betAmount) * 10) / 100 <=
                           Number(userData?.amount) &&
-                          betAmount >= 100 &&
-                          betAmount <= 25000
+                          betAmount >= betMinAmount &&
+                          betAmount <= betMaxAmount
                           ? false
                           : true
                       }
