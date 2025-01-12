@@ -158,13 +158,13 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                 <Form.Label>Amount</Form.Label>
                 <Form.Control
                   type="number"
-                  min={betMinAmount}
-                  max={betMaxAmount}
+                  min={parseFloat(betMinAmount)}
+                  max={parseFloat(betMaxAmount)}
                   value={betAmount}
                   name="amount"
                   placeholder="Enter Amount"
                   onChange={(e) => {
-                    if (e.target.value < betMinAmount || e.target.value > betMaxAmount) {
+                    if (e.target.value < parseFloat(betMinAmount) || e.target.value > parseFloat(betMaxAmount)) {
                       setShowValue(true);
                     } else {
                       setShowValue(false);
@@ -181,7 +181,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                   }}
                 />
               </Form.Group>
-              {showValue && betAmount !== 0 ? (
+              {betAmount !== 0 ? (
                 <p
                   style={{
                     color: "red",
@@ -190,9 +190,20 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                   {" "}
                   Please enter a minimum {betMinAmount} and maximum {betMaxAmount} amount
                 </p>
+              ) : 
+              (showValue === 0 ? (
+                <p
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  {" "}
+                  Bet not start yet!
+                </p>
               ) : (
                 ""
-              )}
+              ))}
+              
               <hr style={{ color: "#866afb" }} />
               {betAmount > 0 && (
                 <>
@@ -220,12 +231,13 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                   />
                 ) : (
                   betAmount > 0 && (
+                    
                     <Button
                       disabled={
                         Number(betAmount) + (Number(betAmount) * 10) / 100 <=
                           Number(userData?.amount) &&
-                          betAmount >= betMinAmount &&
-                          betAmount <= betMaxAmount
+                          betAmount >= parseFloat(betMinAmount) &&
+                          betAmount <= parseFloat(betMaxAmount)
                           ? false
                           : true
                       }
@@ -234,7 +246,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                         handleSubmit();
                       }}
                     >
-                      Confirm
+                     Confirm
                     </Button>
                   )
                 )}
