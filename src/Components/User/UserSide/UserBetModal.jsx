@@ -138,7 +138,8 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
 
             <div className={styles["wallet-calc"]}>
               <p>
-                Odds - {winPlc.type} : {winPlc.value}
+                Odds - {winPlc.type} : {winPlc.type === "PLC" ? (winPlc.value >= parseFloat(betMaxOddPlc) ? betMaxOddPlc : winPlc.value) : ''}
+                {winPlc.type === "WIN" ? (winPlc.value >= parseFloat(betMaxOddWin) ? betMaxOddWin : winPlc.value) : ''}
               </p>
               {Number(betAmount) + (Number(betAmount) * 10) / 100 <=
                 Number(userData?.amount) ? (
@@ -181,28 +182,15 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                   }}
                 />
               </Form.Group>
-              {betAmount !== 0 ? (
+              {(showValue & betAmount !== 0) ? (
                 <p
                   style={{
                     color: "red",
                   }}
                 >
-                  {" "}
                   Please enter a minimum {betMinAmount} and maximum {betMaxAmount} amount
                 </p>
-              ) : 
-              (showValue === 0 ? (
-                <p
-                  style={{
-                    color: "red",
-                  }}
-                >
-                  {" "}
-                  Bet not start yet!
-                </p>
-              ) : (
-                ""
-              ))}
+              ):""}
               
               <hr style={{ color: "#866afb" }} />
               {betAmount > 0 && (
