@@ -691,10 +691,10 @@ export const AdminDashboard = () => {
                         <td>{e.data.jockey}</td>
                         <td>{e.data.trainer}</td>
                         <td>
-                          {oddData?.markets[0]?.selections[index].odds?.price > betMaxOddWin ? betMaxOddWin : oddData?.markets[0]?.selections[index].odds?.price}
+                          {oddData?.markets[0]?.selections[index].odds?.price >= parseFloat(betMaxOddWin) ? parseFloat(betMaxOddWin) : oddData?.markets[0]?.selections[index].odds?.price}
                         </td>
                         <td>
-                          {oddData?.markets[1]?.selections[index].odds?.price > betMaxOddPlc ? betMaxOddPlc : oddData?.markets[1]?.selections[index].odds?.price}
+                          {oddData?.markets[1]?.selections[index].odds?.price >= parseFloat(betMaxOddPlc) ? parseFloat(betMaxOddPlc) : oddData?.markets[1]?.selections[index].odds?.price}
                         </td>
                         <td>
                           <FiEdit

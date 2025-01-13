@@ -138,8 +138,7 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
 
             <div className={styles["wallet-calc"]}>
               <p>
-                Odds - {winPlc.type} : {winPlc.type === "PLC" ? (winPlc.value >= parseFloat(betMaxOddPlc) ? betMaxOddPlc : winPlc.value) : ''}
-                {winPlc.type === "WIN" ? (winPlc.value >= parseFloat(betMaxOddWin) ? betMaxOddWin : winPlc.value) : ''}
+                Odds - {winPlc.type} : {winPlc.type === "PLC" ? (winPlc.value >= parseFloat(betMaxOddPlc) ? betMaxOddPlc : winPlc.value) : (winPlc.type === "WIN" ? (winPlc.value >= parseFloat(betMaxOddWin) ? betMaxOddWin : winPlc.value) : 0)}
               </p>
               {Number(betAmount) + (Number(betAmount) * 10) / 100 <=
                 Number(userData?.amount) ? (
@@ -174,7 +173,9 @@ export const UserBetModal = ({ walletModal, setWalletModal }) => {
                         user_amount: Number(e.target.value),
                         dividend: 0,
                         potential_amount:
-                          Number(e.target.value) * Number(winPlc.value) +
+                          Number(e.target.value) * Number(
+                            winPlc.type === "PLC" ? (winPlc.value >= parseFloat(betMaxOddPlc) ? parseFloat(betMaxOddPlc) : winPlc.value) : (winPlc.type === "WIN" ? (winPlc.value >= parseFloat(betMaxOddWin) ? parseFloat(betMaxOddWin) : winPlc.value) : 0)
+                        ) +
                           Number(e.target.value),
                       });
                     }

@@ -613,7 +613,7 @@ export const Dashboard = () => {
                                     Math.min(
                                       participants?.markets[0]?.selections[index]
                                         .odds?.price || 0,
-                                      betMaxOddWin
+                                      parseFloat(betMaxOddWin)
                                     )
                                   }
                                 </button>
@@ -678,7 +678,7 @@ export const Dashboard = () => {
                                     Math.min(
                                       participants?.markets[1]?.selections[index]
                                         .odds?.price || 0,
-                                      betMaxOddPlc
+                                      parseFloat(betMaxOddPlc)
                                     )
                                   }
                                 </button>
