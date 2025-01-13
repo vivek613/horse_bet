@@ -556,12 +556,18 @@ export const Dashboard = () => {
                                     participants?.status?.toLowerCase() ===
                                       "published" &&
                                       Number(
-                                        participants?.markets[0]?.selections[index]
-                                          .odds?.price
+                                        Math.min(
+                                          participants?.markets[0]?.selections[index]
+                                            .odds?.price || 0,
+                                          parseFloat(betMaxOddWin)
+                                        )
                                       ) !== 0 &&
                                       Number(
-                                        participants?.markets[0]?.selections[index]
-                                          .odds?.price
+                                        Math.min(
+                                          participants?.markets[0]?.selections[index]
+                                            .odds?.price || 0,
+                                          parseFloat(betMaxOddWin)
+                                        )
                                       ) !== 0.0 &&
                                       e.data.isRunner
                                       ? false
@@ -572,14 +578,18 @@ export const Dashboard = () => {
                                       participants?.status?.toLowerCase() ===
                                         "published" &&
                                         Number(
-                                          participants?.markets[0]?.selections[
-                                            index
-                                          ].odds?.price
+                                          Math.min(
+                                            participants?.markets[0]?.selections[index]
+                                              .odds?.price || 0,
+                                            parseFloat(betMaxOddWin)
+                                          )
                                         ) !== 0 &&
                                         Number(
-                                          participants?.markets[0]?.selections[
-                                            index
-                                          ].odds?.price
+                                          Math.min(
+                                            participants?.markets[0]?.selections[index]
+                                              .odds?.price || 0,
+                                            parseFloat(betMaxOddWin)
+                                          )
                                         ) !== 0.0 &&
                                         e.data.isRunner
                                         ? "pointer"
@@ -598,9 +608,11 @@ export const Dashboard = () => {
                                       ...winPlc,
                                       type: "WIN",
                                       value:
-                                        participants?.markets[0]?.selections[
-                                          index
-                                        ].odds?.price,
+                                      Math.min(
+                                        participants?.markets[0]?.selections[index]
+                                          .odds?.price || 0,
+                                        parseFloat(betMaxOddWin)
+                                      ),
                                       jockey_name: e.data.jockey,
                                       horce_number: e.data.horseNumber,
                                       time: new Date().getTime(),
@@ -622,12 +634,18 @@ export const Dashboard = () => {
                                     participants?.status?.toLowerCase() ===
                                       "published" &&
                                       Number(
-                                        participants?.markets[0]?.selections[index]
-                                          .odds?.price
+                                        Math.min(
+                                          participants?.markets[1]?.selections[index]
+                                            .odds?.price || 0,
+                                          parseFloat(betMaxOddPlc)
+                                        )
                                       ) !== 0 &&
                                       Number(
-                                        participants?.markets[0]?.selections[index]
-                                          .odds?.price
+                                        Math.min(
+                                          participants?.markets[1]?.selections[index]
+                                            .odds?.price || 0,
+                                          parseFloat(betMaxOddPlc)
+                                        )
                                       ) !== 0.0 &&
                                       e.data.isRunner
                                       ? false
@@ -638,14 +656,18 @@ export const Dashboard = () => {
                                       participants?.status?.toLowerCase() ===
                                         "published" &&
                                         Number(
-                                          participants?.markets[1]?.selections[
-                                            index
-                                          ].odds?.price
+                                          Math.min(
+                                            participants?.markets[1]?.selections[index]
+                                              .odds?.price || 0,
+                                            parseFloat(betMaxOddPlc)
+                                          )
                                         ) !== 0 &&
                                         Number(
-                                          participants?.markets[1]?.selections[
-                                            index
-                                          ].odds?.price
+                                          Math.min(
+                                            participants?.markets[1]?.selections[index]
+                                              .odds?.price || 0,
+                                            parseFloat(betMaxOddPlc)
+                                          )
                                         ) !== 0.0 &&
                                         e.data.isRunner
                                         ? "pointer"
@@ -663,9 +685,11 @@ export const Dashboard = () => {
                                       ...winPlc,
                                       type: "PLC",
                                       value:
-                                        participants?.markets[1]?.selections[
-                                          index
-                                        ].odds?.price,
+                                      Math.min(
+                                        participants?.markets[1]?.selections[index]
+                                          .odds?.price || 0,
+                                        parseFloat(betMaxOddPlc)
+                                      ),
                                       jockey_name: e.data.jockey,
                                       horce_number: e.data.horseNumber,
                                       time: new Date().getTime(),
