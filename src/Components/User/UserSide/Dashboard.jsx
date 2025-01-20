@@ -257,6 +257,7 @@ export const Dashboard = () => {
                     items === "BLR" ||
                     items === "CAL" ||
                     items === "MAD" ||
+                    items === "DEL" ||
                     items === "MMB"
                   ) {
                     const array = allData.filter((e) => {
