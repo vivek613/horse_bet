@@ -167,7 +167,7 @@ export const Login = () => {
       </div>
       <p
         style={{
-          display: "flex",
+          display: "none",
           alignItems: "center",
           justifyContent: "flex-start",
           bottom: "-15px",
