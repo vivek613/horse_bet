@@ -283,6 +283,7 @@
   left: 0;
 }
 .marq {
+  display: none;
   margin-top: 5px;
 }
 .bet-all-list-header {
